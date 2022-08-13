@@ -50,32 +50,37 @@
         <!-- テーブル主キー以外のキー項目を設定のためのプラグイン読込 -->
         <plugin type="org.mybatis.generator.plugins.VirtualPrimaryKeyPlugin"/>
 
-
         <!-- カスタムプラグイン -->
 
-        <!-- Lombok対応 @see https://github.com/softwareloop/mybatis-generator-lombok-plugin -->
-        <plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin">
+        <!-- lombok -->
+        <plugin type="plugins.LombokPlugin">
             <property name="builder" value="true"/>
-        </plugin>
-
-        <plugin type="com.github.dcendents.mybatis.generator.plugin.annotation.AddClassAnnotationsPlugin">
-            <property name="annotationClass" value="lombok.ToString"/>
-            <property name="annotationString" value="@ToString"/>
-        </plugin>
-        <plugin type="com.github.dcendents.mybatis.generator.plugin.annotation.AddClassAnnotationsPlugin">
-            <property name="annotationClass" value="lombok.EqualsAndHashCode"/>
-            <property name="annotationString" value="@EqualsAndHashCode"/>
+            <property name="toString" value="true"/>
+            <property name="EqualsAndHashCode" value="true"/>
+            <property name="allArgsConstructor" value="false"/>
+            <property name="noArgsConstructor" value="false"/>
         </plugin>
 
         <!-- SQLMapperのUpdate命令から特定の項目を除外, excludeColumnsにテーブル項目名を指定, カンマ区切りで複数指定可能 -->
         <plugin type="plugins.SqlMapUpdateExcludeColumnPlugin">
-            <property name="excludeColumns" value="created_at"/>
+            <property name="excludeColumns" value="created_date,created_by"/>
+        </plugin>
+
+        <!-- 楽観的排他制御用メソッド追加 -->
+        <plugin type="plugins.SqlUpdateKeyAddVersionPlugin">
+            <property name="versionColumns" value="version"/>
         </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
-            <property name="interface" value="jp.co.stnet.cms.mapper.MapperInterface" />
+            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface" />
+            <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.StatusInterface"/>
         </plugin>
+
+        <!-- フィールドの型に応じたアノテーションを追加 -->
+        <!-- LocalDateTime: @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")) -->
+        <!-- LocalDate: @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")) -->
+        <plugin type="plugins.AddFieldAnnotationPlugin"/>
 
         <!-- コメントの出力仕様 -->
         <commentGenerator>
@@ -100,18 +105,18 @@
 
         <!-- Modelクラスの設定 -->
         <javaModelGenerator
-                targetPackage="jp.co.stnet.cms.model"
+                targetPackage="jp.co.stnet.cms.base.domain.model"
                 targetProject="src/main/java"/>
 
         <!-- Mapperインタフェースの設定 -->
         <sqlMapGenerator
-                targetPackage="jp.co.stnet.cms.mapper"
+                targetPackage="jp.co.stnet.cms.base.infrastructure.mapper"
                 targetProject="src/main/resources"/>
 
         <!-- Mapper XMLの設定 -->
         <javaClientGenerator
                 type="XMLMAPPER"
-                targetPackage="jp.co.stnet.cms.mapper"
+                targetPackage="jp.co.stnet.cms.base.infrastructure.mapper"
                 targetProject="src/main/java"/>
 
         <!-- 対象テーブルの選定 -->

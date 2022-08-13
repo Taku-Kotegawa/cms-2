@@ -131,6 +131,65 @@
             <version>1.4.1</version>
         </dependency>
 
+        <!-- MyBatis Test -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter-test</artifactId>
+            <version>2.2.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Terasoluna ライブラリ -->
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-common</artifactId>
+            <version>5.7.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-web</artifactId>
+            <version>5.7.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-web-jsp</artifactId>
+            <version>5.7.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-security-web</artifactId>
+            <version>5.7.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-string</artifactId>
+            <version>5.7.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-codepoints</artifactId>
+            <version>5.7.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-validator</artifactId>
+            <version>5.7.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw.codepoints</groupId>
+            <artifactId>terasoluna-gfw-codepoints-jisx0201</artifactId>
+            <version>5.6.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw.codepoints</groupId>
+            <artifactId>terasoluna-gfw-codepoints-jisx0208</artifactId>
+            <version>5.6.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw.codepoints</groupId>
+            <artifactId>terasoluna-gfw-codepoints-jisx0208kanji</artifactId>
+            <version>5.6.1.RELEASE</version>
+        </dependency>
 
     </dependencies>
     <dependencyManagement>
@@ -166,20 +225,6 @@
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.4.1</version>
                 <dependencies>
-                    <!-- Lombok対応 @see https://github.com/softwareloop/mybatis-generator-lombok-plugin -->
-                    <dependency>
-                        <groupId>com.softwareloop</groupId>
-                        <artifactId>mybatis-generator-lombok-plugin</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-
-                    <!-- 便利なプラグイン @see https://github.com/dcendents/mybatis-generator-plugins -->
-                    <dependency>
-                        <groupId>com.github.dcendents</groupId>
-                        <artifactId>mybatis-generator-plugins</artifactId>
-                        <version>1.3</version>
-                    </dependency>
-
                     <!-- オリジナルのカスタムプラグイン -->
                     <dependency>
                         <groupId>com.example</groupId>
