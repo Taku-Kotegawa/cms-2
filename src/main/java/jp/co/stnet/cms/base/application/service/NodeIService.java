@@ -3,20 +3,21 @@ package jp.co.stnet.cms.base.application.service;
 /**
  * エンティティ(リビジョン管理なし)用の抽象クラスのインタフェース
  *
- * @param <T>  エンティティのクラス(AbstractEntityのサブクラス)
- * @param <ID> 主キーのクラス
+ * @param <T> エンティティのクラス(AbstractEntityのサブクラス)
+ * @param <E> Exampleクラス
+ * @param <I> 主キーのクラス
  */
-public interface NodeIService<T, U, ID> {
+public interface NodeIService<T, E, I> {
 
     /**
      * IDで検索
      */
-    T findById(ID id);
+    T findById(I id);
 
     /**
      * 条件に一致するエンティティのリストを取得
      */
-    Iterable<T> findAllByExample(U example);
+    Iterable<T> findAllByExample(E example);
 
     /**
      * １件の保存
@@ -26,17 +27,17 @@ public interface NodeIService<T, U, ID> {
     /**
      * １件の無効化
      */
-    T invalid(ID id);
+    T invalid(I id);
 
     /**
      * 1件の有効化
      */
-    T valid(ID id);
+    T valid(I id);
 
     /**
      * １件の削除
      */
-    void delete(ID id);
+    void delete(I id);
 
     /**
      * エンティティの比較
@@ -53,5 +54,6 @@ public interface NodeIService<T, U, ID> {
      * @param ids キーのリスト
      * @return アカウントのリスト
      */
-    Iterable<T> findAllById(Iterable<ID> ids);
+    Iterable<T> findAllById(Iterable<I> ids);
+
 }

@@ -2,24 +2,26 @@ package jp.co.stnet.cms.base.application.service;
 
 
 import jp.co.stnet.cms.base.domain.enums.Status;
+
+import jp.co.stnet.cms.base.domain.model.KeyInterface;
 import jp.co.stnet.cms.base.domain.model.StatusInterface;
-import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
+import jp.co.stnet.cms.base.domain.model.VersionInterface;
+import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.common.exception.OptimisticLockingFailureBusinessException;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
 import java.util.Optional;
 
 @Slf4j
-public abstract class AbstractNodeService<T extends StatusInterface<ID>, U, ID> implements NodeIService<T, U, ID> {
+public abstract class AbstractNodeService<T extends KeyInterface<I> & VersionInterface & StatusInterface, E, I> implements NodeIService<T, E, I> {
 
-    abstract protected MapperInterface<T, U, ID> mapper();
+    abstract protected VersionMapperInterface<T, E, I> mapper();
 
     @Override
-    public Iterable<T> findAllByExample(U example) {
+    public Iterable<T> findAllByExample(E example) {
         return mapper().selectByExample(example);
     }
 
@@ -42,8 +44,8 @@ public abstract class AbstractNodeService<T extends StatusInterface<ID>, U, ID> 
     }
 
     @Override
-    public T invalid(ID id) {
-        T entity = mapper().selectByPrimaryKey(id);
+    public T invalid(I i) {
+        T entity = mapper().selectByPrimaryKey(i);
 
         // 楽観的排他制御の代わりに現在のステータスをチェック
         if (Status.INVALID.getCodeValue().equals(entity.getStatus())) {
@@ -57,12 +59,12 @@ public abstract class AbstractNodeService<T extends StatusInterface<ID>, U, ID> 
             // todo 例外処理
         }
 
-        return mapper().selectByPrimaryKey(id);
+        return mapper().selectByPrimaryKey(i);
     }
 
     @Override
-    public T valid(ID id) {
-        T entity = mapper().selectByPrimaryKey(id);
+    public T valid(I i) {
+        T entity = mapper().selectByPrimaryKey(i);
 
         // 楽観的排他制御の代わりに現在のステータスをチェック
         if (Status.VALID.getCodeValue().equals(entity.getStatus())) {
@@ -76,12 +78,12 @@ public abstract class AbstractNodeService<T extends StatusInterface<ID>, U, ID> 
             throw new OptimisticLockingFailureBusinessException(ResultMessages.error().add(MessageKeys.E_CM_FW_8001));
         }
 
-        return mapper().selectByPrimaryKey(id);
+        return mapper().selectByPrimaryKey(i);
     }
 
     @Override
-    public void delete(ID id) {
-        mapper().deleteByPrimaryKey(id);
+    public void delete(I i) {
+        mapper().deleteByPrimaryKey(i);
     }
 
     @Override
@@ -94,9 +96,9 @@ public abstract class AbstractNodeService<T extends StatusInterface<ID>, U, ID> 
     }
 
     @Override
-    public T findById(ID id) {
-        return Optional.ofNullable(mapper().selectByPrimaryKey(id))
-                .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add(MessageKeys.E_SL_FW_5001, id)));
+    public T findById(I i) {
+        return Optional.ofNullable(mapper().selectByPrimaryKey(i))
+                .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add(MessageKeys.E_SL_FW_5001, i)));
     }
 
     /**

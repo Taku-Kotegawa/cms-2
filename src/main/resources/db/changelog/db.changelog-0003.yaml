@@ -1,0 +1,402 @@
+databaseChangeLog:
+- logicalFilePath: db.changelog-0003.yaml
+- changeSet:
+    id: 1628259508021-1
+    author: taku (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: batch_step_execution_context_pkey
+            name: step_execution_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: short_context
+            type: VARCHAR(2500)
+        - column:
+            name: serialized_context
+            type: TEXT
+        tableName: batch_step_execution_context
+- changeSet:
+    id: 1628259508021-2
+    author: taku (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: batch_step_execution_pkey
+            name: step_execution_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: version
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: step_name
+            type: VARCHAR(100)
+        - column:
+            constraints:
+              nullable: false
+            name: job_execution_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: start_time
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: end_time
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: status
+            type: VARCHAR(10)
+        - column:
+            name: commit_count
+            type: BIGINT
+        - column:
+            name: read_count
+            type: BIGINT
+        - column:
+            name: filter_count
+            type: BIGINT
+        - column:
+            name: write_count
+            type: BIGINT
+        - column:
+            name: read_skip_count
+            type: BIGINT
+        - column:
+            name: write_skip_count
+            type: BIGINT
+        - column:
+            name: process_skip_count
+            type: BIGINT
+        - column:
+            name: rollback_count
+            type: BIGINT
+        - column:
+            name: exit_code
+            type: VARCHAR(2500)
+        - column:
+            name: exit_message
+            type: VARCHAR(2500)
+        - column:
+            name: last_updated
+            type: TIMESTAMP WITHOUT TIME ZONE
+        tableName: batch_step_execution
+- changeSet:
+    id: 1628259508021-3
+    author: taku (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: batch_job_execution_pkey
+            name: job_execution_id
+            type: BIGINT
+        - column:
+            name: version
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: job_instance_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: create_time
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: start_time
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: end_time
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: status
+            type: VARCHAR(10)
+        - column:
+            name: exit_code
+            type: VARCHAR(2500)
+        - column:
+            name: exit_message
+            type: VARCHAR(2500)
+        - column:
+            name: last_updated
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: job_configuration_location
+            type: VARCHAR(2500)
+        tableName: batch_job_execution
+- changeSet:
+    id: 1628259508021-4
+    author: taku (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: batch_job_instance_pkey
+            name: job_instance_id
+            type: BIGINT
+        - column:
+            name: version
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: job_name
+            type: VARCHAR(100)
+        - column:
+            constraints:
+              nullable: false
+            name: job_key
+            type: VARCHAR(32)
+        tableName: batch_job_instance
+- changeSet:
+    id: 1628259508021-5
+    author: taku (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: batch_job_execution_context_pkey
+            name: job_execution_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: short_context
+            type: VARCHAR(2500)
+        - column:
+            name: serialized_context
+            type: TEXT
+        tableName: batch_job_execution_context
+- changeSet:
+    id: 1628259508021-6
+    author: taku (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: job_execution_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: type_cd
+            type: VARCHAR(6)
+        - column:
+            constraints:
+              nullable: false
+            name: key_name
+            type: VARCHAR(100)
+        - column:
+            name: string_val
+            type: VARCHAR(250)
+        - column:
+            name: date_val
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: long_val
+            type: BIGINT
+        - column:
+            name: double_val
+            type: FLOAT8
+        - column:
+            constraints:
+              nullable: false
+            name: identifying
+            type: CHAR(1)
+        tableName: batch_job_execution_params
+- changeSet:
+    id: 1628259508021-7
+    author: taku (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: version
+        indexName: batch_step_execution_idx01
+        tableName: batch_step_execution
+- changeSet:
+    id: 1628259508021-8
+    author: taku (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: step_name
+        - column:
+            name: job_execution_id
+        indexName: batch_step_execution_idx02
+        tableName: batch_step_execution
+- changeSet:
+    id: 1628259508021-9
+    author: taku (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: step_execution_id
+        baseTableName: batch_step_execution_context
+        constraintName: step_exec_ctx_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: step_execution_id
+        referencedTableName: batch_step_execution
+        validate: true
+- changeSet:
+    id: 1628259508021-10
+    author: taku (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: job_execution_id
+        baseTableName: batch_job_execution_context
+        constraintName: job_exec_ctx_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: job_execution_id
+        referencedTableName: batch_job_execution
+        validate: true
+- changeSet:
+    id: 1628259508021-11
+    author: taku (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: job_execution_id
+        baseTableName: batch_job_execution_params
+        constraintName: job_exec_params_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: job_execution_id
+        referencedTableName: batch_job_execution
+        validate: true
+- changeSet:
+    id: 1628259508021-12
+    author: taku (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: job_execution_id
+        baseTableName: batch_step_execution
+        constraintName: job_exec_step_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: job_execution_id
+        referencedTableName: batch_job_execution
+        validate: true
+- changeSet:
+    id: 1628259508021-13
+    author: taku (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: job_instance_id
+        - column:
+            name: job_name
+        indexName: batch_job_instance_idx01
+        tableName: batch_job_instance
+- changeSet:
+    id: 1628259508021-14
+    author: taku (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: job_instance_id
+        baseTableName: batch_job_execution
+        constraintName: job_inst_exec_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: job_instance_id
+        referencedTableName: batch_job_instance
+        validate: true
+- changeSet:
+    id: 1628259508021-15
+    author: taku (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: job_name, job_key
+        constraintName: job_inst_un
+        tableName: batch_job_instance
+- changeSet:
+    id: 1628259508021-16
+    author: taku (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: key_name
+        - column:
+            name: string_val
+        indexName: batch_job_execution_params_idx01
+        tableName: batch_job_execution_params
+- changeSet:
+    id: 1628259508021-17
+    author: taku (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 1
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: batch_job_execution_seq
+        startValue: 1
+- changeSet:
+    id: 1628259508021-18
+    author: taku (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 1
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: batch_job_seq
+        startValue: 1
+- changeSet:
+    id: 1628259508021-19
+    author: taku (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 1
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: batch_step_execution_seq
+        startValue: 1
+

@@ -1,7 +1,8 @@
 package jp.co.stnet.cms.base.application.service;
 
-import jp.co.stnet.cms.base.domain.model.Account;
-import jp.co.stnet.cms.base.domain.model.AccountExample;
+
+import jp.co.stnet.cms.base.domain.model.mbg.Account;
+import jp.co.stnet.cms.base.domain.model.mbg.AccountExample;
 
 /**
  * Accountサービス.

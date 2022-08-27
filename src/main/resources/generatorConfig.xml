@@ -54,7 +54,7 @@
 
         <!-- lombok -->
         <plugin type="plugins.LombokPlugin">
-            <property name="builder" value="true"/>
+            <property name="builder" value="false"/>
             <property name="toString" value="true"/>
             <property name="EqualsAndHashCode" value="true"/>
             <property name="allArgsConstructor" value="false"/>
@@ -66,15 +66,35 @@
             <property name="excludeColumns" value="created_date,created_by"/>
         </plugin>
 
-        <!-- 楽観的排他制御用メソッド追加 -->
+        <!-- 楽観的排他制御用メソッド追加 + Interface追加 -->
         <plugin type="plugins.SqlUpdateKeyAddVersionPlugin">
+            <property name="versionColumns" value="version"/>
+        </plugin>
+        <plugin type="plugins.SqlDeleteKeyAddVersionPlugin">
             <property name="versionColumns" value="version"/>
         </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
+            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface" />
+            <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
+            <property name="target_table" value="account,variable"/>
+        </plugin>
+
+        <plugin type="plugins.CreateGenericInterfacePlugin">
             <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface" />
-            <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.StatusInterface"/>
+            <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
+            <property name="target_table" value="role,successful_authentication,failed_authentication,password_history,password_reissue_info,failed_password_reissue"/>
+        </plugin>
+
+        <plugin type="plugins.BeanImplementation2Plugin">
+            <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.VersionInterface"/>
+            <property name="targetColumn" value="version"/>
+        </plugin>
+
+        <plugin type="plugins.BeanImplementation2Plugin">
+            <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.StatusInterface"/>
+            <property name="targetColumn" value="status"/>
         </plugin>
 
         <!-- フィールドの型に応じたアノテーションを追加 -->
@@ -105,24 +125,33 @@
 
         <!-- Modelクラスの設定 -->
         <javaModelGenerator
-                targetPackage="jp.co.stnet.cms.base.domain.model"
+                targetPackage="jp.co.stnet.cms.base.domain.model.mbg"
                 targetProject="src/main/java"/>
 
         <!-- Mapperインタフェースの設定 -->
         <sqlMapGenerator
-                targetPackage="jp.co.stnet.cms.base.infrastructure.mapper"
+                targetPackage="jp.co.stnet.cms.base.infrastructure.mapper.mbg"
                 targetProject="src/main/resources"/>
 
         <!-- Mapper XMLの設定 -->
         <javaClientGenerator
                 type="XMLMAPPER"
-                targetPackage="jp.co.stnet.cms.base.infrastructure.mapper"
+                targetPackage="jp.co.stnet.cms.base.infrastructure.mapper.mbg"
                 targetProject="src/main/java"/>
 
         <!-- 対象テーブルの選定 -->
         <!-- schema: これを指定するとSQLが From schema.table の形になる -->
 
-        <table tableName="%" schema="cms"/>
+        <table tableName="account" schema="cms"/>
+        <table tableName="role" schema="cms"/>
+        <table tableName="variable" schema="cms">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="successful_authentication" schema="cms"/>
+        <table tableName="failed_authentication" schema="cms"/>
+        <table tableName="password_history" schema="cms"/>
+        <table tableName="password_reissue_info" schema="cms"/>
+        <table tableName="failed_password_reissue" schema="cms"/>
 
     </context>
 </generatorConfiguration>
