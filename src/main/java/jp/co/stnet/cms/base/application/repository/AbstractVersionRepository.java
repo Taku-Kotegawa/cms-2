@@ -8,9 +8,7 @@ import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 public abstract class AbstractVersionRepository<T extends KeyInterface<I> & VersionInterface, E, I> extends AbstractRepository<T, E, I> implements VersionMapperInterface<T, E, I> {
 
     @Override
-    VersionMapperInterface<T, E, I> mapper() {
-        return null;
-    }
+    abstract VersionMapperInterface<T, E, I> mapper();
 
     @Override
     public int updateByPrimaryKeyAndVersionSelective(T row) {

@@ -9,7 +9,6 @@ import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.AccountMapper;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.RoleMapper;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @AllArgsConstructor
 @Transactional
 @Component
 public class AccountRoleRepository implements VersionMapperInterface<AccountRole, AccountExample, String> {
 
-    AccountMapper accountMapper;
-    RoleMapper roleMapper;
+    private final AccountMapper accountMapper;
+    private final RoleMapper roleMapper;
 
     @Override
     public long countByExample(AccountExample example) {

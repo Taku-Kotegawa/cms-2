@@ -8,7 +8,6 @@
         <!-- ファイルのエンコーディングをUTF-8で固定 -->
         <property name="javaFileEncoding" value="UTF-8"/>
 
-
         <!-- 標準のプラグイン @see https://mybatis.org/generator/reference/plugins.html -->
 
         <!-- @CacheNamespace アノテーションを追加します -->
@@ -30,7 +29,7 @@
         <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
 
         <!-- XML マッパー ファイルへの参照を含むスケルトン MapperConfig.xml ファイルを生成 -->
-        <!-- <plugin type="org.mybatis.generator.plugins.MapperConfigPlugin"/>-->
+        <plugin type="org.mybatis.generator.plugins.MapperConfigPlugin"/>
 
         <!-- Exampleクラスの名前を変更 -->
         <!-- <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin"/>-->
@@ -78,13 +77,13 @@
         <plugin type="plugins.CreateGenericInterfacePlugin">
             <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface" />
             <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
-            <property name="target_table" value="account,variable"/>
+            <property name="target_table" value="account,variable,workflow,file_managed"/>
         </plugin>
 
         <plugin type="plugins.CreateGenericInterfacePlugin">
             <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface" />
             <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
-            <property name="target_table" value="role,successful_authentication,failed_authentication,password_history,password_reissue_info,failed_password_reissue"/>
+            <property name="target_table" value="role,successful_authentication,failed_authentication,password_history,password_reissue_info,failed_password_reissue,email_change_request,mail_send_history,temp_file, permission_role"/>
         </plugin>
 
         <plugin type="plugins.BeanImplementation2Plugin">
@@ -142,16 +141,26 @@
         <!-- 対象テーブルの選定 -->
         <!-- schema: これを指定するとSQLが From schema.table の形になる -->
 
-        <table tableName="account" schema="cms"/>
-        <table tableName="role" schema="cms"/>
-        <table tableName="variable" schema="cms">
+        <table tableName="account"/>
+        <table tableName="role"/>
+        <table tableName="variable">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
-        <table tableName="successful_authentication" schema="cms"/>
-        <table tableName="failed_authentication" schema="cms"/>
-        <table tableName="password_history" schema="cms"/>
-        <table tableName="password_reissue_info" schema="cms"/>
-        <table tableName="failed_password_reissue" schema="cms"/>
+        <table tableName="successful_authentication"/>
+        <table tableName="failed_authentication"/>
+        <table tableName="password_history"/>
+        <table tableName="password_reissue_info"/>
+        <table tableName="failed_password_reissue"/>
+        <table tableName="email_change_request"/>
+        <table tableName="file_managed"/>
+        <table tableName="mail_send_history">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="temp_file"/>
+        <table tableName="workflow">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="permission_role"/>
 
-    </context>
+</context>
 </generatorConfiguration>

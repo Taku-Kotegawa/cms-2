@@ -31,8 +31,14 @@ public class MessageKeysGen {
 
             for (String messageProperty : messageProperties) {
 
-                InputStream inputStream = new FileInputStream(messageProperty);
-                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+                InputStream inputStream = null;
+                BufferedReader br = null;
+                try {
+
+
+                inputStream = new FileInputStream(messageProperty);
+                br = new BufferedReader(new InputStreamReader(inputStream));
 
                 while ((line = br.readLine()) != null) {
 
@@ -52,7 +58,12 @@ public class MessageKeysGen {
                                 + " = \"" + key + "\";");
                     }
                 }
-                br.close();
+
+                } finally {
+                    br.close();
+                    inputStream.close();
+                }
+
             }
 
             pw.println("}");

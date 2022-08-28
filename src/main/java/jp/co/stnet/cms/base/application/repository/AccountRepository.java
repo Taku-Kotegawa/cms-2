@@ -6,15 +6,15 @@ import jp.co.stnet.cms.base.domain.model.mbg.AccountExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.AccountMapper;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @AllArgsConstructor
+@Transactional
 @Component
 public class AccountRepository extends AbstractVersionRepository<Account, AccountExample, String> {
 
-    AccountMapper accountMapper;
+    private final AccountMapper accountMapper;
 
     @Override
     protected VersionMapperInterface<Account, AccountExample, String> mapper() {
