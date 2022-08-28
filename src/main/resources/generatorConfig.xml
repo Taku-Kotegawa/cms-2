@@ -29,7 +29,10 @@
         <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
 
         <!-- XML マッパー ファイルへの参照を含むスケルトン MapperConfig.xml ファイルを生成 -->
-        <plugin type="org.mybatis.generator.plugins.MapperConfigPlugin"/>
+        <!--        <plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">-->
+        <!--            <property name="targetPackage" value="jp.co.stnet.cms.base.infrastructure.mapper.mbg" />-->
+        <!--            <property name="targetProject" value="src/main/resources" />-->
+        <!--        </plugin>-->
 
         <!-- Exampleクラスの名前を変更 -->
         <!-- <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin"/>-->
