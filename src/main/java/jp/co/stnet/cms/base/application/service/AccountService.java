@@ -1,13 +1,14 @@
 package jp.co.stnet.cms.base.application.service;
 
 
+import jp.co.stnet.cms.base.domain.model.AccountRole;
 import jp.co.stnet.cms.base.domain.model.mbg.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.AccountExample;
 
 /**
  * Accountサービス.
  */
-public interface AccountService extends NodeIService<Account, AccountExample, String> {
+public interface AccountService extends NodeIService<AccountRole, AccountExample, String> {
 
     /**
      * API KEY を削除する。

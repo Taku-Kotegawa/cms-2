@@ -1,6 +1,7 @@
 package jp.co.stnet.cms.base.application.service;
 
 
+import jp.co.stnet.cms.base.application.repository.AbstractVersionRepository;
 import jp.co.stnet.cms.base.domain.enums.Status;
 
 import jp.co.stnet.cms.base.domain.model.KeyInterface;
@@ -18,34 +19,34 @@ import java.util.Optional;
 @Slf4j
 public abstract class AbstractNodeService<T extends KeyInterface<I> & VersionInterface & StatusInterface, E, I> implements NodeIService<T, E, I> {
 
-    abstract protected VersionMapperInterface<T, E, I> mapper();
+    abstract protected VersionMapperInterface<T, E, I> repository();
 
     @Override
     public Iterable<T> findAllByExample(E example) {
-        return mapper().selectByExample(example);
+        return repository().selectByExample(example);
     }
 
     @Override
     public T save(T entity) {
         if (entity.getVersion() == null) {
             // Versionが取得でいない場合は、insert
-            mapper().insert(entity);
+            repository().insert(entity);
 
         } else {
             // Versionが設定されている場合は、update
-            long count = mapper().updateByPrimaryKeyAndVersion(entity);
+            long count = repository().updateByPrimaryKeyAndVersion(entity);
             if (count == 0) {
                 //更新失敗(先にデータが更新された or 削除された)
                 // todo 例外処理の追加
             }
         }
 
-        return mapper().selectByPrimaryKey(entity.getId());
+        return repository().selectByPrimaryKey(entity.getId());
     }
 
     @Override
     public T invalid(I i) {
-        T entity = mapper().selectByPrimaryKey(i);
+        T entity = repository().selectByPrimaryKey(i);
 
         // 楽観的排他制御の代わりに現在のステータスをチェック
         if (Status.INVALID.getCodeValue().equals(entity.getStatus())) {
@@ -53,18 +54,18 @@ public abstract class AbstractNodeService<T extends KeyInterface<I> & VersionInt
         }
 
         entity.setStatus(Status.INVALID.getCodeValue());
-        long count = mapper().updateByPrimaryKey(entity);
+        long count = repository().updateByPrimaryKey(entity);
         if (count == 0) {
             // なんらかの理由で更新失敗(直前に物理削除されたなど)
             // todo 例外処理
         }
 
-        return mapper().selectByPrimaryKey(i);
+        return repository().selectByPrimaryKey(i);
     }
 
     @Override
     public T valid(I i) {
-        T entity = mapper().selectByPrimaryKey(i);
+        T entity = repository().selectByPrimaryKey(i);
 
         // 楽観的排他制御の代わりに現在のステータスをチェック
         if (Status.VALID.getCodeValue().equals(entity.getStatus())) {
@@ -72,18 +73,18 @@ public abstract class AbstractNodeService<T extends KeyInterface<I> & VersionInt
         }
 
         entity.setStatus(Status.VALID.getCodeValue());
-        long count = mapper().updateByPrimaryKey(entity);
+        long count = repository().updateByPrimaryKey(entity);
         if (count == 0) {
             // なんらかの理由で更新失敗(直前に物理削除されたなど)
             throw new OptimisticLockingFailureBusinessException(ResultMessages.error().add(MessageKeys.E_CM_FW_8001));
         }
 
-        return mapper().selectByPrimaryKey(i);
+        return repository().selectByPrimaryKey(i);
     }
 
     @Override
     public void delete(I i) {
-        mapper().deleteByPrimaryKey(i);
+        repository().deleteByPrimaryKey(i);
     }
 
     @Override
@@ -97,7 +98,7 @@ public abstract class AbstractNodeService<T extends KeyInterface<I> & VersionInt
 
     @Override
     public T findById(I i) {
-        return Optional.ofNullable(mapper().selectByPrimaryKey(i))
+        return Optional.ofNullable(repository().selectByPrimaryKey(i))
                 .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add(MessageKeys.E_SL_FW_5001, i)));
     }
 
