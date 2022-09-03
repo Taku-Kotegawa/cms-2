@@ -15,18 +15,19 @@ import java.util.Collection;
 @Getter
 public class LoggedInUser extends User {
 
-    private final Account account;
+    private final AccountRole accountRole;
 
     private final LocalDateTime lastLoginDate;
 
-    public LoggedInUser(Account account, boolean isLocked,
+    public LoggedInUser(AccountRole accountRole, boolean isLocked,
                         LocalDateTime lastLoginDate,
                         Collection<? extends GrantedAuthority> authorities) {
 
-        super(account.getUsername(), account.getPassword(),
+        super(accountRole.getUsername(), accountRole.getPassword(),
                 true, true, true,
                 !isLocked, authorities);
-        this.account = account;
+
+        this.accountRole = accountRole;
         this.lastLoginDate = lastLoginDate;
     }
 

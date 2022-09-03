@@ -13,6 +13,7 @@ DROP TABLE if exists mail_send_history cascade;
 DROP TABLE if exists permission_role cascade;
 DROP TABLE if exists temp_file cascade;
 DROP TABLE if exists workflow cascade;
+drop table if exists failed_email_change_request cascade;
 
 
 
@@ -236,12 +237,14 @@ comment on column email_change_request.expiry_date is '有効期限';
 CREATE TABLE failed_email_change_request (
 	"token" varchar(255) NOT NULL,
 	attempt_date timestamp NOT NULL,
+	dummy varchar(1),
 	CONSTRAINT failed_email_change_request_pkey PRIMARY KEY (token, attempt_date)
 );
 
 comment on table failed_email_change_request is 'メールアドレス変更の認証失敗の記録';
 comment on column failed_email_change_request.token is 'トークン';
 comment on column failed_email_change_request.attempt_date is '試行日時';
+comment on column failed_email_change_request.dummy is 'ダミー';
 
 -- cmsboot.file_managed definition
 CREATE TABLE file_managed (
@@ -343,4 +346,3 @@ CREATE TABLE workflow (
 	CONSTRAINT workflow_idx1 UNIQUE (entity_type, entity_id, step_no, employee_id),
 	CONSTRAINT workflow_pkey PRIMARY KEY (id)
 );
-

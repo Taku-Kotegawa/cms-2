@@ -23,7 +23,7 @@
         <!-- <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>-->
 
         <!-- Modelクラスにビルダーメソッドを追加 -->
-        <!-- <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>-->
+        <!--        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>-->
 
         <!-- @Mapperアノテーションを追加 -->
         <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
@@ -72,9 +72,6 @@
         <plugin type="plugins.SqlUpdateKeyAddVersionPlugin">
             <property name="versionColumns" value="version"/>
         </plugin>
-        <plugin type="plugins.SqlDeleteKeyAddVersionPlugin">
-            <property name="versionColumns" value="version"/>
-        </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
@@ -86,7 +83,7 @@
         <plugin type="plugins.CreateGenericInterfacePlugin">
             <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface" />
             <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
-            <property name="target_table" value="role,successful_authentication,failed_authentication,password_history,password_reissue_info,failed_password_reissue,email_change_request,mail_send_history,temp_file, permission_role"/>
+            <property name="target_table" value="role,successful_authentication,failed_authentication,password_history,password_reissue_info,failed_password_reissue,email_change_request,mail_send_history,temp_file, permission_role, failed_email_change_request"/>
         </plugin>
 
         <plugin type="plugins.BeanImplementation2Plugin">
@@ -154,6 +151,7 @@
         <table tableName="password_history"/>
         <table tableName="password_reissue_info"/>
         <table tableName="failed_password_reissue"/>
+        <table tableName="failed_email_change_request"/>
         <table tableName="email_change_request"/>
         <table tableName="file_managed"/>
         <table tableName="mail_send_history">

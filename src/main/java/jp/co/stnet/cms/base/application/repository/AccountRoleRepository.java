@@ -8,7 +8,7 @@ import jp.co.stnet.cms.base.domain.model.mbg.RoleExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.AccountMapper;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.RoleMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Component
 public class AccountRoleRepository implements VersionMapperInterface<AccountRole, AccountExample, String> {
@@ -33,8 +33,8 @@ public class AccountRoleRepository implements VersionMapperInterface<AccountRole
     @Override
     public int deleteByExample(AccountExample example) {
         List<Account> accountList = accountMapper.selectByExample(example);
-        List<String> usernameList = accountList.stream().map( x -> x.getUsername()).collect(Collectors.toList());
-        for (String username: usernameList) {
+        List<String> usernameList = accountList.stream().map(x -> x.getUsername()).collect(Collectors.toList());
+        for (String username : usernameList) {
             deleteRoleByUsername(username);
         }
         return accountMapper.deleteByExample(example);
@@ -104,30 +104,38 @@ public class AccountRoleRepository implements VersionMapperInterface<AccountRole
 
     @Override
     public int updateByPrimaryKeySelective(AccountRole row) {
-        if (row.getRoles() != null) {
+        var count = accountMapper.updateByPrimaryKeySelective(row);
+        if (0 < count && row.getRoles() != null) {
             deleteInsertRole(row);
         }
-        return accountMapper.updateByPrimaryKeySelective(row);
+        return count;
     }
 
     @Override
     public int updateByPrimaryKey(AccountRole row) {
-        deleteInsertRole(row);
-        return accountMapper.updateByPrimaryKey(row);
+        var count = accountMapper.updateByPrimaryKey(row);
+        if (0 < count && row.getRoles() != null) {
+            deleteInsertRole(row);
+        }
+        return count;
     }
 
     @Override
     public int updateByPrimaryKeyAndVersionSelective(AccountRole row) {
-        if (row.getRoles() != null) {
+        var count = accountMapper.updateByPrimaryKeyAndVersionSelective(row);
+        if (0 < count && row.getRoles() != null) {
             deleteInsertRole(row);
         }
-        return accountMapper.updateByPrimaryKeyAndVersionSelective(row);
+        return count;
     }
 
     @Override
     public int updateByPrimaryKeyAndVersion(AccountRole row) {
-        deleteInsertRole(row);
-        return accountMapper.updateByPrimaryKeyAndVersion(row);
+        var count = accountMapper.updateByPrimaryKeyAndVersion(row);
+        if (0 < count && row.getRoles() != null) {
+            deleteInsertRole(row);
+        }
+        return count;
     }
 
     // Roleテーブルの洗い替え
@@ -162,7 +170,9 @@ public class AccountRoleRepository implements VersionMapperInterface<AccountRole
 
     // Account -> AccountRole変換
     private AccountRole accountToAccountRole(Account account) {
-        if (account == null) { return null; }
+        if (account == null) {
+            return null;
+        }
         return AccountRole.from(account, findRoleByUsername(account.getUsername()));
     }
 

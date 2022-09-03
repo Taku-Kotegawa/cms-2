@@ -5,11 +5,11 @@ import jp.co.stnet.cms.base.domain.model.mbg.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.AccountExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.AccountMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Component
 public class AccountRepository extends AbstractVersionRepository<Account, AccountExample, String> {

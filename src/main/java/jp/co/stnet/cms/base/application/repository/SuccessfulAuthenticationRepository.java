@@ -5,11 +5,11 @@ import jp.co.stnet.cms.base.domain.model.mbg.SuccessfulAuthenticationExample;
 import jp.co.stnet.cms.base.domain.model.mbg.SuccessfulAuthenticationKey;
 import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.SuccessfulAuthenticationMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Component
 public class SuccessfulAuthenticationRepository extends AbstractRepository<SuccessfulAuthentication, SuccessfulAuthenticationExample, SuccessfulAuthenticationKey> {

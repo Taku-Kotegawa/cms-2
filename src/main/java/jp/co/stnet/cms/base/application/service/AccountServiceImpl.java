@@ -3,19 +3,21 @@ package jp.co.stnet.cms.base.application.service;
 
 import jp.co.stnet.cms.base.application.repository.AccountRoleRepository;
 import jp.co.stnet.cms.base.domain.model.AccountRole;
+import jp.co.stnet.cms.base.domain.model.mbg.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.AccountExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.common.message.MessageKeys;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class AccountServiceImpl extends AbstractNodeService<AccountRole, AccountExample, String> implements AccountService {
@@ -79,6 +81,51 @@ public class AccountServiceImpl extends AbstractNodeService<AccountRole, Account
         }
 
         return accounts.get(0);
+    }
+
+    @Override
+    public LocalDateTime getLastLoginDate(String username) {
+        return null;
+    }
+
+    @Override
+    public String create(Account account) {
+        return null;
+    }
+
+    @Override
+    public boolean exists(String username) {
+        return false;
+    }
+
+    @Override
+    public boolean isLocked(String username) {
+        return false;
+    }
+
+    @Override
+    public boolean isInitialPassword(String username) {
+        return false;
+    }
+
+    @Override
+    public boolean isCurrentPasswordExpired(String username) {
+        return false;
+    }
+
+    @Override
+    public boolean updatePassword(String username, String rawPassword) {
+        return false;
+    }
+
+    @Override
+    public boolean updateEmail(String username, String email) {
+        return false;
+    }
+
+    @Override
+    public void clearPasswordValidationCache(String username) {
+
     }
 
     @Override

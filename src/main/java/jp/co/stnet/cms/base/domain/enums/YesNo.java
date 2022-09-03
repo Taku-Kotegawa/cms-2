@@ -1,13 +1,13 @@
 package jp.co.stnet.cms.base.domain.enums;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Getter;
 import org.terasoluna.gfw.common.codelist.EnumCodeList;
 
 /**
  * Yes/No
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public enum YesNo implements EnumCodeList.CodeListItem {
 
