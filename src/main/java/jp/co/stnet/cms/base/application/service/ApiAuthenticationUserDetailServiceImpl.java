@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.base.application.service;
 
 
-import jp.co.stnet.cms.base.domain.model.AccountRole;
+import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -60,12 +60,12 @@ public class ApiAuthenticationUserDetailServiceImpl implements AuthenticationUse
 //                authorities);
 //
 
-        var accountRole = new AccountRole();
-        accountRole.setUsername("admin");
-        accountRole.setPassword("{pbkdf2}1dd84f42a7a9a173f8f806d736d34939bed6a36e2948e8bfe88801ee5e6e61b815efc389d03165a4");
+        var account = new Account();
+        account.setUsername("admin");
+        account.setPassword("{pbkdf2}1dd84f42a7a9a173f8f806d736d34939bed6a36e2948e8bfe88801ee5e6e61b815efc389d03165a4");
 
         return new LoggedInUser(
-                accountRole,
+                account,
                 false,
                 LocalDateTime.now(),
                 authorities);

@@ -1,5 +1,10 @@
 package jp.co.stnet.cms.base.application.service;
 
+import jp.co.stnet.cms.common.datatables.DataTablesInput;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
 /**
  * エンティティ(リビジョン管理なし)用の抽象クラスのインタフェース
  *
@@ -17,7 +22,7 @@ public interface NodeIService<T, E, I> {
     /**
      * 条件に一致するエンティティのリストを取得
      */
-    Iterable<T> findAllByExample(E example);
+    List<T> findAllByExample(E example);
 
     /**
      * １件の保存
@@ -54,6 +59,8 @@ public interface NodeIService<T, E, I> {
      * @param ids キーのリスト
      * @return アカウントのリスト
      */
-    Iterable<T> findAllById(Iterable<I> ids);
+    List<T> findAllById(List<I> ids);
 
+
+    <S extends DataTablesInput> Page<T> findPageByInput(S input);
 }

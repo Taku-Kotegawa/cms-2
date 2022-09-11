@@ -1,8 +1,10 @@
 package jp.co.stnet.cms.base.application.repository;
 
+
 import jp.co.stnet.cms.base.domain.model.mbg.MailSendHistory;
 import jp.co.stnet.cms.base.domain.model.mbg.MailSendHistoryExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
+
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.MailSendHistoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,5 +20,10 @@ public class MailSendHistoryRepository extends AbstractRepository<MailSendHistor
     @Override
     MapperInterface<MailSendHistory, MailSendHistoryExample, Long> mapper() {
         return mapper;
+    }
+
+    @Override
+    MailSendHistoryExample example() {
+        return new MailSendHistoryExample();
     }
 }

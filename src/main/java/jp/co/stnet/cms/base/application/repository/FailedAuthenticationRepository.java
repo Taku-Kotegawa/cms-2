@@ -20,8 +20,18 @@ public class FailedAuthenticationRepository extends AbstractRepository<FailedAut
     MapperInterface<FailedAuthentication, FailedAuthenticationExample, FailedAuthenticationKey> mapper() {
         return mapper;
     }
+    @Override
+    FailedAuthenticationExample example() {
+        return new FailedAuthenticationExample();
+    }
 
-    public long deleteByeUsername(String username) {
+    /**
+     * ユーザ名を指定して削除
+     *
+     * @param username ユーザ名
+     * @return 削除した件数
+     */
+    public int deleteByeUsername(String username) {
         var example = new FailedAuthenticationExample();
         example.or().andUsernameEqualTo(username);
         return mapper.deleteByExample(example);

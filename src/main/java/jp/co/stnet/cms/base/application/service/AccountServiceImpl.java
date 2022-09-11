@@ -1,13 +1,13 @@
 package jp.co.stnet.cms.base.application.service;
 
 
-import jp.co.stnet.cms.base.application.repository.AccountRoleRepository;
-import jp.co.stnet.cms.base.domain.model.AccountRole;
-import jp.co.stnet.cms.base.domain.model.mbg.Account;
-import jp.co.stnet.cms.base.domain.model.mbg.AccountExample;
-import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
+import jp.co.stnet.cms.base.application.repository.AccountTestRepository;
+import jp.co.stnet.cms.base.domain.model.Account;
+import jp.co.stnet.cms.base.domain.model.mbg.TAccountExample;
+import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
@@ -20,29 +20,23 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class AccountServiceImpl extends AbstractNodeService<AccountRole, AccountExample, String> implements AccountService {
+public class AccountServiceImpl implements AccountService {
 
-    private final AccountRoleRepository accountRoleRepository;
+    private final AccountTestRepository accountTestRepository;
 
-    @Override
-    protected VersionMapperInterface<AccountRole, AccountExample, String> repository() {
-        return accountRoleRepository;
-    }
 
     @Override
-    public AccountRole deleteApiKey(String username) {
+    public Account deleteApiKey(String username) {
         return updateApiKey(username, null);
     }
 
     @Override
-    public AccountRole saveApiKey(String username) {
+    public Account saveApiKey(String username) {
         return updateApiKey(username, generateApiKey());
     }
 
-    /**
-     * API-KEYを発番
-     */
-    private String generateApiKey() {
+    @Override
+    public String generateApiKey() {
         return UUID.randomUUID().toString();
     }
 
@@ -53,34 +47,34 @@ public class AccountServiceImpl extends AbstractNodeService<AccountRole, Account
      * @param apikey   API-KEY
      * @return
      */
-    private AccountRole updateApiKey(String username, String apikey) {
+    private Account updateApiKey(String username, String apikey) {
         // 存在チェック
         findById(username);
 
         // API KEY を更新
-        AccountRole accountRole = new AccountRole();
-        accountRole.setUsername(username);
-        accountRole.setApiKey(apikey);
-        long count = accountRoleRepository.updateByPrimaryKeySelective(accountRole);
+        Account accountAndRoles = new Account();
+        accountAndRoles.setUsername(username);
+        accountAndRoles.setApiKey(apikey);
+        long count = accountTestRepository.updateByPrimaryKeySelective(accountAndRoles);
 
         // エラーハンドリング
         if (count == 0) {
             // todo 例外処理(API-KEYの更新に失敗しました。)
         }
-        return accountRoleRepository.selectByPrimaryKey(username);
+        return accountTestRepository.selectByPrimaryKey(username);
     }
 
     @Override
-    public AccountRole findByApiKey(String apiKey) {
-        AccountExample example = new AccountExample();
+    public Account findByApiKey(String apiKey) {
+        var example = new TAccountExample();
         example.or().andApiKeyEqualTo(apiKey);
-        List<AccountRole> accounts = accountRoleRepository.selectByExample(example);
+        List<Account> accountAndRoles = accountTestRepository.selectByExample(example);
 
-        if (accounts.isEmpty()) {
+        if (accountAndRoles.isEmpty()) {
             throw new ResourceNotFoundException(ResultMessages.error().add(MessageKeys.E_SL_FW_5001, apiKey));
         }
 
-        return accounts.get(0);
+        return accountAndRoles.get(0);
     }
 
     @Override
@@ -129,9 +123,51 @@ public class AccountServiceImpl extends AbstractNodeService<AccountRole, Account
     }
 
     @Override
-    public List<AccountRole> findAllById(Iterable<String> ids) {
-        AccountExample example = new AccountExample();
+    public Page<Account> findPageByInput(DataTablesInput input) {
+        return null;
+    }
+
+    @Override
+    public Account findById(String id) {
+        return null;
+    }
+
+    @Override
+    public List<Account> findAllByExample(TAccountExample example) {
+        return null;
+    }
+
+    @Override
+    public Account save(Account entity) {
+        return null;
+    }
+
+
+    @Override
+    public Account invalid(String id) {
+        return null;
+    }
+
+    @Override
+    public Account valid(String id) {
+        return null;
+    }
+
+    @Override
+    public void delete(String id) {
+
+    }
+
+    @Override
+    public boolean equalsEntity(Account entity, Account other) {
+        return false;
+    }
+
+
+    @Override
+    public List<Account> findAllById(List<String> ids) {
+        var example = new TAccountExample();
         example.or().andUsernameIn((List<String>) ids);
-        return accountRoleRepository.selectByExample(example);
+        return accountTestRepository.selectByExample(example);
     }
 }

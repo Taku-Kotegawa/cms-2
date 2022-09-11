@@ -8,10 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class EmailChangeRequestRepository extends AbstractRepository<EmailChangeRequest, EmailChangeRequestExample, String>{
+public class EmailChangeRequestRepository extends AbstractRepository<EmailChangeRequest, EmailChangeRequestExample, String> {
 
     private final EmailChangeRequestMapper mapper;
 
@@ -19,4 +21,22 @@ public class EmailChangeRequestRepository extends AbstractRepository<EmailChange
     MapperInterface<EmailChangeRequest, EmailChangeRequestExample, String> mapper() {
         return mapper;
     }
+
+    @Override
+    EmailChangeRequestExample example() {
+        return new EmailChangeRequestExample();
+    }
+
+    /**
+     * 有効期限を迎えたデータ削除
+     *
+     * @param expireDate 有効期限(日付)
+     * @return 削除した件数
+     */
+    public int deleteByExpiryDateLessThan(LocalDateTime expireDate) {
+        var example = new EmailChangeRequestExample();
+        example.or().andExpiryDateLessThan(expireDate);
+        return mapper.deleteByExample(example);
+    }
+
 }

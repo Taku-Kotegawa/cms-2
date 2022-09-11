@@ -1,16 +1,24 @@
 package jp.co.stnet.cms.base.application.service;
 
 
-import jp.co.stnet.cms.base.domain.model.AccountRole;
-import jp.co.stnet.cms.base.domain.model.mbg.Account;
-import jp.co.stnet.cms.base.domain.model.mbg.AccountExample;
+import jp.co.stnet.cms.base.domain.model.Account;
+import jp.co.stnet.cms.base.domain.model.mbg.TAccountExample;
+import jp.co.stnet.cms.common.datatables.DataTablesInput;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 
 /**
  * Accountサービス.
  */
-public interface AccountService extends NodeIService<AccountRole, AccountExample, String> {
+public interface AccountService extends NodeIService<Account, TAccountExample, String> {
+
+    /**
+     * API KEY を発行する。
+     *
+     * @return API KEY
+     */
+    String generateApiKey();
 
     /**
      * API KEY を削除する。
@@ -111,5 +119,5 @@ public interface AccountService extends NodeIService<AccountRole, AccountExample
     void clearPasswordValidationCache(String username);
 
 
-
+    Page<Account> findPageByInput(DataTablesInput input);
 }

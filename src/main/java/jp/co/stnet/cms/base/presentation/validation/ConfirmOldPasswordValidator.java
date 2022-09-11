@@ -17,7 +17,7 @@ package jp.co.stnet.cms.base.presentation.validation;
 
 
 import jp.co.stnet.cms.base.application.service.AccountService;
-import jp.co.stnet.cms.base.domain.model.mbg.Account;
+import jp.co.stnet.cms.base.domain.model.Account;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;

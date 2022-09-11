@@ -19,7 +19,7 @@ package jp.co.stnet.cms.base.presentation.validation;
 import jp.co.stnet.cms.base.application.service.AccountService;
 import jp.co.stnet.cms.base.application.service.PasswordHistoryService;
 import jp.co.stnet.cms.base.domain.enums.Role;
-import jp.co.stnet.cms.base.domain.model.AccountRole;
+import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.PasswordHistory;
 import org.passay.PasswordData;
 import org.passay.PasswordValidator;
@@ -84,12 +84,12 @@ public class NotReusedPasswordValidator implements
 
         newPassword = newPassword == null ? "" : newPassword;
 
-        AccountRole accountRole = accountService.findById(username);
-        String currentPassword = accountRole.getPassword();
+        Account account = accountService.findById(username);
+        String currentPassword = account.getPassword();
 
         boolean result = checkNewPasswordDifferentFromCurrentPassword(
                 newPassword, currentPassword, context);
-        if (result && accountRole.getRoles().contains(Role.ADMIN.name())) {
+        if (result && account.getRoles().contains(Role.ADMIN.name())) {
             result = checkHistoricalPassword(username, newPassword, context);
         }
 

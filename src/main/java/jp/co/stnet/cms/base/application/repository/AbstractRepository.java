@@ -1,72 +1,133 @@
 package jp.co.stnet.cms.base.application.repository;
 
+import jp.co.stnet.cms.base.application.repository.interfaces.RepositoryInterface;
 import jp.co.stnet.cms.base.domain.model.KeyInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
-public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implements MapperInterface<T, E, I> {
+public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implements RepositoryInterface<T, E, I> {
 
-    abstract MapperInterface<T, E, I> mapper();
+    abstract <S extends T> MapperInterface<T, E, I> mapper();
+
+    abstract E example();
 
     @Override
-    public long countByExample(E example) {
-        return mapper().countByExample(example);
+    public T register(T entity) {
+        Objects.requireNonNull(entity);
+        mapper().insert(entity);
+        return getOne(entity.getId());
     }
 
     @Override
-    public int deleteByExample(E example) {
-        return mapper().deleteByExample(example);
+    public List<T> registerAll(List<T> entities) {
+        Objects.requireNonNull(entities);
+        var result = new ArrayList<T>();
+        for (var entity : entities) {
+            result.add(register(entity));
+        }
+        return result;
     }
 
     @Override
-    public int deleteByPrimaryKey(I id) {
-        return mapper().deleteByPrimaryKey(id);
+    public T save(T entity) {
+        Objects.requireNonNull(entity);
+        if (!existsById(entity.getId())) {
+            return register(entity);
+        }
+        mapper().updateByPrimaryKey(entity);
+        return getOne(entity.getId());
     }
 
     @Override
-    public int insert(T row) {
-        return mapper().insert(row);
+    public List<T> saveAll(List<T> entities) {
+        Objects.requireNonNull(entities);
+        var result = new ArrayList<T>();
+        for (var entity : entities) {
+            result.add(save(entity));
+        }
+        return result;
     }
 
     @Override
-    public int insertSelective(T row) {
-        return mapper().insertSelective(row);
+    public Optional<T> findById(I id) {
+        Objects.requireNonNull(id);
+        return Optional.ofNullable(mapper().selectByPrimaryKey(id));
+    }
+
+    public T getOne(I id) {
+        Objects.requireNonNull(id);
+        return findById(id).orElseThrow(() -> new ResourceNotFoundException("id = " + id));
     }
 
     @Override
-    public List<T> selectByExampleWithRowbounds(E example, RowBounds rowBounds) {
-        return mapper().selectByExampleWithRowbounds(example, rowBounds);
+    public boolean existsById(I id) {
+        Objects.requireNonNull(id);
+        return mapper().selectByPrimaryKey(id) != null;
     }
 
     @Override
-    public List<T> selectByExample(E example) {
+    public List<T> findAllById(List<I> ids) {
+        Objects.requireNonNull(ids);
+        var result = new ArrayList<T>();
+        for (I id : ids) {
+            var entity = findById(id);
+            entity.ifPresent(result::add);
+        }
+        return result;
+    }
+
+    @Override
+    public List<T> findAll() {
+        return mapper().selectByExample(example());
+    }
+
+
+    @Override
+    public void deleteById(I id) {
+        Objects.requireNonNull(id);
+        mapper().deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void deleteAll(List<T> entities) {
+        Objects.requireNonNull(entities);
+        entities.forEach(x -> deleteById(x.getId()));
+    }
+
+    @Override
+    public void deleteAll() {
+        mapper().deleteByExample(example());
+    }
+
+    @Override
+    public void deleteByExample(E example) {
+        Objects.requireNonNull(example);
+        mapper().deleteByExample(example);
+    }
+
+    public List<T> findAllByExample(E example) {
         return mapper().selectByExample(example);
     }
 
     @Override
-    public T selectByPrimaryKey(I id) {
-        return mapper().selectByPrimaryKey(id);
+    public Page<T> findAllByExampleWithRowBounds(E example, RowBounds rowBounds) {
+        var result = mapper().selectByExampleWithRowbounds(example, rowBounds);
+        Pageable pageable = PageRequest.of(rowBounds.getOffset(), rowBounds.getLimit());
+        return new PageImpl<>(
+                result,
+                pageable,
+                result.size()
+        );
     }
 
-    @Override
-    public int updateByExampleSelective(T row, E example) {
-        return mapper().updateByExampleSelective(row, example);
-    }
-
-    @Override
-    public int updateByExample(T row, E example) {
-        return mapper().updateByExample(row, example);
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(T row) {
-        return mapper().updateByPrimaryKeySelective(row);
-    }
-
-    @Override
-    public int updateByPrimaryKey(T row) {
-        return mapper().updateByPrimaryKey(row);
-    }
 }

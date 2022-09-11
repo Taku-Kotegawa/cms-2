@@ -1,6 +1,5 @@
 package jp.co.stnet.cms.base.domain.model;
 
-import jp.co.stnet.cms.base.domain.model.mbg.Account;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,19 +14,19 @@ import java.util.Collection;
 @Getter
 public class LoggedInUser extends User {
 
-    private final AccountRole accountRole;
+    private final Account account;
 
     private final LocalDateTime lastLoginDate;
 
-    public LoggedInUser(AccountRole accountRole, boolean isLocked,
+    public LoggedInUser(Account account, boolean isLocked,
                         LocalDateTime lastLoginDate,
                         Collection<? extends GrantedAuthority> authorities) {
 
-        super(accountRole.getUsername(), accountRole.getPassword(),
+        super(account.getUsername(), account.getPassword(),
                 true, true, true,
                 !isLocked, authorities);
 
-        this.accountRole = accountRole;
+        this.account = account;
         this.lastLoginDate = lastLoginDate;
     }
 

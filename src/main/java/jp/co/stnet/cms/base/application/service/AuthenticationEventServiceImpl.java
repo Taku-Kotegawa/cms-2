@@ -6,16 +6,13 @@ import jp.co.stnet.cms.base.domain.model.mbg.FailedAuthentication;
 import jp.co.stnet.cms.base.domain.model.mbg.FailedAuthenticationExample;
 import jp.co.stnet.cms.base.domain.model.mbg.SuccessfulAuthentication;
 import jp.co.stnet.cms.base.domain.model.mbg.SuccessfulAuthenticationExample;
-import jp.co.stnet.cms.common.DateTime.DateTimeFactory;
+import jp.co.stnet.cms.common.datetime.DateTimeFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,12 +32,13 @@ public class AuthenticationEventServiceImpl implements AuthenticationEventServic
         example.setOrderByClause("authenticationTimestamp DESC");
 
         var rowBounds = new RowBounds(0, 1);
-        var result = successfulAuthenticationRepository.selectByExampleWithRowbounds(example, rowBounds);
 
+        var result = successfulAuthenticationRepository
+                .findAllByExampleWithRowBounds(example, rowBounds);
         if (result.isEmpty()) {
             return null;
         } else {
-            return result.get(0);
+            return result.getContent().get(0);
         }
     }
 
@@ -52,12 +50,12 @@ public class AuthenticationEventServiceImpl implements AuthenticationEventServic
         example.setOrderByClause("authenticationTimestamp DESC");
 
         var rowBounds = new RowBounds(0, 1);
-        var result = failedAuthenticationRepository.selectByExampleWithRowbounds(example, rowBounds);
+        var result = failedAuthenticationRepository.findAllByExampleWithRowBounds(example, rowBounds);
 
         if (result.isEmpty()) {
             return null;
         } else {
-            return result.get(0);
+            return result.getContent().get(0);
         }
     }
 
@@ -67,7 +65,7 @@ public class AuthenticationEventServiceImpl implements AuthenticationEventServic
         var row = new SuccessfulAuthentication();
         row.setUsername(username);
         row.setAuthenticationTimestamp(dateTimeFactory.getNow());
-        successfulAuthenticationRepository.insert(row);
+        successfulAuthenticationRepository.save(row);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -76,7 +74,7 @@ public class AuthenticationEventServiceImpl implements AuthenticationEventServic
         var row = new FailedAuthentication();
         row.setUsername(username);
         row.setAuthenticationTimestamp(dateTimeFactory.getNow());
-        failedAuthenticationRepository.insert(row);
+        failedAuthenticationRepository.save(row);
     }
 
     @Override

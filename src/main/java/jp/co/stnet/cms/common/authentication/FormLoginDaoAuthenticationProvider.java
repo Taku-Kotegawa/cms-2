@@ -2,7 +2,7 @@ package jp.co.stnet.cms.common.authentication;
 
 import jp.co.stnet.cms.base.application.service.PermissionRoleService;
 import jp.co.stnet.cms.base.domain.enums.Role;
-import jp.co.stnet.cms.base.domain.model.AccountRole;
+import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.mbg.PermissionRole;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +45,7 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
      */
     protected void loginAsAdminCheck(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication){
         LoggedInUser loggedInUser = (LoggedInUser) userDetails;
-        AccountRole account = loggedInUser.getAccountRole();
+        Account account = loggedInUser.getAccount();
 
         FormLoginUsernamePasswordAuthenticationToken formLoginUsernamePasswordAuthenticationToken =
                 (FormLoginUsernamePasswordAuthenticationToken) authentication;
@@ -68,7 +68,7 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
      */
     protected void allowedIpCheck(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) {
         LoggedInUser loggedInUser = (LoggedInUser) userDetails;
-        AccountRole account = loggedInUser.getAccountRole();
+        Account account = loggedInUser.getAccount();
 
         // 接続元IPアドレスのチェック
         if (StringUtils.isNotBlank(account.getAllowedIp())) {
@@ -101,10 +101,10 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
         boolean loginAsAdministrator = formLoginUsernamePasswordAuthenticationToken.getLoginAsAdministrator();
 
         LoggedInUser loggedInUser = (LoggedInUser) user;
-        AccountRole accountRole = loggedInUser.getAccountRole();
+        Account account = loggedInUser.getAccount();
         Collection<GrantedAuthority> authorities = new HashSet<>();
         List<String> roleIds = new ArrayList<>();
-        for (String roleLabel : accountRole.getRoles()) {
+        for (String roleLabel : account.getRoles()) {
             // Administrator権限でログインしない場合、ADMINロールを除外
             // asAdmin=true, role=admin -> true
             // asAdmin=false, role=admin -> false
@@ -120,7 +120,7 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
             authorities.add(new SimpleGrantedAuthority(permissionRole.getPermission()));
         }
 
-        principal = new LoggedInUser(accountRole,
+        principal = new LoggedInUser(account,
                 !loggedInUser.isAccountNonLocked(),
                 loggedInUser.getLastLoginDate(),
                 authorities);

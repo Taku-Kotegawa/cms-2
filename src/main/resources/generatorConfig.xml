@@ -3,7 +3,7 @@
         "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <context id="tables" targetRuntime="MyBatis3" defaultModelType="CONDITIONAL">
+    <context id="tables" targetRuntime="MyBatis3" defaultModelType="conditional">
 
         <!-- ファイルのエンコーディングをUTF-8で固定 -->
         <property name="javaFileEncoding" value="UTF-8"/>
@@ -57,10 +57,11 @@
         <!-- lombok -->
         <plugin type="plugins.LombokPlugin">
             <property name="builder" value="false"/>
+            <property name="superBuilder" value="true"/>
             <property name="toString" value="true"/>
             <property name="EqualsAndHashCode" value="true"/>
-            <property name="allArgsConstructor" value="false"/>
-            <property name="noArgsConstructor" value="false"/>
+            <property name="allArgsConstructor" value="true"/>
+            <property name="noArgsConstructor" value="true"/>
         </plugin>
 
         <!-- SQLMapperのUpdate命令から特定の項目を除外, excludeColumnsにテーブル項目名を指定, カンマ区切りで複数指定可能 -->
@@ -74,23 +75,34 @@
         </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
+        <!-- 複合主キーテーブルには対応していない -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
-            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface" />
+            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface"/>
             <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
-            <property name="target_table" value="account,variable,workflow,file_managed"/>
+            <property name="target_table" value="t_account, t_variable, t_file_managed"/>
         </plugin>
 
+        <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
+        <!-- 複合主キーテーブルには対応していない -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
-            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface" />
+            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface"/>
             <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
-            <property name="target_table" value="role,successful_authentication,failed_authentication,password_history,password_reissue_info,failed_password_reissue,email_change_request,mail_send_history,temp_file, permission_role, failed_email_change_request"/>
+            <property name="target_table"
+                      value="t_email_change_request, t_password_reissue_info, t_mail_send_history, t_temp_file,role, t_permission_role, t_failed_email_change_request, t_failed_password_reissue, t_password_history, t_failed_authentication, t_successful_authentication"/>
         </plugin>
 
+        <!-- 複合主キーのテーブル
+        role, permission_role, failed_email_change_request, failed_password_reissue, password_history, failed_authentication, successful_authentication
+
+        -->
+
+        <!-- Modelにインタフェースの追加(targetColumnを持つテーブル) -->
         <plugin type="plugins.BeanImplementation2Plugin">
             <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.VersionInterface"/>
             <property name="targetColumn" value="version"/>
         </plugin>
 
+        <!-- Modelにインタフェースの追加(targetColumnを持つテーブル) -->
         <plugin type="plugins.BeanImplementation2Plugin">
             <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.StatusInterface"/>
             <property name="targetColumn" value="status"/>
@@ -141,27 +153,28 @@
         <!-- 対象テーブルの選定 -->
         <!-- schema: これを指定するとSQLが From schema.table の形になる -->
 
-        <table tableName="account"/>
-        <table tableName="role"/>
-        <table tableName="variable">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="successful_authentication"/>
-        <table tableName="failed_authentication"/>
-        <table tableName="password_history"/>
-        <table tableName="password_reissue_info"/>
-        <table tableName="failed_password_reissue"/>
-        <table tableName="failed_email_change_request"/>
-        <table tableName="email_change_request"/>
-        <table tableName="file_managed"/>
-        <table tableName="mail_send_history">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="temp_file"/>
-        <table tableName="workflow">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="permission_role"/>
+        <table tableName="t_account"/>
+        <table tableName="t_role"/>
 
-</context>
+        <table tableName="t_variable" domainObjectName="Variable">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="t_successful_authentication" domainObjectName="SuccessfulAuthentication"/>
+        <table tableName="t_failed_authentication" domainObjectName="FailedAuthentication"/>
+        <table tableName="t_password_history" domainObjectName="PasswordHistory"/>
+        <table tableName="t_password_reissue_info" domainObjectName="PasswordReissueInfo"/>
+        <table tableName="t_failed_password_reissue" domainObjectName="FailedPasswordReissue"/>
+        <table tableName="t_failed_email_change_request" domainObjectName="FailedEmailChangeRequest"/>
+        <table tableName="t_email_change_request" domainObjectName="EmailChangeRequest"/>
+        <table tableName="t_file_managed" domainObjectName="FileManaged"/>
+        <table tableName="t_mail_send_history" domainObjectName="MailSendHistory">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="t_temp_file" domainObjectName="TempFile"/>
+        <table tableName="t_workflow" domainObjectName="Workflow">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="t_permission_role" domainObjectName="PermissionRole"/>
+
+    </context>
 </generatorConfiguration>
