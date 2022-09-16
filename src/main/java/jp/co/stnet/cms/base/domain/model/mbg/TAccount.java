@@ -58,6 +58,7 @@ public class TAccount implements Serializable, KeyInterface<String>, VersionInte
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private Long version;
 
     /**
@@ -69,6 +70,7 @@ public class TAccount implements Serializable, KeyInterface<String>, VersionInte
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private String createdBy;
 
     /**
@@ -80,6 +82,7 @@ public class TAccount implements Serializable, KeyInterface<String>, VersionInte
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdDate;
 
@@ -92,6 +95,7 @@ public class TAccount implements Serializable, KeyInterface<String>, VersionInte
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private String lastModifiedBy;
 
     /**
@@ -103,6 +107,7 @@ public class TAccount implements Serializable, KeyInterface<String>, VersionInte
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
 

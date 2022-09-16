@@ -31,11 +31,15 @@ public interface RepositoryInterface<T extends KeyInterface<I>, E, I> {
 
     List<T> saveAll(List<T> entities);
 
+    void delete(T entity);
+
     void deleteById(I id);
 
     void deleteAll();
 
     void deleteAll(List<T> entities);
+
+    void deleteAllById(List<I> ids);
 
     void deleteByExample(E example);
 

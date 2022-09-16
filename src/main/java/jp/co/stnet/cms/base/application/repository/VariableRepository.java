@@ -1,5 +1,6 @@
 package jp.co.stnet.cms.base.application.repository;
 
+import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
 import jp.co.stnet.cms.base.domain.model.mbg.Variable;
 import jp.co.stnet.cms.base.domain.model.mbg.VariableExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
@@ -14,7 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class VariableRepository extends AbstractVersionRepository<Variable, VariableExample, Long>{
+public class VariableRepository extends AbstractVersionRepository<Variable, VariableExample, Long>
+        implements VersionRepositoryInterface<Variable, VariableExample, Long> {
 
     private final VariableMapper mapper;
 

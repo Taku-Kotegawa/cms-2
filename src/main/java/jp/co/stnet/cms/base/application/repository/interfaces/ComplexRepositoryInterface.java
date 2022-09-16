@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Optional;
 
-public interface ComplexRepositoryInterface<S extends T, T extends KeyInterface<I>, E, I> {
+public interface ComplexRepositoryInterface<T extends KeyInterface<I>, E, I, S extends T> {
 
     /**
      *
@@ -37,11 +37,15 @@ public interface ComplexRepositoryInterface<S extends T, T extends KeyInterface<
 
     List<S> saveAll(List<S> entities);
 
+    void delete(S entity);
+
     void deleteById(I id);
 
     void deleteAll();
 
     void deleteAll(List<S> entities);
+
+    void deleteAllById(List<I> ids);
 
     void deleteByExample(E example);
 

@@ -21,7 +21,6 @@ public class Account extends TAccount {
      */
     List<String> roles = new ArrayList<>();
 
-
     /**
      * TAccount -> Account 変換(新規インスタンス作成)
      *

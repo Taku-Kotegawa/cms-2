@@ -39,7 +39,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
     private final FailedPasswordReissueRepository failedPasswordReissueRepository;
 
-    private final AccountService accountService;
+    private final AccountSharedService accountSharedService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -74,11 +74,11 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
         String rowSecret = passwordGenerator.generatePassword(10, passwordGenerationRules);
 
-        if (!accountService.exists(username)) {
+        if (!accountSharedService.exists(username)) {
             return rowSecret;
         }
 
-        Account account = accountService.findById(username);
+        Account account = accountSharedService.findOne(username);
 
         String token = UUID.randomUUID().toString();
         LocalDateTime expiryDate = dateTimeFactory.getNow().plusSeconds(tokenLifeTimeSeconds);
@@ -129,7 +129,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
         }
         failedPasswordReissueRepository.deleteByToken(token);
         passwordReissueInfoRepository.deleteById(token);
-        return accountService.updatePassword(username, rawPassword);
+        return accountSharedService.updatePassword(username, rawPassword);
     }
 
     @Override

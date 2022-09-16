@@ -38,7 +38,7 @@ public class EmailChangeServiceImpl implements EmailChangeService {
 
     private final EmailChangeRequestRepository emailChangeRequestRepository;
     private final FailedEmailChangeRequestRepository failedEmailChangeRequestRepository;
-    private final AccountService accountService;
+    private final AccountSharedService accountSharedService;
 
     private final PasswordGenerator passwordGenerator;
     private final JavaMailSender mailSender;
@@ -134,7 +134,7 @@ public class EmailChangeServiceImpl implements EmailChangeService {
         }
         failedEmailChangeRequestRepository.deleteByToken(token);
         emailChangeRequestRepository.deleteById(token);
-        accountService.updateEmail(emailChangeRequest.getUsername(), emailChangeRequest.getNewMail());
+        accountSharedService.updateEmail(emailChangeRequest.getUsername(), emailChangeRequest.getNewMail());
     }
 
     @Override

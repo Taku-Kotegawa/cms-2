@@ -39,6 +39,7 @@ public class Workflow implements Serializable, VersionInterface {
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private Long version;
 
     /**
@@ -48,6 +49,7 @@ public class Workflow implements Serializable, VersionInterface {
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private String createdBy;
 
     /**
@@ -57,6 +59,7 @@ public class Workflow implements Serializable, VersionInterface {
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdDate;
 
@@ -67,6 +70,7 @@ public class Workflow implements Serializable, VersionInterface {
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private String lastModifiedBy;
 
     /**
@@ -76,6 +80,7 @@ public class Workflow implements Serializable, VersionInterface {
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
 

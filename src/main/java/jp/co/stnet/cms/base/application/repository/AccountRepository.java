@@ -1,26 +1,35 @@
 package jp.co.stnet.cms.base.application.repository;
 
+import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.TAccount;
 import jp.co.stnet.cms.base.domain.model.mbg.TAccountExample;
 import jp.co.stnet.cms.base.domain.model.mbg.TRole;
 import jp.co.stnet.cms.base.domain.model.mbg.TRoleExample;
+import jp.co.stnet.cms.base.infrastructure.mapper.AccountQueryMapper;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TAccountMapper;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TRoleMapper;
+import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class AccountRepository extends AbstractComplexVersionRepository<Account, TAccount, TAccountExample, String> {
+public class AccountRepository extends AbstractComplexVersionRepository<TAccount, TAccountExample, String, Account>
+        implements VersionRepositoryInterface<Account, TAccountExample, String> {
 
     private final TAccountMapper tAccountMapper;
     private final TRoleMapper tRoleMapper;
+    private final AccountQueryMapper accountQueryMapper;
 
     @Override
     VersionMapperInterface<TAccount, TAccountExample, String> mapper() {
@@ -35,13 +44,6 @@ public class AccountRepository extends AbstractComplexVersionRepository<Account,
     @Override
     protected void beforeDeleteAll() {
         deleteRoleAll();
-    }
-
-    @Override
-    protected void beforeDeleteAll(List<Account> entities) {
-        if (entities != null) {
-            deleteRoleAllByUsername(entities.stream().map(Account::getUsername).toList());
-        }
     }
 
     @Override
@@ -78,6 +80,26 @@ public class AccountRepository extends AbstractComplexVersionRepository<Account,
     }
 
     // -----------------------------------------------------------------------------------------------
+
+    public Page<Account> findByInput(DataTablesInput dataTablesInput, Pageable pageable) {
+        var totalCount = mapper().countByExample(null);
+        var entities = accountQueryMapper.findPage(dataTablesInput, pageable);
+        return new PageImpl<>(entities, pageable, totalCount);
+    }
+
+    @Override
+    public Optional<Account> findById(String id) {
+        var account = accountQueryMapper.findById(id);
+        return Optional.ofNullable(account);
+    }
+
+    public int updateApiKey(String username, String apiKey) {
+        return tAccountMapper.updateByPrimaryKeySelective(
+                TAccount.builder()
+                        .username(username)
+                        .apiKey(apiKey)
+                        .build());
+    }
 
     /**
      * アカウントを指定してロールテーブルを削除・挿入する。
@@ -152,4 +174,5 @@ public class AccountRepository extends AbstractComplexVersionRepository<Account,
         example.or().andUsernameIn(usernames);
         return tRoleMapper.deleteByExample(example);
     }
+
 }

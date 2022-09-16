@@ -3,6 +3,7 @@ package jp.co.stnet.cms.base.domain.model.mbg;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.EqualsAndHashCode;
 
 public class TRoleExample {
     /**

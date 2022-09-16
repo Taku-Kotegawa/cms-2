@@ -22,14 +22,14 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final AccountService accountService;
+    private final AccountSharedService accountSharedService;
     private final PermissionRoleService permissionRoleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
 
-            Account account = accountService.findById(username);
+            Account account = accountSharedService.findOne(username);
 
             if (account == null || account.getStatus().equals(Status.INVALID.getCodeValue())) {
                 throw new UsernameNotFoundException("user not found");
@@ -52,8 +52,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
             return new LoggedInUser(account,
-                    accountService.isLocked(username),
-                    accountService.getLastLoginDate(username),
+                    accountSharedService.isLocked(username),
+                    accountSharedService.getLastLoginDate(username),
                     authorities);
 
         } catch (ResourceNotFoundException e) {

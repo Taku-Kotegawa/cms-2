@@ -48,6 +48,7 @@ public class Variable implements Serializable, KeyInterface<Long>, VersionInterf
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private Long version;
 
     /**
@@ -59,6 +60,7 @@ public class Variable implements Serializable, KeyInterface<Long>, VersionInterf
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private String createdBy;
 
     /**
@@ -70,6 +72,7 @@ public class Variable implements Serializable, KeyInterface<Long>, VersionInterf
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdDate;
 
@@ -82,6 +85,7 @@ public class Variable implements Serializable, KeyInterface<Long>, VersionInterf
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private String lastModifiedBy;
 
     /**
@@ -93,6 +97,7 @@ public class Variable implements Serializable, KeyInterface<Long>, VersionInterf
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
 

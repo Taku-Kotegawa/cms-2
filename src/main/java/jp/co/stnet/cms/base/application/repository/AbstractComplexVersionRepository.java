@@ -21,7 +21,7 @@ import java.util.Optional;
 
 /**
  * 複合型エンティティ用のリポジトリ
- *
+ * <p>
  * メインのテーブルの前後に子テーブルの削除・挿入を行う。
  * delete -> 前処理
  * register -> 後処理
@@ -36,23 +36,21 @@ import java.util.Optional;
  */
 @Transactional
 @SuppressWarnings("unchecked")
-public abstract class AbstractComplexVersionRepository<S extends T, T extends KeyInterface<I> & VersionInterface, E, I> implements ComplexVersionRepositoryInterface<S, T, E, I> {
+public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I> & VersionInterface, E, I, S extends T> implements ComplexVersionRepositoryInterface<T, E, I, S> {
 
-    Class<S> sClass;
+    private static final int DEFAULT_PAGE_SIZE = 5;
 
     abstract VersionMapperInterface<T, E, I> mapper();
 
     abstract E example();
 
     /**
-     * メインテーブル削除時の前処理
+     * deleteAll()メインテーブル削除時の前処理
+     *
+     *
      */
     protected abstract void beforeDeleteAll();
 
-    /**
-     * メインテーブル削除時の前処理(IDを指定)
-     */
-    protected abstract void beforeDeleteAll(List<S> entities);
 
     /**
      * メインテーブルから１件削除時の前処理
@@ -113,10 +111,11 @@ public abstract class AbstractComplexVersionRepository<S extends T, T extends Ke
     @Override
     @Transactional(readOnly = true)
     public Page<S> findAllByExampleWithRowBounds(E example, RowBounds rowBounds) {
+        var totalCount = mapper().countByExample(null);
         var entities = mapper().selectByExampleWithRowbounds(example, rowBounds).stream().map(this::cast).toList();
         entities.forEach(this::afterFind);
-        Pageable pageable = PageRequest.of(rowBounds.getOffset(), rowBounds.getLimit());
-        return new PageImpl<>(entities, pageable, entities.size());
+        Pageable pageable = PageRequest.of(rowBounds.getOffset() / rowBounds.getLimit(), rowBounds.getLimit());
+        return new PageImpl<>(entities, pageable, totalCount);
     }
 
     @Override
@@ -192,6 +191,12 @@ public abstract class AbstractComplexVersionRepository<S extends T, T extends Ke
     }
 
     @Override
+    public void delete(S entity) {
+        Objects.requireNonNull(entity);
+        deleteById(entity.getId());
+    }
+
+    @Override
     public void deleteById(I id) {
         Objects.requireNonNull(id);
         beforeDelete(id);
@@ -207,8 +212,13 @@ public abstract class AbstractComplexVersionRepository<S extends T, T extends Ke
     @Override
     public void deleteAll(List<S> entities) {
         Objects.requireNonNull(entities);
-        beforeDeleteAll(entities);
-        entities.forEach(x -> deleteById(x.getId()));
+        deleteAllById(entities.stream().map(KeyInterface::getId).toList());
+    }
+
+    @Override
+    public void deleteAllById(List<I> ids) {
+        Objects.requireNonNull(ids);
+        ids.forEach(this::deleteById);
     }
 
     @Override

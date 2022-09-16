@@ -91,6 +91,11 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
         return mapper().selectByExample(example());
     }
 
+    @Override
+    public void delete(T entity) {
+        Objects.requireNonNull(entity);
+        deleteById(entity.getId());
+    }
 
     @Override
     public void deleteById(I id) {
@@ -101,7 +106,7 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
     @Override
     public void deleteAll(List<T> entities) {
         Objects.requireNonNull(entities);
-        entities.forEach(x -> deleteById(x.getId()));
+        entities.forEach(x -> delete(x));
     }
 
     @Override
@@ -113,6 +118,11 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
     public void deleteByExample(E example) {
         Objects.requireNonNull(example);
         mapper().deleteByExample(example);
+    }
+    @Override
+    public void deleteAllById(List<I> ids) {
+        Objects.requireNonNull(ids);
+        ids.forEach(this::deleteById);
     }
 
     public List<T> findAllByExample(E example) {

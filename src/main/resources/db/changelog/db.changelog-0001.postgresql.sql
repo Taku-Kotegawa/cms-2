@@ -105,6 +105,7 @@ create table t_password_history (
     username varchar(128),
     password varchar(128) not null,
     use_from timestamp,
+    created_by character varying(255) not null,
     constraint pk_tbl_ph primary key (username, use_from)
 --    constraint fk_tbl_ph foreign key (username) references t_account(username)
 );

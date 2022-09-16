@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class PasswordChangeServiceImpl implements PasswordChangeService {
 
     @Autowired
-    AccountService accountService;
+    AccountSharedService accountSharedService;
 
     @Override
     public boolean updatePassword(String username, String rawPassword) {
-        return accountService.updatePassword(username, rawPassword);
+        return accountSharedService.updatePassword(username, rawPassword);
     }
 }

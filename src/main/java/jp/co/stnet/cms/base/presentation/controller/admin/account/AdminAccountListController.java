@@ -2,6 +2,7 @@ package jp.co.stnet.cms.base.presentation.controller.admin.account;
 
 
 import jp.co.stnet.cms.base.application.service.AccountService;
+import jp.co.stnet.cms.base.application.service.AccountSharedService;
 import jp.co.stnet.cms.base.application.service.MailSendService;
 import jp.co.stnet.cms.base.domain.enums.Status;
 import jp.co.stnet.cms.base.domain.model.Account;
@@ -35,6 +36,9 @@ public class AdminAccountListController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    AccountSharedService accountSharedService;
 
     @Autowired
     AdminAccountAuthority authority;
@@ -81,7 +85,7 @@ public class AdminAccountListController {
 
             // ステータスラベル
             String statusLabel = account.getStatus().equals(Status.VALID.getCodeValue()) ? Status.VALID.getCodeLabel() : Status.INVALID.getCodeLabel();
-            if (accountService.isLocked(account.getUsername())) statusLabel = statusLabel + "(ロック)";
+            if (accountSharedService.isLocked(account.getUsername())) statusLabel = statusLabel + "(ロック)";
             accountListBean.setStatusLabel(statusLabel);
 
             accountListBean.setWelcomeMailSendDate(getWelcomeMailSendDate(mailSendHistories, accountListBean.getUsername()));

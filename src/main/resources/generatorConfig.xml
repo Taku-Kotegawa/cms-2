@@ -64,6 +64,12 @@
             <property name="noArgsConstructor" value="true"/>
         </plugin>
 
+        <!-- lombok @EqualsAndHashCode.Exclude アノテーションを指定したフィールドに設定する -->
+        <plugin type="plugins.AddLombokEqualsAndHashCodeExcludeFieldAnnotationPlugin">
+            <property name="excludeField" value="version,createdBy,createdDate,lastModifiedBy,lastModifiedDate"/>
+        </plugin>
+
+
         <!-- SQLMapperのUpdate命令から特定の項目を除外, excludeColumnsにテーブル項目名を指定, カンマ区切りで複数指定可能 -->
         <plugin type="plugins.SqlMapUpdateExcludeColumnPlugin">
             <property name="excludeColumns" value="created_date,created_by"/>

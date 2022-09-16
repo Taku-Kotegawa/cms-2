@@ -141,6 +141,7 @@ public class DataTablesInput {
      * @return OrderBy区
      */
     public String getOrderByClause() {
+        if (true) { return null; }
 
         List<String> orderClause = new ArrayList<>();
         for (Order order : this.getOrder()) {

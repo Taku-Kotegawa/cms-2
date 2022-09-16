@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
@@ -26,36 +28,36 @@ public class AuthenticationEventServiceImpl implements AuthenticationEventServic
 
     @Transactional(readOnly = true)
     @Override
-    public SuccessfulAuthentication findLatestSuccessEvents(String username) {
+    public List<SuccessfulAuthentication> findLatestSuccessEvents(String username, int count) {
         var example = new SuccessfulAuthenticationExample();
         example.or().andUsernameEqualTo(username);
         example.setOrderByClause("authenticationTimestamp DESC");
 
-        var rowBounds = new RowBounds(0, 1);
+        var rowBounds = new RowBounds(0, count);
 
         var result = successfulAuthenticationRepository
                 .findAllByExampleWithRowBounds(example, rowBounds);
         if (result.isEmpty()) {
             return null;
         } else {
-            return result.getContent().get(0);
+            return result.getContent();
         }
     }
 
     @Transactional(readOnly = true)
     @Override
-    public FailedAuthentication findLatestFailureEvents(String username) {
+    public List<FailedAuthentication> findLatestFailureEvents(String username, int count) {
         var example = new FailedAuthenticationExample();
         example.or().andUsernameEqualTo(username);
         example.setOrderByClause("authenticationTimestamp DESC");
 
-        var rowBounds = new RowBounds(0, 1);
+        var rowBounds = new RowBounds(0, count);
         var result = failedAuthenticationRepository.findAllByExampleWithRowBounds(example, rowBounds);
 
         if (result.isEmpty()) {
             return null;
         } else {
-            return result.getContent().get(0);
+            return result.getContent();
         }
     }
 

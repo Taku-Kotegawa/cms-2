@@ -1,6 +1,7 @@
 package jp.co.stnet.cms.base.presentation.controller.admin.account;
 
 import jp.co.stnet.cms.base.application.service.AccountService;
+import jp.co.stnet.cms.base.application.service.AccountSharedService;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.common.constant.Constants;
@@ -25,7 +26,7 @@ public class AdminAccountController {
     AdminAccountHelper helper;
 
     @Autowired
-    AccountService accountService;
+    AccountSharedService accountSharedService;
 
     @Autowired
     AdminAccountAuthority authority;
@@ -46,11 +47,11 @@ public class AdminAccountController {
         authority.hasAuthority(Constants.OPERATION.VIEW, loggedInUser);
 
         // データ取得
-        Account account = accountService.findById(username);
+        Account account = accountSharedService.findOne(username);
         model.addAttribute("account", account);
 
         // ロック状態確認
-        model.addAttribute("isLocked", accountService.isLocked(username));
+        model.addAttribute("isLocked", accountSharedService.isLocked(username));
 
         model.addAttribute("buttonState", helper.getButtonStateMap(Constants.OPERATION.VIEW, account, null).asMap());
         model.addAttribute("fieldState", helper.getFiledStateMap(Constants.OPERATION.VIEW, account, null).asMap());

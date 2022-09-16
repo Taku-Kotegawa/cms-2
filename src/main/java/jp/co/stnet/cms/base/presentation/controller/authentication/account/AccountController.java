@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.base.presentation.controller.authentication.account;
 
 
-import jp.co.stnet.cms.base.application.service.AccountService;
+import jp.co.stnet.cms.base.application.service.AccountSharedService;
 import jp.co.stnet.cms.base.application.service.FileManagedService;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
@@ -30,7 +30,7 @@ import java.util.Arrays;
 public final class AccountController {
 
     @Autowired
-    AccountService accountSharedService;
+    AccountSharedService accountSharedService;
 
     @Autowired
     FileManagedService fileManagedService;
@@ -126,10 +126,10 @@ public final class AccountController {
         if (result.hasErrors()) {
             return createForm();
         }
-        Account accountAndRolesRoles = beanMapper.map(form, Account.class);
-        accountAndRolesRoles.setRoles(Arrays.asList("USER"));
+        Account account = beanMapper.map(form, Account.class);
+        account.setRoles(Arrays.asList("USER"));
 
-        String password = accountSharedService.create(accountAndRolesRoles);
+        String password = accountSharedService.create(account);
         redirectAttributes.addFlashAttribute("firstName", form.getFirstName());
         redirectAttributes.addFlashAttribute("lastName", form.getLastName());
         redirectAttributes.addFlashAttribute("password", password);

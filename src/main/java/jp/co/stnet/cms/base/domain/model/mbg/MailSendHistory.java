@@ -65,6 +65,7 @@ public class MailSendHistory implements Serializable, KeyInterface<Long> {
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     private String createdBy;
 
     /**
@@ -76,6 +77,7 @@ public class MailSendHistory implements Serializable, KeyInterface<Long> {
      *
      * @mbg.generated
      */
+    @EqualsAndHashCode.Exclude
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdDate;
 

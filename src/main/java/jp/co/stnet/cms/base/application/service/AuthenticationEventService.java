@@ -18,6 +18,8 @@ package jp.co.stnet.cms.base.application.service;
 import jp.co.stnet.cms.base.domain.model.mbg.FailedAuthentication;
 import jp.co.stnet.cms.base.domain.model.mbg.SuccessfulAuthentication;
 
+import java.util.List;
+
 /**
  * AuthenticationEventSharedService
  */
@@ -27,13 +29,13 @@ public interface AuthenticationEventService {
      * @param username
      * @return
      */
-    SuccessfulAuthentication findLatestSuccessEvents(String username);
+    List<SuccessfulAuthentication> findLatestSuccessEvents(String username, int count);
 
     /**
      * @param username
      * @return
      */
-    FailedAuthentication findLatestFailureEvents(String username);
+    List<FailedAuthentication> findLatestFailureEvents(String username, int count);
 
     /**
      * @param username

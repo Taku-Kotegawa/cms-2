@@ -1,16 +1,13 @@
 package jp.co.stnet.cms.base.application.service;
 
 
-
 import jp.co.stnet.cms.base.application.repository.VariableRepository;
-import jp.co.stnet.cms.base.application.repository.interfaces.RepositoryInterface;
+import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
 import jp.co.stnet.cms.base.domain.model.mbg.Variable;
 import jp.co.stnet.cms.base.domain.model.mbg.VariableExample;
-import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +24,7 @@ public class VariableServiceImpl extends AbstractNodeService<Variable, VariableE
     VariableRepository variableRepository;
 
     @Override
-    protected RepositoryInterface<Variable, VariableExample, Long> repository() {
+    protected VersionRepositoryInterface<Variable, VariableExample, Long> repository() {
         return variableRepository;
     }
 
@@ -88,12 +85,7 @@ public class VariableServiceImpl extends AbstractNodeService<Variable, VariableE
     }
 
     @Override
-    public List<Variable> findAllById(List<Long> ids) {
-        return variableRepository.findAllById(ids);
-    }
-
-    @Override
-    public <S extends DataTablesInput> Page<Variable> findPageByInput(S input) {
+    public Page<Variable> findPageByInput(DataTablesInput input) {
         return null;
     }
 }
