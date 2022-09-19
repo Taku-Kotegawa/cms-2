@@ -5,8 +5,10 @@ import jp.co.stnet.cms.base.application.repository.AccountRepository;
 import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.TAccountExample;
+import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
@@ -81,5 +83,10 @@ public class AccountServiceImpl extends AbstractNodeService<Account, TAccountExa
     @Override
     public List<Account> findAllById(List<String> ids) {
         return repository.findAllById(ids);
+    }
+
+    @Override
+    public Page<Account> findPageByInput(DataTablesInput input) {
+        return repository.findPageByInput(input);
     }
 }

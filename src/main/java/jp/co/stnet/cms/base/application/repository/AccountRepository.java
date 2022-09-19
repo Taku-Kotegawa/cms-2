@@ -11,10 +11,11 @@ import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TAccountMapper;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TRoleMapper;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
+import jp.co.stnet.cms.common.datatables.DataTablesUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,12 +81,6 @@ public class AccountRepository extends AbstractComplexVersionRepository<TAccount
     }
 
     // -----------------------------------------------------------------------------------------------
-
-    public Page<Account> findByInput(DataTablesInput dataTablesInput, Pageable pageable) {
-        var totalCount = mapper().countByExample(null);
-        var entities = accountQueryMapper.findPage(dataTablesInput, pageable);
-        return new PageImpl<>(entities, pageable, totalCount);
-    }
 
     @Override
     public Optional<Account> findById(String id) {
@@ -173,6 +168,20 @@ public class AccountRepository extends AbstractComplexVersionRepository<TAccount
         var example = new TRoleExample();
         example.or().andUsernameIn(usernames);
         return tRoleMapper.deleteByExample(example);
+    }
+
+    /**
+     * DataTables用検索
+     *
+     * @param input DataTablesInput
+     * @return 検索結果
+     */
+    public Page<Account> findPageByInput(DataTablesInput input) {
+        input.setWhereClause(DataTablesUtil.getWhereClause(input, Account.class));
+        var totalCount = mapper().countByExample(null);
+        var pageable = PageRequest.of(input.getStart() / input.getLength(), input.getLength());
+        var entities = accountQueryMapper.findPageByInput(input, pageable);
+        return new PageImpl<>(entities, pageable, totalCount);
     }
 
 }

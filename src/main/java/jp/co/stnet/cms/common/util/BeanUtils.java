@@ -66,17 +66,26 @@ public class BeanUtils {
                     // 何もしない
 
                 } else if (COLLECTION_SET.contains(fieldClass.getName())) {
-                    String c = getClassFromSig(getSignature(m));
 
-                    if (PRIMITIVE_SET.contains(c)) {
-                        // 何もしない
+                    String c;
+                    try {
+                        var fields = clazz.getDeclaredFields();
+                        Field field = clazz.getDeclaredField(fieldName);
+                        c = getClassFromSig(field.getGenericType().getTypeName());
 
-                    } else {
-                        try {
-                            fieldsMap.putAll(getFields(Class.forName(c), fieldName));
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
+                        if (PRIMITIVE_SET.contains(c)) {
+                            // 何もしない
+
+                        } else {
+                            try {
+                                fieldsMap.putAll(getFields(Class.forName(c), fieldName));
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
+
+                    } catch (NoSuchFieldException e) {
+
                     }
 
                 } else {
@@ -144,23 +153,12 @@ public class BeanUtils {
 
     /**
      * シグネチャを取得する。
-     * https://stackoverflow.com/questions/45072268/how-can-i-get-the-signature-field-of-java-reflection-method-object
      *
      * @param m メソッド
      * @return シグネチャ
      */
     public static String getSignature(@NonNull Method m) {
-        String sig;
-        try {
-            Field gSig = Method.class.getDeclaredField("signature");
-            gSig.setAccessible(true);
-            sig = (String) gSig.get(m);
-            if (sig != null) return sig;
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return "";
-
+        return m.getGenericReturnType().getTypeName();
     }
 
     /**
@@ -170,9 +168,9 @@ public class BeanUtils {
      * @return クラス名
      */
     private static String getClassFromSig(String sig) {
-        int start = sig.indexOf("<L");
-        int end = sig.indexOf(";>");
-        return sig.substring(start + 2, end).replace("/", ".");
+        int start = sig.indexOf("<");
+        int end = sig.indexOf(">");
+        return sig.substring(start + 1, end).replace("/", ".");
     }
 
 }

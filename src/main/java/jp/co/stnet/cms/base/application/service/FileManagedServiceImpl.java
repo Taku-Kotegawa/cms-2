@@ -12,6 +12,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -311,6 +315,32 @@ public class FileManagedServiceImpl implements FileManagedService {
     public String escapeContent(String rawContent) {
         rawContent = rawContent.replaceAll("[ |　|\\n|\\r\\n|\\r|\t]+", " ");
         return escapeHtml4(rawContent);
+    }
+
+    /**
+     * @return ContentDisposition
+     */
+    public ContentDisposition getAttachmentContentDisposition(FileManaged fileManaged) {
+        var originalFilename = fileManaged.getOriginalFilename();
+        if (originalFilename != null) {
+            String encodedFilename = URLEncoder.encode(originalFilename, StandardCharsets.UTF_8).replace("+", "%20");
+            if (isOpenWindows(fileManaged)) {
+                return ContentDisposition.builder("filename=\"" + encodedFilename + "\"").build();
+            } else {
+                return ContentDisposition.builder("attachment;filename=\"" + originalFilename + "\";filename*=UTF-8'ja'" + encodedFilename).build();
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * ダウンロード時にタブで開くかファイル保存か
+     *
+     * @return true:タブで開く, false:ファイル保存
+     */
+    private boolean isOpenWindows(FileManaged fileManaged) {
+        return MediaType.APPLICATION_PDF_VALUE.equals(fileManaged.getFileMime());
     }
 
 }

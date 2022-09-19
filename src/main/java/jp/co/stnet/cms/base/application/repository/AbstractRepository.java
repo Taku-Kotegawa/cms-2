@@ -71,7 +71,9 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
 
     @Override
     public boolean existsById(I id) {
-        Objects.requireNonNull(id);
+        if (id == null) {
+            return false;
+        }
         return mapper().selectByPrimaryKey(id) != null;
     }
 
@@ -119,6 +121,7 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
         Objects.requireNonNull(example);
         mapper().deleteByExample(example);
     }
+
     @Override
     public void deleteAllById(List<I> ids) {
         Objects.requireNonNull(ids);

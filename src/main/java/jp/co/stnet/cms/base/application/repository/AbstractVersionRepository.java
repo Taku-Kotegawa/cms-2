@@ -21,8 +21,7 @@ public abstract class AbstractVersionRepository<T extends KeyInterface<ID> & Ver
     @Override
     public T save(T entity) {
         Objects.requireNonNull(entity);
-        getOne(entity.getId());
-        if (existsById(entity.getId())) {
+        if (!existsById(entity.getId())) {
             return register(entity);
         }
         int count = mapper().updateByPrimaryKeyAndVersion(entity);

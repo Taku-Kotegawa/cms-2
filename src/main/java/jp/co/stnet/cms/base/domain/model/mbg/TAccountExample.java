@@ -1147,6 +1147,76 @@ public class TAccountExample {
             return (Criteria) this;
         }
 
+        public Criteria andImageUuidIsNull() {
+            addCriterion("image_uuid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidIsNotNull() {
+            addCriterion("image_uuid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidEqualTo(String value) {
+            addCriterion("image_uuid =", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidNotEqualTo(String value) {
+            addCriterion("image_uuid <>", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidGreaterThan(String value) {
+            addCriterion("image_uuid >", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidGreaterThanOrEqualTo(String value) {
+            addCriterion("image_uuid >=", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidLessThan(String value) {
+            addCriterion("image_uuid <", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidLessThanOrEqualTo(String value) {
+            addCriterion("image_uuid <=", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidLike(String value) {
+            addCriterion("image_uuid like", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidNotLike(String value) {
+            addCriterion("image_uuid not like", value, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidIn(List<String> values) {
+            addCriterion("image_uuid in", values, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidNotIn(List<String> values) {
+            addCriterion("image_uuid not in", values, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidBetween(String value1, String value2) {
+            addCriterion("image_uuid between", value1, value2, "imageUuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidNotBetween(String value1, String value2) {
+            addCriterion("image_uuid not between", value1, value2, "imageUuid");
+            return (Criteria) this;
+        }
+
         public Criteria andAllowedIpIsNull() {
             addCriterion("allowed_ip is null");
             return (Criteria) this;
@@ -1339,6 +1409,11 @@ public class TAccountExample {
 
         public Criteria andProfileLikeInsensitive(String value) {
             addCriterion("upper(profile) like", value.toUpperCase(), "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUuidLikeInsensitive(String value) {
+            addCriterion("upper(image_uuid) like", value.toUpperCase(), "imageUuid");
             return (Criteria) this;
         }
 

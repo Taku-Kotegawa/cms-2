@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.stnet.cms.base.infrastructure.mapper.VariableQueryMapper">
+
+  <resultMap id="BaseResultMap" type="jp.co.stnet.cms.base.domain.model.mbg.Variable">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="value1" jdbcType="VARCHAR" property="value1" />
+    <result column="value2" jdbcType="VARCHAR" property="value2" />
+    <result column="value3" jdbcType="VARCHAR" property="value3" />
+    <result column="value4" jdbcType="VARCHAR" property="value4" />
+    <result column="value5" jdbcType="VARCHAR" property="value5" />
+    <result column="value6" jdbcType="VARCHAR" property="value6" />
+    <result column="value7" jdbcType="VARCHAR" property="value7" />
+    <result column="value8" jdbcType="VARCHAR" property="value8" />
+    <result column="value9" jdbcType="VARCHAR" property="value9" />
+    <result column="value10" jdbcType="VARCHAR" property="value10" />
+    <result column="date1" jdbcType="DATE" property="date1" />
+    <result column="date2" jdbcType="DATE" property="date2" />
+    <result column="date3" jdbcType="DATE" property="date3" />
+    <result column="date4" jdbcType="DATE" property="date4" />
+    <result column="date5" jdbcType="DATE" property="date5" />
+    <result column="valint1" jdbcType="INTEGER" property="valint1" />
+    <result column="valint2" jdbcType="INTEGER" property="valint2" />
+    <result column="valint3" jdbcType="INTEGER" property="valint3" />
+    <result column="valint4" jdbcType="INTEGER" property="valint4" />
+    <result column="valint5" jdbcType="INTEGER" property="valint5" />
+    <result column="file1_uuid" jdbcType="VARCHAR" property="file1Uuid" />
+    <result column="textarea" jdbcType="VARCHAR" property="textarea" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <select id="findPageByInput" resultMap="BaseResultMap">
+      SELECT
+       *
+      FROM
+      t_variable
+      <if test="dataTablesInput.whereClause != null">
+        ${dataTablesInput.whereClause}
+      </if>
+      <if test="dataTablesInput.orderByClause != null">
+        order by ${dataTablesInput.orderByClause}
+      </if>
+      LIMIT #{pageable.pageSize}
+      OFFSET #{pageable.offset}
+  </select>
+
+</mapper>

@@ -3,15 +3,19 @@ package jp.co.stnet.cms.base.application.service;
 
 import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
 import jp.co.stnet.cms.base.domain.enums.Status;
+import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.KeyInterface;
 import jp.co.stnet.cms.base.domain.model.StatusInterface;
 import jp.co.stnet.cms.base.domain.model.VersionInterface;
+import jp.co.stnet.cms.common.datatables.Column;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import jp.co.stnet.cms.common.exception.DataIntegrityViolationBusinessException;
 import jp.co.stnet.cms.common.exception.IllegalStateBusinessException;
 import jp.co.stnet.cms.common.exception.OptimisticLockingFailureBusinessException;
 import jp.co.stnet.cms.common.message.MessageKeys;
+import jp.co.stnet.cms.common.util.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -19,8 +23,10 @@ import org.springframework.data.domain.Page;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -142,12 +148,6 @@ public abstract class AbstractNodeService<T extends KeyInterface<I> & VersionInt
     @Override
     public void delete(Iterable<T> entities) {
         repository().deleteAll((List<T>) entities);
-    }
-
-    @Override
-    public Page<T> findPageByInput(DataTablesInput input) {
-        // TODO 要開発
-        return null;
     }
 
     @Override

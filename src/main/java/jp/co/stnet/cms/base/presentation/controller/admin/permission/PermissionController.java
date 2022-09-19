@@ -51,8 +51,6 @@ public class PermissionController {
     @PostMapping(value = "list")
     public String save(Model model, PermissionForm form, @AuthenticationPrincipal LoggedInUser loggedInUser) {
 
-        permissionService.deleteAll();
-
         permissionService.saveAll(form.getPermissionRoles());
 
         form.setPermissionRoles(permissionService.findAllMap());

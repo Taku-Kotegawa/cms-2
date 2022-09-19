@@ -86,6 +86,6 @@ public class VariableServiceImpl extends AbstractNodeService<Variable, VariableE
 
     @Override
     public Page<Variable> findPageByInput(DataTablesInput input) {
-        return null;
+        return variableRepository.findPageByInput(input);
     }
 }

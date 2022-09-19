@@ -76,7 +76,7 @@ public class PasswordHistoryRepository extends AbstractRepository<PasswordHistor
     public List<PasswordHistory> findLatest(String username) {
         var example = new PasswordHistoryExample();
         example.or().andUsernameEqualTo(username);
-        example.setOrderByClause("useFrom DESC");
+        example.setOrderByClause("use_from DESC");
         var rowBounds = new RowBounds(0, 1);
         return mapper.selectByExampleWithRowbounds(example, rowBounds);
     }

@@ -23,14 +23,14 @@ public class HelloController {
      * @return
      */
     @GetMapping
-    public String hello(Model model) {
+    public String top(Model model) {
 
         List<Variable> variableList = newsService.findOpenNews();
 
         //modelに属性を登録する
         model.addAttribute("variableList",variableList);
 
-        return "hello";
+        return "top";
     }
 
 }

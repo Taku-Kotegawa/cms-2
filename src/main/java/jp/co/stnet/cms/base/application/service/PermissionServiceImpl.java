@@ -47,6 +47,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<PermissionRole> saveAll(Map<String, Map<String, Boolean>> map) {
+        deleteAll();
         List<PermissionRole> list = mapToList(map);
         return permissionRoleRepository.saveAll(list);
     }
@@ -78,8 +79,8 @@ public class PermissionServiceImpl implements PermissionService {
      */
     private boolean existPermissionRole(List<PermissionRole> permissionRoleList, Permission permission, Role role) {
         for (PermissionRole permissionRole : permissionRoleList) {
-            if (Objects.equals(permissionRole.getPermission(), permission)
-                    && Objects.equals(permissionRole.getRole(), role)) {
+            if (Objects.equals(permissionRole.getPermission(), permission.getCodeValue())
+                    && Objects.equals(permissionRole.getRole(), role.getCodeValue())) {
                 return true;
             }
         }

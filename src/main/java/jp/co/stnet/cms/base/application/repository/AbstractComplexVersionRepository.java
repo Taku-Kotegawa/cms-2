@@ -46,8 +46,6 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
 
     /**
      * deleteAll()メインテーブル削除時の前処理
-     *
-     *
      */
     protected abstract void beforeDeleteAll();
 

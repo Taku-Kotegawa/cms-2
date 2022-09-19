@@ -76,20 +76,20 @@ public class AdminAccountListController {
         Page<Account> accountPage = accountService.findPageByInput(input);
 
         // Welcomeメールの最新の送信履歴を取得
-        List<MailSendHistory> mailSendHistories = mailSendService.getNewest();
-
+//        List<MailSendHistory> mailSendHistories = mailSendService.getNewest();
+//
         for (Account account : accountPage.getContent()) {
             AccountListBean accountListBean = modelMapper.map(account, AccountListBean.class);
             accountListBean.setOperations(getToggleButton(account.getUsername(), op));
             accountListBean.setDT_RowId(account.getUsername());
-
-            // ステータスラベル
+//
+//            // ステータスラベル
             String statusLabel = account.getStatus().equals(Status.VALID.getCodeValue()) ? Status.VALID.getCodeLabel() : Status.INVALID.getCodeLabel();
             if (accountSharedService.isLocked(account.getUsername())) statusLabel = statusLabel + "(ロック)";
             accountListBean.setStatusLabel(statusLabel);
-
-            accountListBean.setWelcomeMailSendDate(getWelcomeMailSendDate(mailSendHistories, accountListBean.getUsername()));
-
+//
+//            accountListBean.setWelcomeMailSendDate(getWelcomeMailSendDate(mailSendHistories, accountListBean.getUsername()));
+//
             list.add(accountListBean);
         }
 

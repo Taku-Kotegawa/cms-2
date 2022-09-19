@@ -24,26 +24,7 @@
     </collection>
   </resultMap>
 
-  <sql id="Example_Where_Clause">
-    <where>
-      <if test="dataTablesInput.search != null and dataTablesInput.search.value != null">
-        AND ( 1 = 2
-        <foreach collection="dataTablesInput.columns" item="column">
-          <if test="column.searchable == true">
-            OR ${column.dbname} LIKE '%' || #{dataTablesInput.search.value} || '%'
-          </if>
-        </foreach>
-        )
-      </if>
-      <foreach collection="dataTablesInput.columns" item="column">
-        <if test="column.searchable == true and column.search.value != null">
-          AND ${column.dbname} LIKE '%' || #{column.search.value} || '%'
-        </if>
-      </foreach>
-    </where>
-  </sql>
-
-  <select id="findPage" resultMap="BaseResultMap">
+  <select id="findPageByInput" resultMap="BaseResultMap">
     select
       ta.*,
       tr.role
@@ -52,9 +33,9 @@
       SELECT
        *
       FROM
-      t_account
-      <if test="_parameter != null">
-        <include refid="Example_Where_Clause"/>
+      t_account c
+      <if test="dataTablesInput.whereClause != null">
+        ${dataTablesInput.whereClause}
       </if>
       <if test="dataTablesInput.orderByClause != null">
         order by ${dataTablesInput.orderByClause}

@@ -70,6 +70,12 @@ public class DataTablesInput {
      */
     private String orderByClause;
 
+
+    /**
+     * Where句を保存
+     */
+    private String whereClause;
+
     /**
      * @return a {@link Map} of {@link Column} indexed by name
      */
@@ -141,6 +147,7 @@ public class DataTablesInput {
      * @return OrderBy区
      */
     public String getOrderByClause() {
+
         if (true) { return null; }
 
         List<String> orderClause = new ArrayList<>();

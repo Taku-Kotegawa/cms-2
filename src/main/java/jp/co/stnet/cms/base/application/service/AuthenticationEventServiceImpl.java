@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -31,17 +32,13 @@ public class AuthenticationEventServiceImpl implements AuthenticationEventServic
     public List<SuccessfulAuthentication> findLatestSuccessEvents(String username, int count) {
         var example = new SuccessfulAuthenticationExample();
         example.or().andUsernameEqualTo(username);
-        example.setOrderByClause("authenticationTimestamp DESC");
+        example.setOrderByClause("authentication_timestamp DESC");
 
         var rowBounds = new RowBounds(0, count);
 
         var result = successfulAuthenticationRepository
                 .findAllByExampleWithRowBounds(example, rowBounds);
-        if (result.isEmpty()) {
-            return null;
-        } else {
-            return result.getContent();
-        }
+        return result.getContent();
     }
 
     @Transactional(readOnly = true)
@@ -49,16 +46,11 @@ public class AuthenticationEventServiceImpl implements AuthenticationEventServic
     public List<FailedAuthentication> findLatestFailureEvents(String username, int count) {
         var example = new FailedAuthenticationExample();
         example.or().andUsernameEqualTo(username);
-        example.setOrderByClause("authenticationTimestamp DESC");
+        example.setOrderByClause("authentication_timestamp DESC");
 
         var rowBounds = new RowBounds(0, count);
         var result = failedAuthenticationRepository.findAllByExampleWithRowBounds(example, rowBounds);
-
-        if (result.isEmpty()) {
-            return null;
-        } else {
-            return result.getContent();
-        }
+        return result.getContent();
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

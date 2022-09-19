@@ -108,12 +108,12 @@ public class AdminAccountCreateController {
             return createForm(form, model, loggedInUser, null);
         }
 
-        Account accountAndRoles = modelMapper.map(form, Account.class);
-        accountAndRoles.setStatus(Status.VALID.getCodeValue());
-        accountAndRoles.setPassword(passwordEncoder.encode(form.getPassword()));
+        Account account = modelMapper.map(form, Account.class);
+        account.setStatus(Status.VALID.getCodeValue());
+        account.setPassword(passwordEncoder.encode(form.getPassword()));
 
         try {
-            accountService.save(accountAndRoles);
+            accountService.save(account);
         } catch (BusinessException e) {
             model.addAttribute(e.getResultMessages());
             return createForm(form, model, loggedInUser, null);
@@ -123,6 +123,6 @@ public class AdminAccountCreateController {
         redirect.addFlashAttribute(messages);
 
         OperationsUtil op = new OperationsUtil(BASE_PATH);
-        return "redirect:" + op.getEditUrl(accountAndRoles.getUsername());
+        return "redirect:" + op.getEditUrl(account.getUsername());
     }
 }

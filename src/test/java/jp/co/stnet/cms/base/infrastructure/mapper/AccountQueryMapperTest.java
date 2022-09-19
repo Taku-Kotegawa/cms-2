@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,11 +26,12 @@ class AccountQueryMapperTest {
 
     @Test
     void findPage() {
-
         var dataTablesInput = new DataTablesInput();
-        var pageable = PageRequest.of(0, 20);
-
-        var actual = target.findPage(dataTablesInput, pageable);
+        var pageable = PageRequest.of(1, 3);
+        var actual = target.findPageByInput(dataTablesInput, pageable);
         System.out.println(actual);
+        assertThat(actual).size().isEqualTo(3);
+        assertThat(actual.get(0).getUsername()).isEqualTo("0400000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+        assertThat(actual.get(0).getRoles()).size().isEqualTo(10);
     }
 }

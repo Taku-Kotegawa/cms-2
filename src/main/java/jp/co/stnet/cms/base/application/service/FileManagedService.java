@@ -2,6 +2,7 @@ package jp.co.stnet.cms.base.application.service;
 
 
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
+import org.springframework.http.ContentDisposition;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -132,5 +133,13 @@ public interface FileManagedService {
      */
     String escapeContent(String rawContent);
 
+
+    /**
+     * ContentDisposition を取得する
+     *
+     * @param fileManaged FileManaged
+     * @return ContentDisposition
+     */
+    ContentDisposition getAttachmentContentDisposition(FileManaged fileManaged);
 
 }

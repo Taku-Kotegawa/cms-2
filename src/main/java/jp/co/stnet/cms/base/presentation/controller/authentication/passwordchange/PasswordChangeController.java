@@ -42,9 +42,9 @@ public class PasswordChangeController {
                          @Validated PasswordChangeForm form,
                          BindingResult bindingResult, Model model) {
 
-        Account accountAndRoles = userDetails.getAccount();
-        if (bindingResult.hasErrors() || !accountAndRoles.getUsername().equals(form.getUsername())) {
-            model.addAttribute("account", accountAndRoles);
+        Account account = userDetails.getAccount();
+        if (bindingResult.hasErrors() || !account.getUsername().equals(form.getUsername())) {
+            model.addAttribute("account", account);
 
             return "passwordchange/changeForm";
         }

@@ -5,7 +5,6 @@ import jp.co.stnet.cms.common.authentication.ApiPreAuthenticatedProcessingFilter
 import jp.co.stnet.cms.common.authentication.FormLoginDaoAuthenticationProvider;
 import jp.co.stnet.cms.common.authentication.FormLoginUsernamePasswordAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
@@ -18,21 +17,25 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+import org.springframework.security.web.authentication.session.*;
 import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.csrf.CsrfAuthenticationStrategy;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
@@ -42,6 +45,7 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final SessionRegistry sessionRegistry;
 
     /**
      * API(/api/**)のセキュリティ設定
@@ -110,7 +114,7 @@ public class SecurityConfig {
 
                 // 管理者のみアクセス可
                 .antMatchers("/unlock/**").hasAnyRole("ADMIN")
-                .antMatchers("/admin/impersonate/**").hasAnyRole("ADMIN")
+//                .antMatchers("/admin/**").hasAnyRole("ADMIN")
 
                 // デフォルトでは認証が必要
                 .anyRequest()
@@ -130,8 +134,16 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
 
+//        http
+//                .sessionManagement(session -> session
+//                        .maximumSessions(1)
+//                        .maxSessionsPreventsLogin(true)
+//                        .sessionRegistry(sessionRegistry)
+//                );
+
         return http.build();
     }
+
 
     /**
      * ログイン画面のカスタマイズ
@@ -150,8 +162,33 @@ public class SecurityConfig {
     private Filter formLoginUsernamePasswordAuthenticationFilter() throws Exception {
         var filter = new FormLoginUsernamePasswordAuthenticationFilter();
         filter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
+
+        // ログイン失敗時遷移先
         filter.setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error=true"));
+
+        // ログイン前のリクエスト(URL)を保持し、ログイン成功後に要求されたURLに遷移する
+        filter.setAuthenticationSuccessHandler(new SavedRequestAwareAuthenticationSuccessHandler());
+
+        filter.setSessionAuthenticationStrategy(new CompositeSessionAuthenticationStrategy(strategies()));
+
         return filter;
+    }
+
+    private List<SessionAuthenticationStrategy> strategies(){
+        List<SessionAuthenticationStrategy> strategies = new ArrayList<>();
+        strategies.add(new CsrfAuthenticationStrategy(new HttpSessionCsrfTokenRepository()));
+        strategies.add(new SessionFixationProtectionStrategy());
+        strategies.add(concurrentSessionControlAuthenticationStrategy());
+        strategies.add(new RegisterSessionAuthenticationStrategy((sessionRegistry)));
+        return strategies;
+    }
+
+    private ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy() {
+        ConcurrentSessionControlAuthenticationStrategy sessionControlAuthenticationStrategy
+                = new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry);
+        sessionControlAuthenticationStrategy.setMaximumSessions(1);
+        sessionControlAuthenticationStrategy.setExceptionIfMaximumExceeded(false);
+        return sessionControlAuthenticationStrategy;
     }
 
     /**
@@ -176,21 +213,5 @@ public class SecurityConfig {
 //        filter.afterPropertiesSet();
         return filter;
     }
-
-    /**
-     * ログイン中ユーザ一覧のための設定
-     */
-    @Bean
-    public ServletListenerRegistrationBean httpSessionEventPublisher() {
-        return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
-    }
-
-
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-    }
-
-
 
 }

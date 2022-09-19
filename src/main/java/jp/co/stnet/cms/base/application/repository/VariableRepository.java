@@ -1,11 +1,18 @@
 package jp.co.stnet.cms.base.application.repository;
 
 import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
+import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.Variable;
 import jp.co.stnet.cms.base.domain.model.mbg.VariableExample;
+import jp.co.stnet.cms.base.infrastructure.mapper.VariableQueryMapper;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.VariableMapper;
+import jp.co.stnet.cms.common.datatables.DataTablesInput;
+import jp.co.stnet.cms.common.datatables.DataTablesUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +26,7 @@ public class VariableRepository extends AbstractVersionRepository<Variable, Vari
         implements VersionRepositoryInterface<Variable, VariableExample, Long> {
 
     private final VariableMapper mapper;
+    private final VariableQueryMapper variableQueryMapper;
 
     @Override
     VersionMapperInterface<Variable, VariableExample, Long> mapper() {
@@ -124,4 +132,19 @@ public class VariableRepository extends AbstractVersionRepository<Variable, Vari
                 .andTypeEqualTo(type);
         return mapper().selectByExample(example);
     }
+
+    /**
+     * DataTables用検索
+     *
+     * @param input DataTablesInput
+     * @return 検索結果
+     */
+    public Page<Variable> findPageByInput(DataTablesInput input) {
+        input.setWhereClause(DataTablesUtil.getWhereClause(input, Variable.class));
+        var totalCount = mapper().countByExample(null);
+        var pageable = PageRequest.of(input.getStart() / input.getLength(), input.getLength());
+        var entities = variableQueryMapper.findPageByInput(input, pageable);
+        return new PageImpl<>(entities, pageable, totalCount);
+    }
+
 }

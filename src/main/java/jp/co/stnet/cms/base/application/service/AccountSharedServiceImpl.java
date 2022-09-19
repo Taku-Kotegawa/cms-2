@@ -52,9 +52,6 @@ import static jp.co.stnet.cms.common.message.MessageKeys.E_SL_FW_5001;
 public class AccountSharedServiceImpl implements AccountSharedService {
 
     @Autowired
-    ModelMapper beanMapper;
-
-    @Autowired
     AccountRepository accountRepository;
 
     @Autowired

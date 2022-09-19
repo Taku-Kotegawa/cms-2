@@ -7,9 +7,9 @@ function file_detach(element_id) {
   var $upload_file = document.getElementById(element_id);
   $upload_file.style.display = "";
   $upload_file.value = "";
-  var attaced_block = document.getElementById(element_id + "__attached-block");
-  while (attaced_block.firstChild) {
-    attaced_block.removeChild(attaced_block.firstChild);
+  var attached_block = document.getElementById(element_id + "__attached-block");
+  while (attached_block.firstChild) {
+    attached_block.removeChild(attached_block.firstChild);
   }
   // $.ajax({
   //   type: "GET",
