@@ -290,6 +290,8 @@
     update t_workflow
     set id = #{row.id,jdbcType=BIGINT},
       version = version + 1,
+    created_by = created_by,
+    created_date = created_date,
       last_modified_by = #{row.lastModifiedBy,jdbcType=VARCHAR},
       last_modified_date = #{row.lastModifiedDate,jdbcType=TIMESTAMP},
       employee_id = #{row.employeeId,jdbcType=BIGINT},
@@ -346,6 +348,8 @@
     -->
     update t_workflow
     set version = version + 1,
+    created_by = created_by,
+    created_date = created_date,
       last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
       last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
       employee_id = #{employeeId,jdbcType=BIGINT},
@@ -419,6 +423,8 @@
     -->
     update t_workflow
     set version = version + 1,
+    created_by = created_by,
+    created_date = created_date,
       last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
       last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
       employee_id = #{employeeId,jdbcType=BIGINT},

@@ -506,6 +506,8 @@
     update t_variable
     set id = #{row.id,jdbcType=BIGINT},
       version = version + 1,
+    created_by = created_by,
+    created_date = created_date,
       last_modified_by = #{row.lastModifiedBy,jdbcType=VARCHAR},
       last_modified_date = #{row.lastModifiedDate,jdbcType=TIMESTAMP},
       status = #{row.status,jdbcType=VARCHAR},
@@ -642,6 +644,8 @@
     -->
     update t_variable
     set version = version + 1,
+    created_by = created_by,
+    created_date = created_date,
       last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
       last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
@@ -795,6 +799,8 @@
     -->
     update t_variable
     set version = version + 1,
+    created_by = created_by,
+    created_date = created_date,
       last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
       last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},

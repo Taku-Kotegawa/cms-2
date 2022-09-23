@@ -3,13 +3,14 @@ package jp.co.stnet.cms.base.application.service;
 
 import jp.co.stnet.cms.base.application.repository.FileManagedRepository;
 import jp.co.stnet.cms.base.domain.enums.FileStatus;
+import jp.co.stnet.cms.base.domain.enums.FileType;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
-import jp.co.stnet.cms.common.datetime.DateTimeFactory;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.MimeTypes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.tika.Tika;
+import org.apache.tika.exception.TikaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ContentDisposition;
@@ -20,10 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -31,6 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
@@ -43,18 +42,12 @@ public class FileManagedServiceImpl implements FileManagedService {
     @Autowired
     FileManagedRepository fileManagedRepository;
 
-    @Autowired
-    DateTimeFactory dateTimeFactory;
-
     @Value("${file.store.basedir}")
     String fileStoreBasedir;
 
-    @Value("${file.store.default_file_type}")
-    String fileStoreDefaultFileType;
-
     @Override
     @Transactional(readOnly = true)
-    public byte[] getFile(Long id) {
+    public byte[] getFile(String id) {
         String filePath = fileStoreBasedir + findById(id).getUri();
         try {
             return Files.readAllBytes(Paths.get(filePath));
@@ -63,162 +56,120 @@ public class FileManagedServiceImpl implements FileManagedService {
         }
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public byte[] getFile(String uuid) {
-//        return getFile(findByUuid(uuid).getId());
-//    }
-
-    @Override
     @Transactional(readOnly = true)
-    public FileManaged findById(Long id) {
+    public FileManaged findById(String id) {
         return fileManagedRepository.findById(id).orElse(null);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public FileManaged findByUuid(String uuid) {
-        return fileManagedRepository.findByUuid(uuid).orElse(null);
-    }
-
-    @Override
-    public FileManaged store(MultipartFile file, String fileType) throws IOException {
+    public FileManaged store(MultipartFile file, FileType fileType) throws IOException {
 
         if (file == null) {
             throw new IllegalArgumentException("file must not be null");
         }
 
-        if (StringUtils.isEmpty(fileType)) {
-            fileType = fileStoreDefaultFileType;
+        if (fileType == null) {
+            fileType = FileType.DEFAULT;
         }
 
-        String uuid = UUID.randomUUID().toString();
+        var uuid = UUID.randomUUID().toString();
+        var storeDir = getStoreDir(uuid, fileType);
+        var storeFilePath = getStoreFilePath(uuid, storeDir);
+        var mimeType = MimeTypes.getMimeType(FilenameUtils.getExtension(file.getOriginalFilename()));
 
-        String storeDir = fileStoreBasedir
-                + File.separator + fileType
-                + File.separator + uuid.charAt(0);
-
-        String storeFilePath = storeDir + File.separator + uuid;
-
+        // 保存先ディレクトリ作成
         Files.createDirectories(Path.of(storeDir));
 
-        File storeFile = new File(storeFilePath);
-        String mimeType = MimeTypes.getMimeType(FilenameUtils.getExtension(file.getOriginalFilename()));
+        // ファイルを保存
+        storeMultiPartFile(file, storeFilePath);
 
-        try (BufferedOutputStream fileStream = new BufferedOutputStream(new FileOutputStream(storeFile))) {
-            fileStream.write(file.getBytes());
-        }
-
+        // FileManagedの登録
         FileManaged fileManaged = FileManaged.builder()
                 .uuid(uuid)
-                .fileType(fileType)
+                .fileType(fileType.name())
                 .originalFilename(file.getOriginalFilename())
                 .fileMime(mimeType)
                 .fileSize(file.getSize())
                 .status(FileStatus.TEMPORARY.getCodeValue())
                 .uri(storeFilePath.substring(fileStoreBasedir.length()).replace('\\', '/'))
                 .build();
-
-        // コマンドランチャーから実行した場合に、セットされない問題を回避する
-        // Webからの登録の場合は、@EntityListeners(AuditingEntityListener.class) により自動設定される
-        fileManaged.setCreatedBy("JOB_USER");
-        fileManaged.setLastModifiedBy("JOB_USER");
-        fileManaged.setCreatedDate(dateTimeFactory.getNow());
-        fileManaged.setLastModifiedDate(dateTimeFactory.getNow());
-
         return fileManagedRepository.register(fileManaged);
 
     }
 
-//    @Override
-//    public FileManaged store(File file, String fileType) throws IOException {
-//
-//        if (file == null) {
-//            throw new IllegalArgumentException("file must not be null");
-//        }
-//
-//        if (StringUtils.isEmpty(fileType)) {
-//            fileType = DEFAULT_FILE_TYPE;
-//        }
-//
-//        String uuid = UUID.randomUUID().toString();
-//
-//        String storeDir = STORE_BASEDIR
-//                + File.separator + fileType
-//                + File.separator + uuid.charAt(0);
-//
-//        String storeFilePath = storeDir + File.separator + uuid;
-//
-//        mkdirs(storeDir);
-//
-//        File storeFile = new File(storeFilePath);
-//        String mimeType = "";
-//        mimeType = MimeTypes.getMimeType(FilenameUtils.getExtension(file.getName()));
-//
-//        try {
-//            //file.renameTo(storeFile);
-//            FileInputStream fileStreamIN = new FileInputStream(file);
-//            BufferedOutputStream fileStream =
-//                    new BufferedOutputStream(new FileOutputStream(storeFile));
-//            byte[] bytes = new byte[256];
-//            int len;
-//            while ((len = fileStreamIN.read(bytes)) != -1) {
-//                fileStream.write(bytes);
-//            }
-//
-//            fileStreamIN.close();
-//            fileStream.close();
-//
-//            FileManaged fileManaged = FileManaged.builder()
-//                    .uuid(uuid)
-//                    .fileType(fileType)
-//                    .originalFilename(file.getName())
-//                    .fileMime(mimeType)
-//                    .fileSize(file.length())
-//                    .status(FileStatus.TEMPORARY.getCodeValue())
-//                    .uri(storeFilePath.substring(STORE_BASEDIR.length()).replace('\\', '/'))
-//                    .build();
-//
-//            // コマンドランチャーから実行した場合に、セットされない問題を回避する
-//            // Webからの登録の場合は、@EntityListeners(AuditingEntityListener.class) により自動設定される
-//            fileManaged.setCreatedBy("JOB_USER");
-//            fileManaged.setLastModifiedBy("JOB_USER");
-//            fileManaged.setCreatedDate(dateFactory.newLocalDateTime());
-//            fileManaged.setLastModifiedDate(dateFactory.newLocalDateTime());
-//
-//            return fileManagedRepository.save(fileManaged);
-//
-//        } catch (IOException e) {
-//            // 異常終了時の処理
-//            throw e;
-//        }
-//
-//    }
-
     @Override
-    public void permanent(String uuid) {
-        FileManaged file = fileManagedRepository.findByUuidAndStatus(uuid, FileStatus.TEMPORARY.getCodeValue()).orElse(null);
-        if (file != null) {
-            file.setStatus(FileStatus.PERMANENT.getCodeValue());
-            fileManagedRepository.save(file);
+    public FileManaged store(Path path, FileType fileType) throws IOException {
+
+        if (path == null) {
+            throw new IllegalArgumentException("path must not be null");
+        }
+
+        if (fileType == null) {
+            fileType = FileType.DEFAULT;
+        }
+
+        var uuid = UUID.randomUUID().toString();
+        var storeDir = getStoreDir(uuid, fileType);
+        var storeFilePath = getStoreFilePath(uuid, storeDir);
+        var mimeType = MimeTypes.getMimeType(FilenameUtils.getExtension(path.getFileName().toString()));
+
+        // 保存先ディレクトリ作成
+        Files.createDirectories(Path.of(storeDir));
+
+        // ファイルを保存
+        Files.copy(path, new File(storeFilePath).toPath());
+
+        // FileManagedの登録
+        FileManaged fileManaged = FileManaged.builder()
+                .uuid(uuid)
+                .fileType(fileType.name())
+                .originalFilename(path.getFileName().toString())
+                .fileMime(mimeType)
+                .fileSize(Files.size(path))
+                .status(FileStatus.TEMPORARY.getCodeValue())
+                .uri(storeFilePath.substring(fileStoreBasedir.length()).replace('\\', '/'))
+                .build();
+        return fileManagedRepository.register(fileManaged);
+    }
+
+    // MultiPartFileを保存する
+    private void storeMultiPartFile(MultipartFile file, String storeFilePath) throws IOException {
+        var storeFile = new File(storeFilePath);
+        try (BufferedOutputStream fileStream = new BufferedOutputStream(new FileOutputStream(storeFile))) {
+            fileStream.write(file.getBytes());
         }
     }
 
+
+    private String getStoreDir(String uuid, FileType fileType) {
+        if (fileType == null) {
+            fileType = FileType.DEFAULT;
+        }
+        return fileStoreBasedir
+                + File.separator + fileType
+                + File.separator + uuid.charAt(0);
+    }
+
+    private String getStoreFilePath(String uuid, String storeDir) {
+        return storeDir + File.separator + uuid;
+    }
+
+
     @Override
-    public void delete(Long id) {
-        FileManaged fileManaged = fileManagedRepository.findById(id).orElse(null);
+    public FileManaged permanent(String id) {
+        var fileManaged = fileManagedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("id = " + id));
+        fileManaged.setStatus(FileStatus.PERMANENT.getCodeValue());
+        return fileManagedRepository.save(fileManaged);
+    }
+
+    @Override
+    public void delete(String id) {
+        var fileManaged = fileManagedRepository.findById(id).orElse(null);
         if (fileManaged != null) {
             // 物理ファイル削除
             deleteFile(fileManaged.getUri());
-        }
-        fileManagedRepository.deleteById(id);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        FileManaged file = fileManagedRepository.findByUuid(uuid).orElse(null);
-        if (file != null) {
-            delete(file.getId());
+            fileManagedRepository.deleteById(id);
         }
     }
 
@@ -239,64 +190,25 @@ public class FileManagedServiceImpl implements FileManagedService {
         return fileStoreBasedir + "/";
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public String getContent(String uuid) throws IOException, TikaException {
-//        Tika tika = new Tika();
-//        tika.setMaxStringLength(1000 * 1000); // 1M
-//        return tika.parseToString(new FileInputStream(new File(fileStoreBasedir + findByUuid(uuid).getUri())));
-//    }
-
     @Override
     @Transactional(readOnly = true)
-    public String getContent(String uuid) throws IOException {
-        return null;
+    public String getContent(String id) throws IOException, TikaException {
+        Tika tika = new Tika();
+        tika.setMaxStringLength(1000 * 1000); // 1M
+        return tika.parseToString(new FileInputStream(new File(getFileStoreBaseDir() + findById(id).getUri())));
     }
 
     @Override
-    public FileManaged copyFile(String sourceUuid) throws IOException {
-        FileManaged fileManaged = fileManagedRepository.findByUuid(sourceUuid).orElse(null);
-
-        if (fileManaged == null) {
-            throw new IllegalArgumentException("file must not be null");
+    public FileManaged copy(String sourceUuid) throws IOException {
+        var fileManaged = fileManagedRepository.findById(sourceUuid)
+                .orElseThrow(() -> new IllegalArgumentException("id = " + sourceUuid));
+        Path path = Path.of(fileManaged.getUri());
+        var newFileManaged = store(path, FileType.valueOf(fileManaged.getFileType()));
+        if (!fileManaged.getStatus().equals(newFileManaged.getStatus())) {
+            newFileManaged.setStatus(fileManaged.getStatus());
+            newFileManaged = fileManagedRepository.save(newFileManaged);
         }
-
-        String uuid = UUID.randomUUID().toString();
-        String storeDir = fileStoreBasedir
-                + File.separator + fileManaged.getFileType()
-                + File.separator + uuid.charAt(0);
-
-        String storeFilePath = storeDir + File.separator + uuid;
-
-
-        Files.createDirectories(Path.of(storeDir));
-
-        String sourceDir = fileStoreBasedir
-                + File.separator + fileManaged.getFileType()
-                + File.separator + sourceUuid.charAt(0);
-
-        String sourceFilePath = sourceDir + File.separator + sourceUuid;
-
-        try {
-            Path sourcePath = Paths.get(sourceFilePath);
-            Path storePath = Paths.get(storeFilePath);
-            Files.copy(sourcePath, storePath);
-        } catch (IOException e) {
-            // 異常終了時の処理
-            throw e;
-        }
-
-        return fileManagedRepository.save(
-                FileManaged.builder()
-                        .uuid(uuid)
-                        .fileType(fileManaged.getFileType())
-                        .originalFilename(fileManaged.getOriginalFilename())
-                        .fileMime(fileManaged.getFileMime())
-                        .fileSize(fileManaged.getFileSize())
-                        .status(FileStatus.TEMPORARY.getCodeValue())
-                        .uri(storeFilePath.substring(fileStoreBasedir.length()).replace('\\', '/'))
-                        .build());
-
+        return newFileManaged;
     }
 
     @Override
@@ -317,10 +229,10 @@ public class FileManagedServiceImpl implements FileManagedService {
         return escapeHtml4(rawContent);
     }
 
-    /**
-     * @return ContentDisposition
-     */
+
+    @Override
     public ContentDisposition getAttachmentContentDisposition(FileManaged fileManaged) {
+        Objects.requireNonNull(fileManaged);
         var originalFilename = fileManaged.getOriginalFilename();
         if (originalFilename != null) {
             String encodedFilename = URLEncoder.encode(originalFilename, StandardCharsets.UTF_8).replace("+", "%20");

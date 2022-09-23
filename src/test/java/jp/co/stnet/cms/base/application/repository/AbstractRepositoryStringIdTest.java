@@ -1,123 +1,48 @@
 package jp.co.stnet.cms.base.application.repository;
 
-import jp.co.stnet.cms.base.domain.enums.Status;
-import jp.co.stnet.cms.base.domain.model.Account;
-import jp.co.stnet.cms.base.domain.model.mbg.TAccountExample;
-import jp.co.stnet.cms.base.domain.model.mbg.TRole;
-import jp.co.stnet.cms.base.domain.model.mbg.TRoleExample;
-import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TAccountMapper;
-import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TRoleMapper;
+import jp.co.stnet.cms.base.domain.model.KeyInterface;
+import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
 import org.apache.ibatis.session.RowBounds;
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.OptimisticLockingFailureException;
-import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
-public class AccountRepositoryTest {
+public abstract class AbstractRepositoryStringIdTest<T extends KeyInterface<I>, E, I> {
 
-    @Autowired
-    AccountRepository target;
+    Class<E> eClazz;
 
-    @Autowired
-    TAccountMapper accountMapper;
+    abstract AbstractRepository<T, E, I> target();
 
-    @Autowired
-    TRoleMapper roleMapper;
+    abstract MapperInterface<T, E, I> mapper();
 
-    @BeforeEach
-    void setUp() {
-    }
+    abstract T createEntity(String id);
 
-    @AfterEach
-    void tearDown() {
-    }
-
-    private void insertIntoDatabase(Account... accounts) {
-        for (Account account : accounts) {
-            accountMapper.insert(account);
-            for (String role : account.getRoles()) {
-                TRole tRole = new TRole();
-                tRole.setUsername(account.getUsername());
-                tRole.setRole(role);
-                tRole.setDummy("X");
-                roleMapper.insert(tRole);
-            }
+    protected void insertIntoDatabase(T... entities) {
+        for (T entity : entities) {
+            mapper().insert(entity);
         }
     }
 
-    private Account createEntity(String id) {
-        Account account = new Account();
-        account.setUsername(rightPad(id, 88, "0"));
-        account.setPassword(rightPad("Password:" + id, 88, "0"));
-        account.setFirstName(rightPad("FirstName:" + id, 128, "0"));
-        account.setLastName(rightPad("LastName:" + id, 128, "0"));
-        account.setEmail(rightPad("Email:" + id, 128, "0"));
-        account.setUrl(rightPad("Url:" + id, 255, "0"));
-        account.setProfile(rightPad("Profile:" + id, 100000, "0"));
-        account.setDepartment(rightPad("Department:" + id, 255, "0"));
-        account.setAllowedIp(rightPad("AllowedIp:" + id, 255, "0"));
-        account.setApiKey(rightPad("ApiKey:" + id, 255, "0"));
-        account.setStatus(Status.VALID.getCodeValue());
+    abstract E newExample();
 
-        account.setCreatedDate(LocalDateTime.of(2022, 12, 31, 1, 2, 3));
-        account.setLastModifiedDate(LocalDateTime.of(2023, 1, 1, 12, 31, 59));
-
-        account.getRoles().add(rightPad("role01", 10, "0"));
-        account.getRoles().add(rightPad("role02", 10, "0"));
-        account.getRoles().add(rightPad("role03", 10, "0"));
-        account.getRoles().add(rightPad("role04", 10, "0"));
-        account.getRoles().add(rightPad("role05", 10, "0"));
-        account.getRoles().add(rightPad("role06", 10, "0"));
-        account.getRoles().add(rightPad("role07", 10, "0"));
-        account.getRoles().add(rightPad("role08", 10, "0"));
-        account.getRoles().add(rightPad("role09", 10, "0"));
-        account.getRoles().add(rightPad("role10", 10, "0"));
-
-        return account;
+    protected void deleteAll() {
+        mapper().deleteByExample(null);
     }
 
-    private void deleteAll() {
-        roleMapper.deleteByExample(new TRoleExample());
-        accountMapper.deleteByExample(newExample());
-    }
-
-    private TAccountExample newExample() {
-        return new TAccountExample();
-    }
-
-//    private void setNullWhoColumnList(List<Account> accounts) {
-//        for (var account : accounts) {
-//            setNullWhoColumn(account);
-//        }
-//    }
-//
-//    private void setNullWhoColumn(TAccount account) {
-//        account.setCreatedBy(null);
-//        account.setCreatedDate(null);
-//        account.setLastModifiedBy(null);
-//        account.setLastModifiedDate(null);
-//        account.setVersion(null);
-//    }
-
-    // ------------------------------------------------------------------------------------------
+    // ------
 
     @Test
-    private void prepare() {
+    void prepare() {
         deleteAll();
         insertIntoDatabase(
                 createEntity("01"),
@@ -133,8 +58,6 @@ public class AccountRepositoryTest {
         );
     }
 
-    // ----------------------------------------------------------------------
-
     @Nested
     class register {
 
@@ -146,7 +69,7 @@ public class AccountRepositoryTest {
 
             // 実行
             var expected = createEntity("1111");
-            var actual = target.register(expected);
+            var actual = target().register(expected);
 
             // 検証
             assertThat(actual).isEqualTo(expected); // 正しく登録されている
@@ -163,9 +86,8 @@ public class AccountRepositoryTest {
 
             // 実行・検証
             assertThatThrownBy(() -> {
-                target.register(createEntity("1"));
-            }).isInstanceOf(DuplicateKeyException.class)
-                    .hasMessageContaining("(username)=(1");
+                target().register(createEntity("1"));
+            }).isInstanceOf(DuplicateKeyException.class);
         }
 
         @Test
@@ -175,7 +97,7 @@ public class AccountRepositoryTest {
 
             // 実行・検証
             assertThatThrownBy(() -> {
-                target.register(null);
+                target().register(null);
             }).isInstanceOf(NullPointerException.class);
         }
 
@@ -184,14 +106,19 @@ public class AccountRepositoryTest {
         void test103() {
             // 準備
             var expected = createEntity("2");
-            expected.setFirstName(expected.getFirstName() + "a"); // 桁溢れ
+            setOverflowValue(expected);
 
             // 実行・検証
             assertThatThrownBy(() -> {
-                target.register(expected);
+                target().register(expected);
             }).isInstanceOf(DataIntegrityViolationException.class);
         }
     }
+
+    /**
+     * 桁溢れを発生させる値をセット
+     */
+    abstract void setOverflowValue(T entity);
 
     @Nested
     class registerAll {
@@ -207,7 +134,7 @@ public class AccountRepositoryTest {
                     createEntity("1112"),
                     createEntity("1113"),
                     createEntity("1114"));
-            var actual = target.registerAll(expected);
+            var actual = target().registerAll(expected);
 
             // 検証
             assertThat(actual).isEqualTo(expected); // 正しく登録されている
@@ -227,9 +154,8 @@ public class AccountRepositoryTest {
                     createEntity("1114"));
 
             assertThatThrownBy(() -> {
-                target.registerAll(expected);
-            }).isInstanceOf(DuplicateKeyException.class)
-                    .hasMessageContaining("(username)=(1114");
+                target().registerAll(expected);
+            }).isInstanceOf(DuplicateKeyException.class);
         }
 
         @Test
@@ -239,10 +165,14 @@ public class AccountRepositoryTest {
 
             // 実行・検証
             assertThatThrownBy(() -> {
-                target.registerAll(null);
+                target().registerAll(null);
             }).isInstanceOf(NullPointerException.class);
         }
     }
+
+    abstract void changeField(T entity);
+
+    abstract void fixVersion(T entity);
 
     @Nested
     class save {
@@ -257,12 +187,12 @@ public class AccountRepositoryTest {
             );
 
             // 実行
-            var expected = target.findById(createEntity("10").getId()).orElseThrow();
-            expected.setFirstName("Change");
-            var actual = target.save(expected);
+            var expected = target().findById(createEntity("10").getId()).orElseThrow();
+            changeField(expected);
+            var actual = target().save(expected);
 
             // 検証
-            expected.setVersion(expected.getVersion() + 1L); // 比較用にバージョンを揃える
+            fixVersion(expected);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -278,7 +208,7 @@ public class AccountRepositoryTest {
             var expected = createEntity("11");
 
             // 実行
-            var actual = target.save(expected);
+            var actual = target().save(expected);
 
             // 検証
             assertThat(actual).isEqualTo(expected);
@@ -290,17 +220,13 @@ public class AccountRepositoryTest {
             // 準備
             prepare();
 
-            var expected = target.getOne(createEntity("10").getId());
-            expected.setRoles(new ArrayList<>());
-            expected.getRoles().add(rightPad("role01", 10, "0"));
-            expected.getRoles().add(rightPad("role02", 10, "0"));
-            expected.getRoles().add(rightPad("role03", 10, "0"));
+            var expected = target().getOne(createEntity("10").getId());
 
             // 実行
-            var actual = target.save(expected);
+            var actual = target().save(expected);
 
             // 検証
-            assertThat(actual.getRoles()).size().isEqualTo(3);
+            assertThat(actual).isEqualTo(expected);
         }
 
         @Test
@@ -308,7 +234,7 @@ public class AccountRepositoryTest {
         void test101() {
             // 実行・検証
             assertThatThrownBy(() -> {
-                target.save(null);
+                target().save(null);
             }).isInstanceOf(NullPointerException.class);
         }
 
@@ -322,29 +248,29 @@ public class AccountRepositoryTest {
             );
 
             var expected = createEntity("10");
-            expected.setFirstName(expected.getFirstName() + "a"); // 桁溢れ
+            setOverflowValue(expected);
 
             // 実行・検証
             assertThatThrownBy(() -> {
-                target.save(expected);
+                target().save(expected);
             }).isInstanceOf(DataIntegrityViolationException.class);
         }
 
-        @Test
-        @DisplayName("[異常系]楽観的排他エラーをスローする")
-        void test103() {
-            // 準備
-            deleteAll();
-            insertIntoDatabase(
-                    createEntity("10")
-            );
-
-            var expected = createEntity("10");
-            // 実行・検証
-            assertThatThrownBy(() -> {
-                target.save(expected);
-            }).isInstanceOf(OptimisticLockingFailureException.class);
-        }
+//        @Test
+//        @DisplayName("[異常系]楽観的排他エラーをスローする")
+//        void test103() {
+//            // 準備
+//            deleteAll();
+//            insertIntoDatabase(
+//                    createEntity("10")
+//            );
+//
+//            var expected = createEntity("10");
+//            // 実行・検証
+//            assertThatThrownBy(() -> {
+//                target().save(expected);
+//            }).isInstanceOf(OptimisticLockingFailureException.class);
+//        }
 
     }
 
@@ -362,16 +288,18 @@ public class AccountRepositoryTest {
 
             // 実行
             var expected = List.of(
-                    target.findById(createEntity("10").getId()).orElseThrow(),
+                    target().findById(createEntity("10").getId()).orElseThrow(),
                     createEntity("11"));
 
-            var actual = target.saveAll(expected);
+            var actual = target().saveAll(expected);
 
             // 検証
-            expected.get(0).setVersion(expected.get(0).getVersion() + 1L); // 比較用にバージョンを揃える
+            fixVersionList(expected);
             assertThat(actual).isEqualTo(expected);
         }
     }
+
+    abstract void fixVersionList(List<T> entities);
 
     @Nested
     class findById {
@@ -390,7 +318,7 @@ public class AccountRepositoryTest {
             var expected = createEntity("11");
 
             // 実行
-            var actual = target.findById(expected.getId());
+            var actual = target().findById(expected.getId());
 
             // 検証
             assertThat(actual.isPresent()).isTrue();
@@ -409,7 +337,7 @@ public class AccountRepositoryTest {
             insertIntoDatabase(createEntity("1"));
 
             // 実行
-            var actual = target.findById("NotExist");
+            var actual = target().findById(createEntity("NotExist").getId());
 
             // 検証
             assertThat(actual.isPresent()).isFalse();
@@ -429,7 +357,7 @@ public class AccountRepositoryTest {
             // 検証
             assertThatThrownBy(() -> {
                 // 実行
-                target.getOne(expected.getId());
+                target().getOne(expected.getId());
             }).isInstanceOf(ResourceNotFoundException.class);
         }
 
@@ -445,7 +373,7 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.existsById(createEntity("10").getId());
+            var actual = target().existsById(createEntity("10").getId());
 
             // 検証
             assertThat(actual).isTrue();
@@ -458,7 +386,7 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.existsById(createEntity("not exist").getId());
+            var actual = target().existsById(createEntity("not exist").getId());
 
             // 検証
             assertThat(actual).isFalse();
@@ -475,7 +403,7 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.findAllById(
+            var actual = target().findAllById(
                     List.of(
                             createEntity("01").getId(),
                             createEntity("02").getId()
@@ -501,7 +429,7 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.findAllById(
+            var actual = target().findAllById(
                     List.of(
                             createEntity("a").getId(),
                             createEntity("b").getId()
@@ -519,7 +447,7 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.findAllById(new ArrayList<String>());
+            var actual = target().findAllById(new ArrayList<I>());
 
             // 検証
             assertThat(actual).size().isEqualTo(0);
@@ -532,10 +460,14 @@ public class AccountRepositoryTest {
             // 検証
             assertThatThrownBy(() -> {
                 // 実行
-                target.findAllById(null);
+                target().findAllById(null);
             }).isInstanceOf(NullPointerException.class);
         }
     }
+
+    abstract void setFindByCondition(E example);
+
+    abstract void setNotFindByCondition(E example);
 
     @Nested
     class findAllByExample {
@@ -546,11 +478,11 @@ public class AccountRepositoryTest {
             // 準備
             prepare();
 
-            var example = new TAccountExample();
-            example.or().andUsernameEqualTo(createEntity("01").getUsername());
+            var example = newExample();
+            setFindByCondition(example);
 
             // 実行
-            var actual = target.findAllByExample(example);
+            var actual = target().findAllByExample(example);
 
             // 検証
             assertThat(actual).size().isEqualTo(1);
@@ -562,11 +494,11 @@ public class AccountRepositoryTest {
             // 準備
             prepare();
 
-            var example = new TAccountExample();
-            example.or().andUsernameEqualTo(createEntity("NOT EXIST").getUsername());
+            var example = newExample();
+            setNotFindByCondition(example);
 
             // 実行
-            var actual = target.findAllByExample(example);
+            var actual = target().findAllByExample(example);
 
             // 検証
             assertThat(actual).size().isEqualTo(0);
@@ -579,7 +511,7 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.findAllByExample(new TAccountExample());
+            var actual = target().findAllByExample(null);
 
             // 検証
             assertThat(actual).size().isEqualTo(10);
@@ -592,13 +524,15 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.findAllByExample(null);
+            var actual = target().findAllByExample(null);
 
             // 検証
             assertThat(actual).size().isEqualTo(10);
         }
 
     }
+
+    abstract void setOrderByClause(E example);
 
     @Nested
     class findAllByExampleWithRowBounds {
@@ -609,13 +543,12 @@ public class AccountRepositoryTest {
             // 準備
             prepare();
 
-            var example = new TAccountExample();
-            example.or();
-            example.setOrderByClause("username");
+            var example = newExample();
+            setOrderByClause(example);
             var rowBounds = new RowBounds(2, 3);
 
             // 実行
-            var actual = target.findAllByExampleWithRowBounds(example, rowBounds);
+            var actual = target().findAllByExampleWithRowBounds(example, rowBounds);
 
             // 検証
             assertThat(actual).size().isEqualTo(3);
@@ -632,7 +565,7 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.findAll();
+            var actual = target().findAll();
 
             // 検証
             assertThat(actual).size().isEqualTo(10);
@@ -645,7 +578,7 @@ public class AccountRepositoryTest {
             deleteAll();
 
             // 実行
-            var actual = target.findAll();
+            var actual = target().findAll();
 
             // 検証
             assertThat(actual).size().isEqualTo(0);
@@ -664,13 +597,13 @@ public class AccountRepositoryTest {
 
             // 実行
             var deleteId = createEntity("01").getId();
-            target.deleteById(deleteId);
+            target().deleteById(deleteId);
 
             // 検証
-            var actual = accountMapper.countByExample(null);
+            var actual = mapper().countByExample(null);
             assertThat(actual).isEqualTo(9);
 
-            var actual2 = target.existsById(deleteId);
+            var actual2 = target().existsById(deleteId);
             assertThat(actual2).isFalse();
         }
 
@@ -682,13 +615,13 @@ public class AccountRepositoryTest {
 
             // 実行
             var deleteId = createEntity("a").getId();
-            target.deleteById(deleteId);
+            target().deleteById(deleteId);
 
             // 検証
-            var actual = accountMapper.countByExample(null);
+            var actual = mapper().countByExample(null);
             assertThat(actual).isEqualTo(10);
 
-            var actual2 = target.existsById(deleteId);
+            var actual2 = target().existsById(deleteId);
             assertThat(actual2).isFalse();
         }
 
@@ -698,7 +631,7 @@ public class AccountRepositoryTest {
             // 検証
             assertThatThrownBy(() -> {
                 // 実行
-                target.deleteById(null);
+                target().deleteById(null);
             }).isInstanceOf(NullPointerException.class);
         }
     }
@@ -713,10 +646,10 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            target.deleteAll();
+            target().deleteAll();
 
             // 検証
-            var actual = accountMapper.countByExample(null);
+            var actual = mapper().countByExample(null);
             assertThat(actual).isEqualTo(0);
         }
     }
@@ -736,15 +669,15 @@ public class AccountRepositoryTest {
                     createEntity("10"),
                     createEntity("99")  // 元々存在しないデータ
             );
-            target.deleteAll(deleteEntities);
+            target().deleteAll(deleteEntities);
 
             // 検証
-            var actual = accountMapper.countByExample(null);
+            var actual = mapper().countByExample(null);
             assertThat(actual).isEqualTo(8);
 
-            assertThat(target.existsById(createEntity("01").getId())).isFalse();
-            assertThat(target.existsById(createEntity("10").getId())).isFalse();
-            assertThat(target.existsById(createEntity("99").getId())).isFalse();
+            assertThat(target().existsById(createEntity("01").getId())).isFalse();
+            assertThat(target().existsById(createEntity("10").getId())).isFalse();
+            assertThat(target().existsById(createEntity("99").getId())).isFalse();
         }
     }
 
@@ -758,14 +691,14 @@ public class AccountRepositoryTest {
             prepare();
 
             // 実行
-            var example = new TAccountExample();
-            example.or().andUsernameEqualTo(createEntity("10").getUsername());
-            target.deleteByExample(example);
+            var example = newExample();
+            setFindByCondition(example);
+            target().deleteByExample(example);
 
             // 検証
-            var actual = accountMapper.countByExample(null);
+            var actual = mapper().countByExample(null);
             assertThat(actual).isEqualTo(9);
-            assertThat(target.existsById(createEntity("10").getId())).isFalse();
         }
     }
+
 }

@@ -12,14 +12,18 @@ import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TAccountMapper;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TRoleMapper;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import jp.co.stnet.cms.common.datatables.DataTablesUtil;
+import jp.co.stnet.cms.common.util.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class AccountRepository extends AbstractComplexVersionRepository<TAccount
     private final TAccountMapper tAccountMapper;
     private final TRoleMapper tRoleMapper;
     private final AccountQueryMapper accountQueryMapper;
+    private final Map<String, String> fieldMap = BeanUtils.getFields(Account.class, null);
 
     @Override
     VersionMapperInterface<TAccount, TAccountExample, String> mapper() {
@@ -177,7 +182,7 @@ public class AccountRepository extends AbstractComplexVersionRepository<TAccount
      * @return 検索結果
      */
     public Page<Account> findPageByInput(DataTablesInput input) {
-        input.setWhereClause(DataTablesUtil.getWhereClause(input, Account.class));
+        input.setWhereClause(DataTablesUtil.getWhereClause(input, fieldMap));
         var totalCount = mapper().countByExample(null);
         var pageable = PageRequest.of(input.getStart() / input.getLength(), input.getLength());
         var entities = accountQueryMapper.findPageByInput(input, pageable);

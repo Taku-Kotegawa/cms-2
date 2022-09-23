@@ -85,7 +85,7 @@
         <plugin type="plugins.CreateGenericInterfacePlugin">
             <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface"/>
             <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
-            <property name="target_table" value="t_account, t_variable, t_file_managed"/>
+            <property name="target_table" value="t_account, t_variable"/>
         </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
@@ -94,7 +94,7 @@
             <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface"/>
             <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
             <property name="target_table"
-                      value="t_email_change_request, t_password_reissue_info, t_mail_send_history, t_temp_file,role, t_permission_role, t_failed_email_change_request, t_failed_password_reissue, t_password_history, t_failed_authentication, t_successful_authentication"/>
+                      value="t_file_managed, t_email_change_request, t_password_reissue_info, t_mail_send_history, t_temp_file,role, t_permission_role, t_failed_email_change_request, t_failed_password_reissue, t_password_history, t_failed_authentication, t_successful_authentication"/>
         </plugin>
 
         <!-- 複合主キーのテーブル
@@ -161,7 +161,6 @@
 
         <table tableName="t_account"/>
         <table tableName="t_role"/>
-
         <table tableName="t_variable" domainObjectName="Variable">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
@@ -172,9 +171,7 @@
         <table tableName="t_failed_password_reissue" domainObjectName="FailedPasswordReissue"/>
         <table tableName="t_failed_email_change_request" domainObjectName="FailedEmailChangeRequest"/>
         <table tableName="t_email_change_request" domainObjectName="EmailChangeRequest"/>
-        <table tableName="t_file_managed" domainObjectName="FileManaged">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+        <table tableName="t_file_managed" domainObjectName="FileManaged"/>
         <table tableName="t_mail_send_history" domainObjectName="MailSendHistory">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>

@@ -47,7 +47,7 @@ public class UploadFileController {
             @PathVariable("uuid") String uuid,
             @AuthenticationPrincipal LoggedInUser loggedInUser) {
 
-        FileManaged fileManaged = fileManagedService.findByUuid(uuid);
+        FileManaged fileManaged = fileManagedService.findById(uuid);
         model.addAttribute(fileManaged);
         return "fileManagedDownloadView";
     }

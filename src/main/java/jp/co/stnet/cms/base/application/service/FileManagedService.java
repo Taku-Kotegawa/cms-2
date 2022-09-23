@@ -1,11 +1,14 @@
 package jp.co.stnet.cms.base.application.service;
 
 
+import jp.co.stnet.cms.base.domain.enums.FileType;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
+import org.apache.tika.exception.TikaException;
 import org.springframework.http.ContentDisposition;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 /**
@@ -14,20 +17,12 @@ import java.time.LocalDateTime;
 public interface FileManagedService {
 
     /**
-     * idでファイルを取得する。
+     * idでファイルの内容をbyte[]で取得する。
      *
      * @param id id
      * @return ファイル
      */
-    byte[] getFile(Long id);
-
-//    /**
-//     * uuidでファイルを取得する。
-//     *
-//     * @param uuid uuid
-//     * @return ファイル
-//     */
-//    byte[] getFile(String uuid);
+    byte[] getFile(String id);
 
     /**
      * idでFileManagedを検索する。
@@ -35,56 +30,41 @@ public interface FileManagedService {
      * @param id id
      * @return FileManaged
      */
-    FileManaged findById(Long id);
-
-    /**
-     * uuidでFileManagedを検索する。
-     *
-     * @param uuid uuid
-     * @return FileManaged
-     */
-    FileManaged findByUuid(String uuid);
+    FileManaged findById(String id);
 
     /**
      * ファイルを保存する。(一時保存)
      *
-     * @param file     MultipartFile
+     * @param file     保存するファイル(MultipartFile)
      * @param fileType ファイルタイプ
      * @return FileManaged
      * @throws IOException ファイル操作例外
      */
-    FileManaged store(MultipartFile file, String fileType) throws IOException;
+    FileManaged store(MultipartFile file, FileType fileType) throws IOException;
 
-//    /**
-//     * ファイルを保存する。(一時保存)
-//     *
-//     * @param file     File
-//     * @param fileType ファイルタイプ
-//     * @return FileManaged
-//     * @throws IOException ファイル操作例外
-//     */
-//    FileManaged store(File file, String fileType) throws IOException;
+    /**
+     * ファイルを保存する。(一時保存)
+     *
+     * @param path     保存するファイル(Path)
+     * @param fileType ファイルタイプ
+     * @return FileManaged
+     * @throws IOException ファイル操作例外
+     */
+    FileManaged store(Path path, FileType fileType) throws IOException;
 
     /**
      * ファイルのステータスを一時保存から永久保存に変更する。
      *
-     * @param uuid uuid
+     * @param id id
      */
-    void permanent(String uuid);
+    FileManaged permanent(String id);
 
     /**
      * idでFileManagedとファイルを削除する。
      *
      * @param id id
      */
-    void delete(Long id);
-
-    /**
-     * uuidでFileManagedとファイルを削除する。
-     *
-     * @param uuid uuid
-     */
-    void delete(String uuid);
+    void delete(String id);
 
     /**
      * 指定日時以前の一時保存状態のFileManagedとファイルを削除する。
@@ -103,20 +83,20 @@ public interface FileManagedService {
     /**
      * ファイルの内容を取得する。
      *
-     * @param uuid UUID
+     * @param id UUID
      * @return ファイルの内容
      * @throws IOException ファイルの読み込みに失敗する場合
      */
-    String getContent(String uuid) throws IOException;
+    String getContent(String id) throws IOException, TikaException;
 
     /**
      * FileManagedとファイルをコピーし、新しいUUIDを発番する。
      *
-     * @param uuid UUID
+     * @param id ID
      * @return コピー後のFileManaged
      * @throws IOException ファイルの操作に失敗した場合
      */
-    FileManaged copyFile(String uuid) throws IOException;
+    FileManaged copy(String id) throws IOException;
 
     /**
      * 指定したURIでファイルを削除する。(物理ファイルのみ)

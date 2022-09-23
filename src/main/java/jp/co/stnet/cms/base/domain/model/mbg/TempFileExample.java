@@ -267,66 +267,6 @@ public class TempFileExample {
             return (Criteria) this;
         }
 
-        public Criteria andBodyIsNull() {
-            addCriterion("body is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyIsNotNull() {
-            addCriterion("body is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyEqualTo(Long value) {
-            addCriterion("body =", value, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyNotEqualTo(Long value) {
-            addCriterion("body <>", value, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyGreaterThan(Long value) {
-            addCriterion("body >", value, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyGreaterThanOrEqualTo(Long value) {
-            addCriterion("body >=", value, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyLessThan(Long value) {
-            addCriterion("body <", value, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyLessThanOrEqualTo(Long value) {
-            addCriterion("body <=", value, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyIn(List<Long> values) {
-            addCriterion("body in", values, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyNotIn(List<Long> values) {
-            addCriterion("body not in", values, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyBetween(Long value1, Long value2) {
-            addCriterion("body between", value1, value2, "body");
-            return (Criteria) this;
-        }
-
-        public Criteria andBodyNotBetween(Long value1, Long value2) {
-            addCriterion("body not between", value1, value2, "body");
-            return (Criteria) this;
-        }
-
         public Criteria andOriginalNameIsNull() {
             addCriterion("original_name is null");
             return (Criteria) this;

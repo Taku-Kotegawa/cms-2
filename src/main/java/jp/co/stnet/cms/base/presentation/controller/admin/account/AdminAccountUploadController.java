@@ -85,7 +85,7 @@ public class AdminAccountUploadController {
             return uploadForm(form, model, loggedInUser);
         }
 
-        FileManaged uploadFile = fileManagedService.findByUuid(form.getUploadFileUuid());
+        FileManaged uploadFile = fileManagedService.findById(form.getUploadFileUuid());
         String uploadFileAbsolutePath = fileManagedService.getFileStoreBaseDir() + uploadFile.getUri();
         String jobParams = "inputFile=" + uploadFileAbsolutePath;
         jobParams += ", encoding=" + form.getEncoding();

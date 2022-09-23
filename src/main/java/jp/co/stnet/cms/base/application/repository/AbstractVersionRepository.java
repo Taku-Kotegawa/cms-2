@@ -4,11 +4,13 @@ import jp.co.stnet.cms.base.application.repository.interfaces.RepositoryInterfac
 import jp.co.stnet.cms.base.domain.model.KeyInterface;
 import jp.co.stnet.cms.base.domain.model.VersionInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
+import jp.co.stnet.cms.common.util.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Objects;
 
 @RequiredArgsConstructor

@@ -321,7 +321,7 @@ public class VariableController {
         form.setType(variableType);
 
         if (form.getFile1Uuid() != null) {
-            form.setFile1Managed(fileManagedService.findByUuid(form.getFile1Uuid()));
+            form.setFile1Managed(fileManagedService.findById(form.getFile1Uuid()));
         }
 
         Variable variable = beanMapper.map(form, Variable.class);
@@ -398,7 +398,7 @@ public class VariableController {
         }
 
         if (form.getFile1Uuid() != null) {
-            form.setFile1Managed(fileManagedService.findByUuid(form.getFile1Uuid()));
+            form.setFile1Managed(fileManagedService.findById(form.getFile1Uuid()));
         }
 
         model.addAttribute("variable", variable);
@@ -589,7 +589,7 @@ public class VariableController {
 
         authority.hasAuthority(Constants.OPERATION.DOWNLOAD, loggedInUser);
 
-        model.addAttribute(fileManagedService.findByUuid(uuid));
+        model.addAttribute(fileManagedService.findById(uuid));
         return "fileManagedDownloadView";
     }
 
@@ -606,7 +606,7 @@ public class VariableController {
         form.setJobName(UPLOAD_JOB_ID);
 
         if (form.getUploadFileUuid() != null) {
-            form.setUploadFileManaged(fileManagedService.findByUuid(form.getUploadFileUuid()));
+            form.setUploadFileManaged(fileManagedService.findById(form.getUploadFileUuid()));
         }
 
         model.addAttribute("pageTitle", "Import Variable");
@@ -637,7 +637,7 @@ public class VariableController {
             return uploadForm(form, model, variableType, loggedInUser);
         }
 
-        FileManaged uploadFile = fileManagedService.findByUuid(form.getUploadFileUuid());
+        FileManaged uploadFile = fileManagedService.findById(form.getUploadFileUuid());
         String uploadFileAbsolutePath = fileManagedService.getFileStoreBaseDir() + uploadFile.getUri();
         String jobParams = "inputFile=" + uploadFileAbsolutePath;
         jobParams += ", encoding=" + form.getEncoding();

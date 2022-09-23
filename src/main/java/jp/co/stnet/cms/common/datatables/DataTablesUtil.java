@@ -17,8 +17,7 @@ public class DataTablesUtil {
      * @param input DataTablesInput
      * @return Where句文字列
      */
-    public static String getWhereClause(DataTablesInput input, Class<?> clazz) {
-        Map<String, String> fieldMap = BeanUtils.getFields(clazz, null);
+    public static String getWhereClause(DataTablesInput input, Map<String, String> fieldMap) {
         StringBuilder sql = new StringBuilder();
         // Where句
         if (hasFieldFilter(input)) {

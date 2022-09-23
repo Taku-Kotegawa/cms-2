@@ -113,7 +113,7 @@ public class AdminAccountDownloadController {
 
         authority.hasAuthority(Constants.OPERATION.UPDATE, loggedInUser);
 
-        FileManaged fileManaged = fileManagedService.findByUuid(uuid);
+        FileManaged fileManaged = fileManagedService.findById(uuid);
         model.addAttribute(fileManaged);
         return "fileManagedDownloadView";
     }

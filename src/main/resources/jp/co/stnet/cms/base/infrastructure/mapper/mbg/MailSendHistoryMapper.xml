@@ -248,6 +248,8 @@
     set id = #{row.id,jdbcType=BIGINT},
       subject = #{row.subject,jdbcType=VARCHAR},
       body = #{row.body,jdbcType=VARCHAR},
+    created_by = created_by,
+    created_date = created_date,
       email_to = #{row.emailTo,jdbcType=VARCHAR},
       email_cc = #{row.emailCc,jdbcType=VARCHAR},
       email_bcc = #{row.emailBcc,jdbcType=VARCHAR}
@@ -288,6 +290,8 @@
     update t_mail_send_history
     set subject = #{subject,jdbcType=VARCHAR},
       body = #{body,jdbcType=VARCHAR},
+    created_by = created_by,
+    created_date = created_date,
       email_to = #{emailTo,jdbcType=VARCHAR},
       email_cc = #{emailCc,jdbcType=VARCHAR},
       email_bcc = #{emailBcc,jdbcType=VARCHAR}
@@ -345,6 +349,8 @@
     update t_mail_send_history
     set subject = #{subject,jdbcType=VARCHAR},
       body = #{body,jdbcType=VARCHAR},
+    created_by = created_by,
+    created_date = created_date,
       email_to = #{emailTo,jdbcType=VARCHAR},
       email_cc = #{emailCc,jdbcType=VARCHAR},
       email_bcc = #{emailBcc,jdbcType=VARCHAR}

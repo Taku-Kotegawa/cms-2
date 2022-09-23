@@ -76,7 +76,7 @@ public class AdminAccountUpdateController {
         Account account = accountService.findById(username);
 
         if (form.getImageUuid() != null) {
-            form.setImageManaged(fileManagedService.findByUuid(form.getImageUuid()));
+            form.setImageManaged(fileManagedService.findById(form.getImageUuid()));
         }
 
         // 初回表示(入力チェックエラー時の再表示でない場合)

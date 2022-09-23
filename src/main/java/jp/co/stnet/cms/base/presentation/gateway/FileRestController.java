@@ -68,10 +68,9 @@ public class FileRestController {
                 }
             }
 
-            FileManaged fileManaged = fileManagedService.store(multipartFile, type);
+            FileManaged fileManaged = fileManagedService.store(multipartFile, FileType.valueOf(type));
 
             return UploadFileResult.builder()
-                    .fid(fileManaged.getId())
                     .uuid(fileManaged.getUuid())
                     .name(fileManaged.getOriginalFilename())
                     .type(fileManaged.getFileMime())

@@ -9,6 +9,7 @@ import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.VariableMapper;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import jp.co.stnet.cms.common.datatables.DataTablesUtil;
+import jp.co.stnet.cms.common.util.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class VariableRepository extends AbstractVersionRepository<Variable, Vari
 
     private final VariableMapper mapper;
     private final VariableQueryMapper variableQueryMapper;
+    private final Map<String, String> fieldMap = BeanUtils.getFields(Variable.class, null);
 
     @Override
     VersionMapperInterface<Variable, VariableExample, Long> mapper() {
@@ -140,7 +143,7 @@ public class VariableRepository extends AbstractVersionRepository<Variable, Vari
      * @return 検索結果
      */
     public Page<Variable> findPageByInput(DataTablesInput input) {
-        input.setWhereClause(DataTablesUtil.getWhereClause(input, Variable.class));
+        input.setWhereClause(DataTablesUtil.getWhereClause(input, fieldMap));
         var totalCount = mapper().countByExample(null);
         var pageable = PageRequest.of(input.getStart() / input.getLength(), input.getLength());
         var entities = variableQueryMapper.findPageByInput(input, pageable);

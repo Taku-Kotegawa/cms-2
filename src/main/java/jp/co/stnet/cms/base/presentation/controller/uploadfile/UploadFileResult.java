@@ -13,11 +13,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class UploadFileResult implements Serializable {
 
-    private String message;
-
-    private Long fid;
-
     private String uuid;
+
+    private String message;
 
     private String name;
 

@@ -31,10 +31,9 @@ public class PermissionRoleRepository extends AbstractRepository<PermissionRole,
         return new PermissionRoleExample();
     }
 
-
     public List<PermissionRole> findByRoleIn(Collection<TRole> roles) {
         if (roles == null || roles.isEmpty()) {
-            return new ArrayList<PermissionRole>();
+            return new ArrayList<>();
         }
 
         var example = new PermissionRoleExample();
@@ -43,11 +42,7 @@ public class PermissionRoleRepository extends AbstractRepository<PermissionRole,
     }
 
     protected List<String> roleToString(Collection<TRole> roles) {
-        List<String> list = new ArrayList<>();
-        for (TRole role : roles) {
-            list.add(role.getRole());
-        }
-        return list;
+        return roles.stream().map(TRole::getRole).toList();
     }
 
 }
