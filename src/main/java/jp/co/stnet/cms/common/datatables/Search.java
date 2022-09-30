@@ -1,6 +1,7 @@
 package jp.co.stnet.cms.common.datatables;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,8 +11,9 @@ import javax.validation.constraints.NotNull;
  * DataTables(Server-Side)からのリクエストを格納するクラス(グローバルフィルタ)
  */
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Search {
 
     /**

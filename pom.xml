@@ -361,16 +361,16 @@
 
                 <executions>
                     <execution>
-                        <id>table</id>
+                        <id>base</id>
                         <configuration>
                             <configurationFile>${project.basedir}/src/main/resources/generatorConfig.xml
                             </configurationFile>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>flat</id>
+                        <id>example</id>
                         <configuration>
-                            <configurationFile>${project.basedir}/src/main/resources/generatorConfig.xml
+                            <configurationFile>${project.basedir}/src/main/resources/generatorConfig_example.xml
                             </configurationFile>
                         </configuration>
                     </execution>

@@ -1,9 +1,14 @@
 package jp.co.stnet.cms.common.datatables;
 
 
-
 import jp.co.stnet.cms.common.util.StringUtils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -17,6 +22,9 @@ import java.util.Map;
  * DataTables(Server-Side)からのリクエストを格納するクラス(リクエスト全体)
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DataTablesInput {
 
     /**
@@ -147,8 +155,9 @@ public class DataTablesInput {
      * @return OrderBy区
      */
     public String getOrderByClause() {
-
-        if (true) { return null; }
+        if (order.isEmpty()) {
+            return null;
+        }
 
         List<String> orderClause = new ArrayList<>();
         for (Order order : this.getOrder()) {
@@ -158,5 +167,46 @@ public class DataTablesInput {
         }
         return org.apache.commons.lang3.StringUtils.join(orderClause, ',');
     }
+
+    /**
+     * カラム番号を取得する
+     *
+     * @param columnName 列名
+     * @return ColumnNumber or null
+     */
+    public Integer getColumnNumber(String columnName) {
+        if (columnName == null) {
+            return null;
+        }
+
+        for (int i = 0; i < this.columns.size(); i++) {
+            if (columnName.equals(columns.get(i).getData())) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Pageable に変換
+     *
+     * @return
+     */
+    public Pageable getPageable() {
+
+        var orders = getOrder().stream()
+                .map(x -> Sort.Order
+                        .by(getColumnByNumber(x.getColumn()).getData())
+                        .with(Sort.Direction.fromString(x.getDir())))
+                .toList();
+
+        return PageRequest.of(
+                getStart() / getLength(),
+                getLength(),
+                Sort.by(orders)
+        );
+
+    }
+
 
 }

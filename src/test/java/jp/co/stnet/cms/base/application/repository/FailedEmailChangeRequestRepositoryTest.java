@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @SpringBootTest
-//@Transactional
+@Transactional
 class FailedEmailChangeRequestRepositoryTest {
 
     @Autowired

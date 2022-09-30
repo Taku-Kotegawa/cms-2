@@ -38,12 +38,12 @@ public class AccountRepository extends AbstractComplexVersionRepository<TAccount
     private final Map<String, String> fieldMap = BeanUtils.getFields(Account.class, null);
 
     @Override
-    VersionMapperInterface<TAccount, TAccountExample, String> mapper() {
+    protected VersionMapperInterface<TAccount, TAccountExample, String> mapper() {
         return tAccountMapper;
     }
 
     @Override
-    TAccountExample example() {
+    protected TAccountExample example() {
         return new TAccountExample();
     }
 

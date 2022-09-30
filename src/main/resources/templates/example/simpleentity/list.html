@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/template :: layout(~{::title},~{::body})}" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- ページタイトルを記入 -->
+    <title>全文検索</title>
+</head>
+
+<body>
+<script>
+<!-- /*  */-->
+function setSort(column) {
+  document.getElementById("sort").value = column;
+  document.searchForm.submit();
+}
+</script>
+
+<section class="content">
+    <div class="container-fluid mt-5">
+
+        <div th:replace="~{fragments/message-panel :: message-panel}"></div>
+        <!-- /* ここより下にメインコンテンツを記入 */-->
+
+        <form name="searchForm" autocomplete="off" enctype="multipart/form-data" method="get" th:action>
+            <div class="row mb-4">
+                <div class="input-group col-24 offset-6">
+                    <input class="form-control" name="q" th:value="${form.q}" type="text" placeholder="検索したいキーワードを入力してください"/>
+                    <div class="input-group-append">
+                        <button class="btn btn-button py-0">検索</button>
+                        <select class="form-control ml-3" name="size" onchange="submit(this.form)">
+                            <option th:selected="${page.size == 5}" value="5">5</option>
+                            <option th:selected="${page.size == 10}" value="10">10</option>
+                            <option th:selected="${page.size == 20}" value="20">20</option>
+                            <option th:selected="${page.size == 50}" value="50">50</option>
+                            <option th:selected="${page.size == 100}" value="100">100</option>
+                        </select>
+                    </div>
+                    <input id="sort" name="sort" th:value="${form.sort}" type="hidden">
+                    <input id="page" name="page" th:value="${page.number}" type="hidden">
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <th style="white-space: nowrap;"><a th:text="|id ${sortHelper.arrow('id')}|" th:onclick="|setSort('__${sortHelper.id('id')}__')|"></a></th>
+                <th style="white-space: nowrap;"><a th:text="|text01 ${sortHelper.arrow('text01')}|" th:onclick="|setSort('__${sortHelper.id('text01')}__')|"></a></th>
+                <th style="white-space: nowrap;"><a th:text="|lastModifiedDate ${sortHelper.arrow('lastModifiedDate')}|" th:onclick="|setSort('__${sortHelper.id('lastModifiedDate')}__')|"></a></th>
+                </thead>
+                <tbody>
+                <tr th:each="item, status : ${page.getContent}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.text01}"></td>
+                    <td th:text="${item.lastModifiedDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <block th:if="${page} != null">
+            <div th:replace="~{fragments/page-form :: pagination(${page}, ${form})}"></div>
+        </block>
+    </div>
+
+</section>
+</div>
+
+</body>

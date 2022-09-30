@@ -10,11 +10,11 @@
     <div class="container"> <!-- -fluidを外すと横幅が狭くなる-->
         <div class="row">
             <div class="col-18 mb-3">
-                <!-- ページタイトルを記入 -->
+                <!--/* ページタイトルを記入 */-->
                 <h4>Page Title</h4>
             </div>
             <div class="col-18 text-right">
-                <!-- ページタイトル右の余白 -->
+                <!--/* ページタイトル右の余白 */-->
             </div>
         </div>
     </div>
@@ -22,23 +22,23 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
         <form autocomplete="off" enctype="multipart/form-data" method="post" th:action
               th:object="${***FormBean***}" th:with="id= ${***参照用Bean*** != null} ? ${***参照用Bean***.id} : 0">
 
-            <!-- EnterキーによるPOSTを無効化 -->
+            <!--/* EnterキーによるPOSTを無効化 */-->
             <input disabled style="display:none" type="submit"/>
 
-            <!-- 隠しフィールド -->
+            <!--/* 隠しフィールド */-->
             <input th:field="*{id}" type="hidden"/>
             <input th:field="*{version}" type="hidden"/>
 
 
-            <!-- button -->
+            <!--/* button */-->
             <div th:replace="~{fragments/button-area :: m(${id})}"></div>
             <hr>
 
-            <!-- Input -->
+            <!--/* Input */-->
             <div class="row">
                 <div class="col-6">
                     <!-- TODO 式を含むフォールドの表示方法の部品化-->
@@ -54,13 +54,13 @@
                 </div>
             </div>
 
-            <!-- button -->
+            <!--/* button */-->
             <br>
             <hr>
             <div th:replace="~{fragments/button-area :: m(${id})}"></div>
 
         </form>
-        <!-- ここより上にメインコンテンツを記入 -->
+        <!--/* ここより上にメインコンテンツを記入 */-->
     </div>
 </section>
 

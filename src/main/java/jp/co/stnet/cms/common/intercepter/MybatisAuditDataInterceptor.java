@@ -51,8 +51,12 @@ public class MybatisAuditDataInterceptor implements Interceptor {
         String username;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            LoggedInUser loggedInUser = (LoggedInUser) authentication.getPrincipal();
-            username = (loggedInUser != null) ? loggedInUser.getUsername() : "anonymous";
+            try {
+                LoggedInUser loggedInUser = (LoggedInUser) authentication.getPrincipal();
+                username = (loggedInUser != null) ? loggedInUser.getUsername() : "anonymous";
+            } catch (ClassCastException ex ) {
+                username = "anonymous";
+            }
         } else {
             username = "anonymous";
         }

@@ -1,8 +1,10 @@
 package jp.co.stnet.cms.common.datatables;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Sort;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -12,8 +14,9 @@ import javax.validation.constraints.Pattern;
  * DataTables(Server-Side)からのリクエストを格納するクラス(並び順)
  */
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     /**

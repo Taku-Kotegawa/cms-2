@@ -8,13 +8,14 @@ import jp.co.stnet.cms.base.infrastructure.mapper.mbg.PermissionRoleMapper;
 import org.junit.jupiter.api.Nested;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
 
 @SpringBootTest
-//@Transactional
+@Transactional
 class PermissionRoleRepositoryTest extends AbstractRepositoryStringIdTest<PermissionRole, PermissionRoleExample, PermissionRoleKey> {
 
     @Autowired

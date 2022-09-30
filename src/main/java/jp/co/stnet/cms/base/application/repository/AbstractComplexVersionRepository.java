@@ -40,9 +40,9 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
 
     private static final int DEFAULT_PAGE_SIZE = 5;
 
-    abstract VersionMapperInterface<T, E, I> mapper();
+    protected abstract VersionMapperInterface<T, E, I> mapper();
 
-    abstract E example();
+    protected abstract E example();
 
     /**
      * deleteAll()メインテーブル削除時の前処理

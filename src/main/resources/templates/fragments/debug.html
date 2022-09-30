@@ -1,0 +1,56 @@
+<!--/* Thymeleaf Debug */-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section th:fragment="debug" id="debug-section" class="container-fluid">
+    <hr>
+    <div class="row">
+        <details class="col-36">
+            <summary>Session</summary>
+            <table class="table">
+                <tr th:each="var : ${session.keySet()}">
+                    <td th:text="${var}"></td>
+                    <td th:text="${session.get(var)}" style="word-break: break-all"></td>
+                </tr>
+            </table>
+        </details>
+    </div>
+    <div class="row">
+        <details class="col-36">
+            <summary>Parameter</summary>
+            <table>
+                <tr th:each="var : ${param.keySet()}">
+                    <td th:text="${var}"></td>
+                    <td th:text="${param.get(var)}" style="word-break: break-all"></td>
+                </tr>
+            </table>
+        </details>
+    </div>
+
+    <div class="row">
+        <details class="col-36">
+            <summary>Vars</summary>
+            <table>
+                <tr th:each="var : ${#vars.getVariableNames()}">
+                    <td th:text="${var}"></td>
+                    <td th:text="${#vars.getVariable(var)}" style="word-break: break-all"></td>
+                </tr>
+            </table>
+        </details>
+    </div>
+
+    <div class="row">
+        <details class="col-36">
+            <summary>Application</summary>
+            <table>
+                <tr th:each="var : ${application.keySet()}">
+                    <td th:text="${var}"></td>
+                    <td th:text="${application.get(var)}" style="word-break: break-all"></td>
+                </tr>
+            </table>
+        </details>
+    </div>
+    <br>
+</section>
+</body>
+</html>

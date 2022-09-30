@@ -26,7 +26,7 @@ class AccountQueryMapperTest {
 //    void findPage() {
 //        var dataTablesInput = new DataTablesInput();
 //        var pageable = PageRequest.of(1, 3);
-//        var actual = target.findPageByInput(dataTablesInput, pageable);
+//        var actual = target.findByInput(dataTablesInput, pageable);
 //        assertThat(actual).size().isEqualTo(3);
 //        assertThat(actual.get(0).getUsername()).isEqualTo("0400000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
 //        assertThat(actual.get(0).getRoles()).size().isEqualTo(10);

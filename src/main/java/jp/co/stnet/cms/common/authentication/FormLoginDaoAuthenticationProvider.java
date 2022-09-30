@@ -105,11 +105,13 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
         Collection<GrantedAuthority> authorities = new HashSet<>();
         List<String> roleIds = new ArrayList<>();
         for (String roleLabel : account.getRoles()) {
-            // Administrator権限でログインしない場合、ADMINロールを除外
-            // asAdmin=true, role=admin -> true
-            // asAdmin=false, role=admin -> false
-            // asAdmin=true, role=other -> true
-            // asAdmin=false, role=other -> true
+            /*
+             Administrator権限でログインしない場合、ADMINロールを除外
+             asAdmin=true, role=admin -> true
+             asAdmin=false, role=admin -> false
+             asAdmin=true, role=other -> true
+             asAdmin=false, role=other -> true
+            */
             if (!(!formLoginUsernamePasswordAuthenticationToken.getLoginAsAdministrator() && roleLabel.equals(Role.ADMIN.name()))) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + roleLabel));
                 roleIds.add(roleLabel);
@@ -138,9 +140,9 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
 
 
     private boolean matches(String ip, String subnet) {
-        if ("0:0:0:0:0:0:0:1".equals(ip) || "127.0.0.1".equals(ip)) {
-            return true;
-        }
+//        if ("0:0:0:0:0:0:0:1".equals(ip) || "127.0.0.1".equals(ip)) {
+//            return true;
+//        }
         IpAddressMatcher ipAddressMatcher = new IpAddressMatcher(subnet);
         return ipAddressMatcher.matches(ip);
     }

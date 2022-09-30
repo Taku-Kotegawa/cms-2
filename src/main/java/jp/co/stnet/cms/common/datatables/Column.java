@@ -3,6 +3,7 @@ package jp.co.stnet.cms.common.datatables;
 
 import jp.co.stnet.cms.common.util.StringUtils;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.CodePointLength;
@@ -14,8 +15,9 @@ import javax.validation.constraints.NotNull;
  * DataTables(Server-Side)からのリクエストを格納するクラス(列単位のフィルタ条件など)
  */
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Column {
 
     /**

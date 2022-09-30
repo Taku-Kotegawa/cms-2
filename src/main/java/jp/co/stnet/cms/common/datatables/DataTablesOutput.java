@@ -1,7 +1,10 @@
 package jp.co.stnet.cms.common.datatables;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +15,9 @@ import java.util.List;
  * @param <T> 一覧に表示する情報を定義したモデル
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DataTablesOutput<T> {
 
     /**
