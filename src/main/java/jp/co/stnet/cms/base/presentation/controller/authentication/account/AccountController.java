@@ -5,24 +5,30 @@ import jp.co.stnet.cms.base.application.service.AccountSharedService;
 import jp.co.stnet.cms.base.application.service.FileManagedService;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
+import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import jp.co.stnet.cms.common.message.MessageKeys;
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.groups.Default;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 @Controller
@@ -54,34 +60,34 @@ public final class AccountController {
         return "account/view";
     }
 
-//    @GetMapping("/image")
-//    @ResponseBody
-//    public ResponseEntity<byte[]> showImage(
-//            @AuthenticationPrincipal LoggedInUser loggedInUser, final HttpServletResponse response)
-//            throws IOException {
-//
-//        response.addHeader("Cache-Control", "max-age=60, must-revalidate, no-transform");
-//
-//        FileManaged fileManaged = accountSharedService.getImage(loggedInUser.getUsername());
-//
-//        HttpHeaders headers = new HttpHeaders();
-//
-//        if (fileManaged != null) {
-//            headers.setContentType(fileManaged.getMediaType());
-//            return new ResponseEntity<byte[]>(
-//                    fileManagedService.getFile(fileManaged.getId()),
-//                    headers,
-//                    HttpStatus.OK);
-//        } else {
-//            InputStream ins = nobodyImage.getInputStream();
-//            headers.setContentType(MediaType.IMAGE_PNG);
-//            return new ResponseEntity<byte[]>(
-//                    IOUtils.toByteArray(ins),
-//                    headers,
-//                    HttpStatus.OK);
-//        }
-//
-//    }
+    @GetMapping("/image")
+    @ResponseBody
+    public ResponseEntity<byte[]> showImage(
+            @AuthenticationPrincipal LoggedInUser loggedInUser, final HttpServletResponse response)
+            throws IOException {
+
+        response.addHeader("Cache-Control", "max-age=60, must-revalidate, no-transform");
+
+        FileManaged fileManaged = accountSharedService.getImage(loggedInUser.getUsername());
+
+        HttpHeaders headers = new HttpHeaders();
+
+        if (fileManaged != null) {
+            headers.setContentType(fileManagedService.getMediaType(fileManaged));
+            return new ResponseEntity<byte[]>(
+                    fileManagedService.getFile(fileManaged.getId()),
+                    headers,
+                    HttpStatus.OK);
+        } else {
+            InputStream ins = nobodyImage.getInputStream();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            return new ResponseEntity<byte[]>(
+                    IOUtils.toByteArray(ins),
+                    headers,
+                    HttpStatus.OK);
+        }
+
+    }
 
     @GetMapping(value = "/create", params = "form")
     public String createForm() {

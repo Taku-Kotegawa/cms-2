@@ -5,6 +5,7 @@ import jp.co.stnet.cms.base.domain.enums.FileType;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import org.apache.tika.exception.TikaException;
 import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -122,4 +123,6 @@ public interface FileManagedService {
      */
     ContentDisposition getAttachmentContentDisposition(FileManaged fileManaged);
 
+
+    public MediaType getMediaType(FileManaged fileManaged);
 }

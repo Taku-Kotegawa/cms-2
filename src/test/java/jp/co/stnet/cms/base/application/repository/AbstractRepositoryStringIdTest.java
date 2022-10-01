@@ -6,8 +6,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
@@ -16,7 +18,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
+@SpringBootTest
+@Transactional
 public abstract class AbstractRepositoryStringIdTest<T extends KeyInterface<I>, E, I> {
 
     Class<E> eClazz;

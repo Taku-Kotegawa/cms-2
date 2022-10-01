@@ -246,6 +246,15 @@ public class FileManagedServiceImpl implements FileManagedService {
         }
     }
 
+    public MediaType getMediaType(FileManaged fileManaged) {
+        if (fileManaged.getFileMime() != null) {
+            String[] mimeArray = fileManaged.getFileMime().split("/");
+            return new MediaType(mimeArray[0], mimeArray[1]);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * ダウンロード時にタブで開くかファイル保存か
      *
