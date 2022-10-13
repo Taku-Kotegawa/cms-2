@@ -10,8 +10,13 @@
 
     <!--/* 入力 */-->
     <th:block th:if="${fieldState.__${field_id}____input}">
-        <select class="form-control" th:errorclass="is-invalid" th:field="*{__${field_id}__}"
-                th:placeholder="${placeholder}" multiple="true">
+        <select class="form-control"
+                th:errorclass="is-invalid"
+                th:field="*{__${field_id}__}"
+                th:disabled="${fieldState.__${field_id}____disabled}"
+                th:placeholder="${placeholder}"
+                multiple="true">
+
             <option th:each="item : ${__${items}__}"
                     th:text="${item.value}"
                     th:value="${item.key}"></option>

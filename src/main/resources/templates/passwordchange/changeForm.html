@@ -22,7 +22,7 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
 
         <form autocomplete="off"
               method="POST" th:action="@{/password}" th:object="${passwordChangeForm}">
@@ -68,7 +68,6 @@
             </div>
         </form>
 
-        <!-- ここより上にメインコンテンツを記入 -->
     </div>
 </section>
 

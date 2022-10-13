@@ -23,7 +23,7 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
 
         <p class="border px-4 py-2">
             データ取り込みを開始しました。貴方のジョブ番号は、<b>ID = [[${jobExecutionId}]]</b> です。<br>
@@ -37,7 +37,6 @@
 
         <a th:href="@{|/job/result?targetjob=${jobName}&returnback=${returnBackUrl}|}" target="_blank" class="btn btn-button">ジョブ一覧を表示する <i class="fas fa-external-link-alt"></i></a>
 
-        <!-- ここより上にメインコンテンツを記入 -->
     </div>
 </section>
 

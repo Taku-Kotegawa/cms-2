@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html th:replace="~{layout/template :: layout(~{::title},~{::body})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- ページタイトルを記入 -->
+    <!--/* ページタイトルを記入 */-->
     <title>Page Title</title>
 </head>
 <body>
 
 <section class="content-header">
-    <div class="container"> <!-- -fluidを外すと横幅が狭くなる-->
+    <div class="container"> <!--/* -fluidを外すと横幅が狭くなる */-->
         <div class="row">
             <div class="col-18 mb-3">
                 <!--/* ページタイトルを記入 */-->
@@ -33,8 +33,7 @@
             <input th:field="*{id}" type="hidden"/>
             <input th:field="*{version}" type="hidden"/>
 
-
-            <!--/* button */-->
+            <!--/* button(上部) */-->
             <div th:replace="~{fragments/button-area :: m(${id})}"></div>
             <hr>
 
@@ -54,13 +53,13 @@
                 </div>
             </div>
 
-            <!--/* button */-->
+            <!--/* button(下部) */-->
             <br>
             <hr>
             <div th:replace="~{fragments/button-area :: m(${id})}"></div>
 
         </form>
-        <!--/* ここより上にメインコンテンツを記入 */-->
+
     </div>
 </section>
 

@@ -22,7 +22,7 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
         <form autocomplete="off" enctype="multipart/form-data" method="post" th:action
               th:object="${variableForm}" th:with="id= ${variable != null} ? ${variable.id} : 0">
 
@@ -145,7 +145,7 @@
 
             <div class="row">
                 <div class="col-18">
-                    <div th:replace="~{fragments/field::file('file1', '${fieldLabel.file1Uuid}', 'variable.file1Managed', '', 'variable', '')}"></div>
+                    <div th:replace="~{fragments/field::file('file1Uuid', '${fieldLabel.file1Uuid}', 'variable.file1Uuid', 'VARIABLE')}"></div>
                 </div>
             </div>
 
@@ -161,7 +161,7 @@
             <div th:replace="~{fragments/button-area :: m(${id})}"></div>
 
         </form>
-        <!-- ここより上にメインコンテンツを記入 -->
+
     </div>
 </section>
 

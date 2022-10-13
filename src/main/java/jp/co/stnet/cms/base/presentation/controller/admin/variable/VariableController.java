@@ -320,10 +320,6 @@ public class VariableController {
 
         form.setType(variableType);
 
-        if (form.getFile1Uuid() != null) {
-            form.setFile1Managed(fileManagedService.findById(form.getFile1Uuid()));
-        }
-
         Variable variable = beanMapper.map(form, Variable.class);
 
         model.addAttribute("variable", variable);
@@ -395,10 +391,6 @@ public class VariableController {
         // 入力チェック再表示の場合、formの情報をDBの値で上書きしない
         if (form.getVersion() == null) {
             beanMapper.map(variable, form);
-        }
-
-        if (form.getFile1Uuid() != null) {
-            form.setFile1Managed(fileManagedService.findById(form.getFile1Uuid()));
         }
 
         model.addAttribute("variable", variable);
@@ -565,10 +557,6 @@ public class VariableController {
 //        }
 
 
-//        if (variable.getFile1Uuid() != null) {
-//            variable.setFile1Managed(fileManagedService.findByUuid(variable.getFile1Uuid()));
-//        }
-
         model.addAttribute("variable", variable);
         model.addAttribute("fieldLabel", getFieldLabel(variable.getType()));
         model.addAttribute("buttonState", getButtonStateMap(Constants.OPERATION.VIEW, variable).asMap());
@@ -604,10 +592,6 @@ public class VariableController {
         authority.hasAuthority(Constants.OPERATION.UPLOAD, loggedInUser);
 
         form.setJobName(UPLOAD_JOB_ID);
-
-        if (form.getUploadFileUuid() != null) {
-            form.setUploadFileManaged(fileManagedService.findById(form.getUploadFileUuid()));
-        }
 
         model.addAttribute("pageTitle", "Import Variable");
         model.addAttribute("variableType", variableType);

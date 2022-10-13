@@ -1,12 +1,11 @@
 package jp.co.stnet.cms.example.application.service;
 
-import jp.co.stnet.cms.common.datatables.DataTablesInput;
+import jp.co.stnet.cms.base.application.service.NodeIService;
 import jp.co.stnet.cms.example.domain.model.SimpleEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import jp.co.stnet.cms.example.domain.model.mbg.TSimpleEntityExample;
 
-public interface SimpleEntityService {
+public interface SimpleEntityService extends NodeIService<SimpleEntity, TSimpleEntityExample, Long> {
 
-    Page<SimpleEntity> findPageByInput(DataTablesInput input);
+//    Page<SimpleEntity> findPageByInput(DataTablesInput input);
 
 }

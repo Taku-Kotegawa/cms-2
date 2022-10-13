@@ -17,12 +17,11 @@
         <div>
             <div class="row">
                 <div class="col-12">
-                    <div th:replace="~{fragments/label :: m('uploadFileUuid', 'インポートファイル *')}"></div>
-                    <div th:replace="~{fragments/file :: m('uploadFile', 'uploadFileUuid', 'uploadFileManaged', '', 'uploadFile', '')}"></div>
+                    <div th:replace="~{fragments/field::file('uploadFileUuid', 'インポートファイル *', 'uploadForm.uploadFileUuid', 'FILE_UPLOAD')}"></div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-12">
                     <div th:replace="~{fragments/label :: m('fileType', 'ファイル形式 *')}"></div>
                     <select class="form-control" th:errorclass="is-invalid" th:field="*{fileType}">
@@ -33,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-12">
                     <!-- ラベル -->
                     <div th:replace="~{fragments/label :: m('encoding', '文字コード *')}"></div>

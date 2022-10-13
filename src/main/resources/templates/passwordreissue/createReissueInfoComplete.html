@@ -22,14 +22,14 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
         <div class="callout callout-success">
             事前登録のメールアドレスにパスワード再発行用URLを送信しました。
             URLにアクセスし、下記の暗証番号を入力してください。(暗証番号には期限があります)
             <br>
             <h3>暗証番号 : <span id="secret" th:text=${secret}></span></h3>
         </div>
-        <!-- ここより上にメインコンテンツを記入 -->
+
     </div>
 </section>
 

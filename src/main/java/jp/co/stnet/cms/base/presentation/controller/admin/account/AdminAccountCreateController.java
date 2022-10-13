@@ -80,10 +80,6 @@ public class AdminAccountCreateController {
             form.setPassword(null);
         }
 
-        if (form.getImageUuid() != null) {
-            form.setImageManaged(fileManagedService.findById(form.getImageUuid()));
-        }
-
         model.addAttribute("buttonState", helper.getButtonStateMap(Constants.OPERATION.CREATE, null, form).asMap());
         model.addAttribute("fieldState", helper.getFiledStateMap(Constants.OPERATION.CREATE, null, form).asMap());
         model.addAttribute("op", new OperationsUtil(BASE_PATH));

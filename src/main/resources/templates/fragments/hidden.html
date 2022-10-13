@@ -9,7 +9,7 @@
 <th:block th:fragment="m(field_id)">
 
     <th:block th:if="${fieldState.__${field_id}____hidden}">
-        <!-- 隠しフィールド -->
+        <!--/* 隠しフィールド */-->
         <input th:field="*{__${field_id}__}" type="hidden"/>
     </th:block>
 

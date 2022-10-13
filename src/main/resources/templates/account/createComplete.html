@@ -22,14 +22,14 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
         <div>
             あたなの初期パスワードは「<span id=password th:text="${password}"></span>」です。
             初回ログイン時に変更してください。</div>
         <br>
         <a th:href="@{/login}" class="btn-button">ログイン画面へ</a>
 
-        <!-- ここより上にメインコンテンツを記入 -->
+
     </div>
 </section>
 <script>

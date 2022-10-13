@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SimpleEntityForm implements Serializable {
+public class SimpleEntityListForm implements Serializable {
 
     private String q;
 

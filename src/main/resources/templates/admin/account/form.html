@@ -22,7 +22,7 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
 
         <form autocomplete="off" enctype="multipart/form-data" method="post" th:action
               th:object="${accountForm}" th:with="id= ${account != null} ? ${account.username} : 0">
@@ -133,7 +133,7 @@
                     </th:block>
 
                     <div th:replace="~{fragments/hidden :: m('apiKey')}"></div>
-                    <div th:replace="~{fragments/view :: m('apiKey', 'API KEY', 'account.apiKey', '')}"></div>
+                    <div th:replace="~{fragments/view-text :: m('apiKey', 'API KEY', 'account.apiKey', '')}"></div>
                 </div>
             </div>
             <div class="row">
@@ -151,7 +151,7 @@
             </form>
         </th:block>
 
-        <!-- ここより上にメインコンテンツを記入 -->
+
     </div>
 </section>
 

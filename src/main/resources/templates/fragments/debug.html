@@ -2,8 +2,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<section th:fragment="debug" id="debug-section" class="container-fluid">
+<section th:fragment="debug" id="debug-section" class="container-fluid" th:if="${@environment.getProperty('debug') == 'true'}">
     <hr>
+
     <div class="row">
         <details class="col-36">
             <summary>Session</summary>

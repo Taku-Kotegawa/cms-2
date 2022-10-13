@@ -39,16 +39,6 @@
         <collection property="text05" ofType="String">
             <id column="text05"/>
         </collection>
-        <!--        <result column="cb2_id" jdbcType="BIGINT" property="cb2Id" />-->
-        <!--        <result column="checkbox02" jdbcType="VARCHAR" property="checkbox02" />-->
-        <!--        <result column="cb3_id" jdbcType="BIGINT" property="cb3Id" />-->
-        <!--        <result column="combobox03" jdbcType="VARCHAR" property="combobox03" />-->
-        <!--        <result column="st2_id" jdbcType="BIGINT" property="st2Id" />-->
-        <!--        <result column="select02" jdbcType="VARCHAR" property="select02" />-->
-        <!--        <result column="st4_id" jdbcType="BIGINT" property="st4Id" />-->
-        <!--        <result column="select04" jdbcType="VARCHAR" property="select04" />-->
-        <!--        <result column="tx5_id" jdbcType="BIGINT" property="tx5Id" />-->
-        <!--        <result column="text05" jdbcType="VARCHAR" property="text05" />-->
     </resultMap>
 
     <select id="findByInput" resultMap="BaseResultMap">
@@ -128,6 +118,68 @@
         <if test="dataTablesInput.whereClause != null">
             ${dataTablesInput.whereClause}
         </if>
+    </select>
+
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select
+        se.id,
+        se.created_by,
+        se.created_date,
+        se.last_modified_by,
+        se.last_modified_date,
+        se.version,
+        se.attached_file01uuid,
+        se.checkbox01,
+        se.combobox01,
+        se.combobox02,
+        se.date01,
+        se.datetime01,
+        se.radio01,
+        se.radio02,
+        se.select01,
+        se.select03,
+        se.status,
+        se.text01,
+        se.text02,
+        se.text03,
+        se.text04,
+        se.textarea01,
+        cb2.simple_entity_id as cb2_id,
+        cb2.checkbox02,
+        cb3.simple_entity_id as cb3_id,
+        cb3.combobox03,
+        st2.simple_entity_id as st2_id,
+        st2.select02,
+        st4.simple_entity_id as st4_id,
+        st4.select04,
+        tx5.simple_entity_id as tx5_id,
+        tx5.text05
+        <!--        -->
+        from
+        (
+        select *
+        from simple_entity
+        where
+        id = #{id, jdbcType=BIGINT}
+        ) se
+        <!--        -->
+        left outer join simple_entity_checkbox02 cb2 on cb2.simple_entity_id = se.id
+        left outer join simple_entity_combobox03 cb3 on cb3.simple_entity_id = se.id
+        left outer join simple_entity_select02 st2 on st2.simple_entity_id = se.id
+        left outer join simple_entity_select04 st4 on st4.simple_entity_id = se.id
+        left outer join simple_entity_text05 tx5 on tx5.simple_entity_id = se.id
+        <!--        -->
+        order by
+        cb2.simple_entity_id,
+        cb2.checkbox02,
+        cb3.simple_entity_id,
+        cb3.combobox03,
+        st2.simple_entity_id,
+        st2.select02,
+        st4.simple_entity_id,
+        st4.select04,
+        tx5.simple_entity_id,
+        tx5.text05
     </select>
 
 </mapper>

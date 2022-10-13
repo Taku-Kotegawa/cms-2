@@ -21,7 +21,7 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
         <form method="POST" th:action="@{/reissue/create}" th:object="${createReissueInfoForm}">
 
             <div class="form-group row">
@@ -35,7 +35,7 @@
             <input class="btn-button" id="submit" type="submit" value="再発行"/>
 
         </form>
-        <!-- ここより上にメインコンテンツを記入 -->
+
     </div>
 </section>
 </body>

@@ -184,7 +184,6 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
 
     @Override
     public boolean existsById(I id) {
-        Objects.requireNonNull(id);
         return mapper().selectByPrimaryKey(id) != null;
     }
 

@@ -75,10 +75,6 @@ public class AdminAccountUpdateController {
 
         Account account = accountService.findById(username);
 
-        if (form.getImageUuid() != null) {
-            form.setImageManaged(fileManagedService.findById(form.getImageUuid()));
-        }
-
         // 初回表示(入力チェックエラー時の再表示でない場合)
         if (form.getVersion() == null) {
             beanMapper.map(account, form);

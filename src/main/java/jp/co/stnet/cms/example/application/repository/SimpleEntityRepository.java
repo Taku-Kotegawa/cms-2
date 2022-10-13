@@ -1,6 +1,8 @@
 package jp.co.stnet.cms.example.application.repository;
 
 import jp.co.stnet.cms.base.application.repository.AbstractComplexVersionRepository;
+import jp.co.stnet.cms.base.application.repository.AbstractVersionRepository;
+import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import jp.co.stnet.cms.common.datatables.DataTablesUtil;
@@ -17,11 +19,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSimpleEntity, TSimpleEntityExample, Long, SimpleEntity> {
+public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSimpleEntity, TSimpleEntityExample, Long, SimpleEntity>
+    implements VersionRepositoryInterface<SimpleEntity, TSimpleEntityExample, Long> {
 
     private final TSimpleEntityMapper mapper;
 
@@ -164,11 +168,14 @@ public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSi
      */
     public Page<SimpleEntity> findPageByInput(DataTablesInput input) {
         input.setWhereClause(DataTablesUtil.getWhereClause(input, fieldMap));
-//        var pageable = PageRequest.of(input.getStart() / input.getLength(), input.getLength());
         var pageable = input.getPageable();
         var entities = simpleEntityQueryMapper.findByInput(input);
         var totalCount = simpleEntityQueryMapper.countByInput(input);
         return new PageImpl<>(entities, pageable, totalCount);
     }
 
+    @Override
+    public Optional<SimpleEntity> findById(Long id) {
+        return Optional.ofNullable(simpleEntityQueryMapper.findByPrimaryKey(id));
+    }
 }

@@ -32,9 +32,16 @@ public enum Permission implements EnumCodeList.CodeListItem {
     DOC_VIEW_ALL("参照(社員)", "DOC"),
     DOC_VIEW_DISPATCHED_LABOR("参照(派遣)", "DOC"),
     DOC_VIEW_OUTSOURCING("参照(外部委託)", "DOC"),
-    JOBLOG_ADMIN("全てのジョブログを閲覧", "DOC"),
-    JOBLOG_VIEW_SELF("自分のジョブログを閲覧", "DOC");
-
+    SENTITY_CREATE("新規登録", "SENTITY"),
+    SENTITY_UPDATE("編集", "SENTITY"),
+    SENTITY_SAVE_DRAFT("下書き保存/下書取消", "SENTITY"),
+    SENTITY_SAVE("保存", "SENTITY"),
+    SENTITY_INVALID("無効化/無効解除", "SENTITY"),
+    SENTITY_DELETE("削除", "SENTITY"),
+    SENTITY_UPLOAD("アップロード", "SENTITY"),
+    SENTITY_LIST("管理一覧を表示", "SENTITY"),
+    JOBLOG_ADMIN("全てのジョブログを閲覧", "JOBLOG"),
+    JOBLOG_VIEW_SELF("自分のジョブログを閲覧", "JOBLOG");
 
     /**
      * ラベル(日本語)

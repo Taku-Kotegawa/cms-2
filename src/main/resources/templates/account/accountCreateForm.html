@@ -23,7 +23,7 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
         <form th:action="@{/account/create}"
               method="POST" th:object="${accountCreateForm}" enctype="multipart/form-data" autocomplete="off">
 
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </form>
-        <!-- ここより上にメインコンテンツを記入 -->
+
     </div>
 </section>
 </body>

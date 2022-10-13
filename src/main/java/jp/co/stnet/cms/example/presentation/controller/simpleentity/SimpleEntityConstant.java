@@ -1,4 +1,4 @@
-package jp.co.stnet.cms.example.presentation.controller;
+package jp.co.stnet.cms.example.presentation.controller.simpleentity;
 
 import jp.co.stnet.cms.common.constant.Constants;
 
@@ -14,6 +14,6 @@ public class SimpleEntityConstant {
     static final String DOWNLOAD_FILENAME = "simple-entity";
 
     // アップロード用のインポートジョブID
-//    static final String UPLOAD_JOB_ID = Constants.JOBID.IMPORT_ACCOUNT;
+    static final String UPLOAD_JOB_ID = "uploadSimpleEntity";
 
 }

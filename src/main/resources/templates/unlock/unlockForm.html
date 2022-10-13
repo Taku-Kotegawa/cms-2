@@ -22,7 +22,7 @@
 <section class="content">
     <div class="container">
         <div th:replace="~{fragments/message-panel :: message-panel}"></div>
-        <!-- ここより下にメインコンテンツを記入 -->
+        <!--/* ここより下にメインコンテンツを記入 */-->
         <form method="POST" th:action="@{/unlock}" th:object="${unlockForm}">
 
             <div class="row">
@@ -38,7 +38,7 @@
                 <input id="submit" class="btn-button" type="submit" value="解除"/>
             </div>
         </form>
-        <!-- ここより上にメインコンテンツを記入 -->
+
     </div>
 </section>
 

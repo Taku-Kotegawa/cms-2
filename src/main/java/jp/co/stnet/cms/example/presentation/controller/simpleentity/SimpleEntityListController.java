@@ -1,11 +1,11 @@
-package jp.co.stnet.cms.example.presentation.controller;
+package jp.co.stnet.cms.example.presentation.controller.simpleentity;
 
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.common.datatables.*;
 import jp.co.stnet.cms.common.util.BeanUtils;
 import jp.co.stnet.cms.example.application.service.SimpleEntityService;
 import jp.co.stnet.cms.example.domain.model.mbg.TSimpleEntity;
-import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
+import jp.co.stnet.cms.example.presentation.request.SimpleEntityListForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 
-import static jp.co.stnet.cms.example.presentation.controller.SimpleEntityConstant.BASE_PATH;
-import static jp.co.stnet.cms.example.presentation.controller.SimpleEntityConstant.TEMPLATE_LIST;
+import static jp.co.stnet.cms.example.presentation.controller.simpleentity.SimpleEntityConstant.BASE_PATH;
+import static jp.co.stnet.cms.example.presentation.controller.simpleentity.SimpleEntityConstant.TEMPLATE_LIST;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class SimpleEntityListController {
      */
     @GetMapping("list")
     public String search(Model model,
-                         @Validated SimpleEntityForm form,
+                         @Validated SimpleEntityListForm form,
                          BindingResult bindingResult,
                          @PageableDefault(size = 10) Pageable pageable,
                          @AuthenticationPrincipal LoggedInUser loggedInUser) {
@@ -51,13 +51,13 @@ public class SimpleEntityListController {
     }
 
     /**
-     * SimpleEntityForm と Pageable から DataTablesInputs を作る
+     * SimpleEntityListForm と Pageable から DataTablesInputs を作る
      *
-     * @param form     SimpleEntityForm
+     * @param form     SimpleEntityListForm
      * @param pageable Pageable
      * @return DataTablesInput
      */
-    private DataTablesInput createDataTablesInput(SimpleEntityForm form, Pageable pageable) {
+    private DataTablesInput createDataTablesInput(SimpleEntityListForm form, Pageable pageable) {
 
         var fields = BeanUtils.getFieldList(TSimpleEntity.class);
 

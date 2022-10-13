@@ -57,7 +57,7 @@ function file_attach(element) {
 
     }).done(function (data) { // Ajax通信が成功した時の処理
 
-      if (data.fid == null) {
+      if (data.uuid == null) {
         alert(data.message);
         return;
       }
@@ -103,7 +103,7 @@ function file_attach(element) {
 
       var uuid = document.createElement('input');
       uuid.type = "hidden";
-      uuid.name = $upload_file.id + "Uuid";
+      uuid.name = $upload_file.id;
       uuid.value = data.uuid;
       span.appendChild(uuid);
 
