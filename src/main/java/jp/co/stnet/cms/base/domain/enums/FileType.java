@@ -21,7 +21,7 @@ public enum FileType implements EnumCodeList.CodeListItem {
     DOCUMENT_FILE("document_file", "", "50"),
     DOCUMENT_PDF("document_pdf", "pdf;", "50"),
     VARIABLE("variable", "pdf;png;jpg;gif;", "10"),
-
+    ACCOUNT("account", "png;jpg:gif", "10"),
 
     DEFAULT("default", "", "10");
 
