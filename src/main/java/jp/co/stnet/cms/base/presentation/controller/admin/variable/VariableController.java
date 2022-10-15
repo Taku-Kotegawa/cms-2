@@ -4,6 +4,7 @@ package jp.co.stnet.cms.base.presentation.controller.admin.variable;
 import jp.co.stnet.cms.base.application.service.CodeListService;
 import jp.co.stnet.cms.base.application.service.FileManagedService;
 import jp.co.stnet.cms.base.application.service.VariableService;
+import jp.co.stnet.cms.base.domain.enums.FileType;
 import jp.co.stnet.cms.base.domain.enums.Status;
 import jp.co.stnet.cms.base.domain.enums.VariableType;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
@@ -572,7 +573,7 @@ public class VariableController {
 
         authority.hasAuthority(Constants.OPERATION.DOWNLOAD, loggedInUser);
 
-        model.addAttribute(fileManagedService.findById(uuid));
+        model.addAttribute(fileManagedService.findByIdAndFileType(uuid, FileType.VARIABLE));
         return "fileManagedDownloadView";
     }
 
@@ -625,7 +626,8 @@ public class VariableController {
         try {
             jobExecutionId = jobStarter.start(jobName, jobParams);
 
-        } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException e) {
+        } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException | JobRestartException |
+                 JobInstanceAlreadyCompleteException e) {
             e.printStackTrace();
 
             // メッセージをセットして、フォーム画面に戻る。

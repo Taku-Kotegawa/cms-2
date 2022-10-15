@@ -1,6 +1,7 @@
 package jp.co.stnet.cms.example.presentation.controller.simpleentity;
 
 import jp.co.stnet.cms.base.application.service.FileManagedService;
+import jp.co.stnet.cms.base.domain.enums.FileType;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import jp.co.stnet.cms.common.constant.Constants;
@@ -75,7 +76,7 @@ public class SimpleEntityDownloadController {
 
         authority.hasAuthority(Constants.OPERATION.DOWNLOAD, loggedInUser);
 
-        FileManaged fileManaged = fileManagedService.findById(uuid);
+        FileManaged fileManaged = fileManagedService.findByIdAndFileType(uuid, FileType.SIMPLE_ENTITY);
         model.addAttribute(fileManaged);
 
         return "fileManagedDownloadView";

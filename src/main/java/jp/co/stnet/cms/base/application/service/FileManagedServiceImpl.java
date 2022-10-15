@@ -62,14 +62,6 @@ public class FileManagedServiceImpl implements FileManagedService {
         return fileManagedRepository.findById(uuid).orElse(null);
     }
 
-    @Transactional(readOnly = true)
-    public FileManaged findByUuid(String uuid) {
-        if (uuid == null) {
-            return null;
-        }
-        return findById(uuid);
-    }
-
     @Override
     public FileManaged store(MultipartFile file, FileType fileType) throws IOException {
 
