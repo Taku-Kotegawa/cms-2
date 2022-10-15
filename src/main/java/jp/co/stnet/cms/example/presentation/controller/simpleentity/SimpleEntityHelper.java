@@ -6,6 +6,7 @@ import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.util.StateMap;
 import jp.co.stnet.cms.example.domain.model.SimpleEntity;
 import jp.co.stnet.cms.example.presentation.dto.SimpleEntityBean;
+import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 @Component
-public class CsvDownloadView extends AbstractFileDownloadView {
+public class TsvDownloadView extends AbstractFileDownloadView {
 
     @Override
     protected void addResponseHeader(Map<String, Object> model, HttpServletRequest request,
@@ -23,7 +23,18 @@ public class CsvDownloadView extends AbstractFileDownloadView {
     @Override
     protected InputStream getInputStream(Map<String, Object> model, HttpServletRequest request) throws IOException {
 
-        InputStream is = JacksonCsvUtils.writeStream((Class) model.get("class"), model.get("exportCsvData"));
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//
+//        Csv.save(model.get("exportCsvData"),
+//                baos,
+//                "UTF-8",
+//                (CsvConfig) model.get("csvConfig"),
+//                new CsvEntityListHandler<>((Class) model.get("class"))
+////                (ColumnNameMappingBeanListHandler)model.get("handler")
+//        );
+
+        InputStream is = JacksonCsvUtils.writeTsvStream((Class) model.get("class"), model.get("exportCsvData"));
+
         return is;
     }
 }

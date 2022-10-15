@@ -49,7 +49,7 @@ public enum FileType implements EnumCodeList.CodeListItem {
 
     @Override
     public String getCodeValue() {
-        return label;
+        return name();
     }
 
     public static FileType getByValue(String value) {

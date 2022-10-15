@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.base.presentation.controller.admin.variable;
 
-import com.orangesignal.csv.annotation.CsvColumn;
-import com.orangesignal.csv.annotation.CsvEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -12,183 +12,187 @@ import java.util.Date;
  * 変数管理のCSVファイルのBean
  */
 @Data
-@CsvEntity
 public class VariableCsvBean implements Serializable {
 
     /**
      * 内部ID
      */
-    @CsvColumn(name = "id", position = 0)
+    @JsonProperty(index = 1)
     private Long id;
 
     /**
      * バージョン
      */
-    @CsvColumn(name = "version", position = 1)
+    @JsonProperty(index = 2)
     private Long version;
 
     /**
      * ステータス
      */
-    @CsvColumn(name = "status", position = 2)
+    @JsonProperty(index = 3)
     private String status;
 
     /**
      * ステータス
      */
-    @CsvColumn(name = "statusLabel", position = 3)
+    @JsonProperty(index = 4)
     private String statusLabel;
 
     /**
      * タイプ
      */
-    @CsvColumn(name = "type", position = 4)
+    @JsonProperty(index = 5)
     @NotNull
     private String type;
 
     /**
      * コード
      */
-    @CsvColumn(name = "code", position = 5)
+    @JsonProperty(index = 6)
     @NotNull
     private String code;
 
     /**
      * 値1
      */
-    @CsvColumn(name = "value1", position = 6)
+    @JsonProperty(index = 7)
     private String value1;
 
     /**
      * 値2
      */
-    @CsvColumn(name = "value2", position = 7)
+    @JsonProperty(index = 8)
     private String value2;
 
     /**
      * 値3
      */
-    @CsvColumn(name = "value3", position = 8)
+    @JsonProperty(index = 9)
     private String value3;
 
     /**
      * 値4
      */
-    @CsvColumn(name = "value4", position = 9)
+    @JsonProperty(index = 10)
     private String value4;
 
     /**
      * 値5
      */
-    @CsvColumn(name = "value5", position = 10)
+    @JsonProperty(index = 11)
     private String value5;
 
     /**
      * 値6
      */
-    @CsvColumn(name = "value6", position = 11)
+    @JsonProperty(index = 12)
     private String value6;
 
     /**
      * 値7
      */
-    @CsvColumn(name = "value7", position = 12)
+    @JsonProperty(index = 13)
     private String value7;
 
     /**
      * 値8
      */
-    @CsvColumn(name = "value8", position = 13)
+    @JsonProperty(index = 14)
     private String value8;
 
     /**
      * 値9
      */
-    @CsvColumn(name = "value9", position = 14)
+    @JsonProperty(index = 15)
     private String value9;
 
     /**
      * 値10
      */
-    @CsvColumn(name = "value10", position = 15)
+    @JsonProperty(index = 16)
     private String value10;
 
     /**
      * 日付1
      */
-    @CsvColumn(name = "date1", format = "yyyy/MM/dd", position = 16)
+    @JsonProperty(index = 17)
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date1;
 
     /**
      * 日付2
      */
-    @CsvColumn(name = "date2", format = "yyyy/MM/dd", position = 17)
+    @JsonProperty(index = 18)
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date2;
 
     /**
      * 日付3
      */
-    @CsvColumn(name = "date3", format = "yyyy/MM/dd", position = 18)
+    @JsonProperty(index = 19)
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date3;
 
     /**
      * 日付4
      */
-    @CsvColumn(name = "date4", format = "yyyy/MM/dd", position = 19)
+    @JsonProperty(index = 20)
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date4;
 
     /**
      * 日付5
      */
-    @CsvColumn(name = "date5", format = "yyyy/MM/dd", position = 20)
+    @JsonProperty(index = 21)
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date5;
 
     /**
      * 整数1
      */
-    @CsvColumn(name = "valint1", position = 21)
+    @JsonProperty(index = 22)
     private Integer valint1;
 
     /**
      * 整数2
      */
-    @CsvColumn(name = "valint2", position = 22)
+    @JsonProperty(index = 23)
     private Integer valint2;
 
     /**
      * 整数3
      */
-    @CsvColumn(name = "valint3", position = 23)
+    @JsonProperty(index = 24)
     private Integer valint3;
 
     /**
      * 整数4
      */
-    @CsvColumn(name = "valint4", position = 24)
+    @JsonProperty(index = 25)
     private Integer valint4;
 
     /**
      * 整数5
      */
-    @CsvColumn(name = "valint5", position = 25)
+    @JsonProperty(index = 26)
     private Integer valint5;
 
     /**
      * テキストエリア
      */
-    @CsvColumn(name = "textarea", position = 26)
+    @JsonProperty(index = 27)
     private String textarea;
 
     /**
      * ファイル1
      */
-    @CsvColumn(name = "file1Uuid", position = 27)
+    @JsonProperty(index = 28)
     private String file1Uuid;
 
     /**
      * 備考
      */
-    @CsvColumn(name = "remark", position = 28)
+    @JsonProperty(index = 29)
     private String remark;
 
 }

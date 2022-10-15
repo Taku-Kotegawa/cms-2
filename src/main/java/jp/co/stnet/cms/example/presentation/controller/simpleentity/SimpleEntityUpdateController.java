@@ -7,6 +7,7 @@ import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.example.application.service.SimpleEntityService;
+import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationContext;
@@ -63,8 +64,6 @@ public class SimpleEntityUpdateController {
         if (form.getVersion() == null) {
             beanMapper.map(entity, form);
         }
-
-        entity.setAttachedFile01uuid("uuid:1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
 
         model.addAttribute("simpleEntity", entity);
         model.addAttribute("buttonState", helper.getButtonStateMap(Constants.OPERATION.UPDATE, entity, form).asMap());

@@ -1,4 +1,4 @@
-package jp.co.stnet.cms.example.presentation.controller.simpleentity;
+package jp.co.stnet.cms.example.presentation.request;
 
 
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;

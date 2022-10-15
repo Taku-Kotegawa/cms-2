@@ -1,11 +1,10 @@
 package jp.co.stnet.cms.example.presentation.controller.simpleentity;
 
-import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
-import jp.co.stnet.cms.base.presentation.controller.admin.account.AccountForm;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.example.application.service.SimpleEntityService;
+import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

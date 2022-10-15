@@ -1,88 +1,87 @@
 package jp.co.stnet.cms.base.presentation.controller.admin.account;
 
-import com.orangesignal.csv.annotation.CsvColumn;
-import com.orangesignal.csv.annotation.CsvEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-@CsvEntity
 public class AccountCsvDlBean {
 
     /**
      * ユーザID
      */
-    @CsvColumn(name = "username", position = 0)
+    @JsonProperty(index = 1)
     private String username;
 
     /**
      * 名
      */
-    @CsvColumn(name = "firstName", position = 1)
+    @JsonProperty(index = 2)
     private String firstName;
 
     /**
      * 姓
      */
-    @CsvColumn(name = "lastName", position = 2)
+    @JsonProperty(index = 3)
     private String lastName;
 
     /**
      * 所属
      */
-    @CsvColumn(name = "department", position = 3)
+    @JsonProperty(index = 4)
     private String department;
 
     /**
      * メールアドレス
      */
-    @CsvColumn(name = "email", position = 4)
+    @JsonProperty(index = 5)
     private String email;
 
     /**
      * URL
      */
-    @CsvColumn(name = "url", position = 5)
+    @JsonProperty(index = 6)
     private String url;
 
     /**
      * プロフィール
      */
-    @CsvColumn(name = "profile", position = 6)
+    @JsonProperty(index = 7)
     private String profile;
 
     /**
      * ロール
      */
-    @CsvColumn(name = "roles", position = 7)
+    @JsonProperty(index = 8)
     private String roles;
 
     /**
      * ステータス
      */
-    @CsvColumn(name = "status", position = 8)
+    @JsonProperty(index = 9)
     private String status;
 
     /**
      * ステータス(ラベル)
      */
-    @CsvColumn(name = "statusLabel", position = 9)
+    @JsonProperty(index = 10)
     private String statusLabel;
 
     /**
      * 画像UUID
      */
-    @CsvColumn(name = "imageUuid", position = 10)
+    @JsonProperty(index = 11)
     private String imageUuid;
 
     /**
      * API KEY
      */
-    @CsvColumn(name = "apiKey", position = 11)
+    @JsonProperty(index = 12)
     private String apiKey;
 
     /**
      * ログイン許可IPアドレス
      */
-    @CsvColumn(name = "allowedIp", position = 12)
+    @JsonProperty(index = 13)
     private String allowedIp;
+
 }

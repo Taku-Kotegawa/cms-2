@@ -8,6 +8,7 @@ import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.example.application.service.SimpleEntityService;
 import jp.co.stnet.cms.example.domain.model.SimpleEntity;
+import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

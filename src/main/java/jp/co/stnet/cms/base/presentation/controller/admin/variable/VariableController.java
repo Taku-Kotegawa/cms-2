@@ -15,7 +15,6 @@ import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.datatables.DataTablesInputDraft;
 import jp.co.stnet.cms.common.datatables.DataTablesOutput;
 import jp.co.stnet.cms.common.message.MessageKeys;
-import jp.co.stnet.cms.common.util.CsvUtils;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.common.util.StateMap;
 import lombok.extern.slf4j.Slf4j;
@@ -222,9 +221,7 @@ public class VariableController {
         authority.hasAuthority(Constants.OPERATION.LIST, loggedInUser);
 
         setModelForCsv(input, model);
-        model.addAttribute("csvConfig", CsvUtils.getCsvDefault());
         model.addAttribute("csvFileName", "Variable.csv");
-//        model.addAttribute("handler", VariableCsvBean.getHandler());
         return "csvDownloadView";
     }
 
@@ -234,10 +231,8 @@ public class VariableController {
         authority.hasAuthority(Constants.OPERATION.LIST, loggedInUser);
 
         setModelForCsv(input, model);
-        model.addAttribute("csvConfig", CsvUtils.getTsvDefault());
         model.addAttribute("csvFileName", "Variable.tsv");
-//        model.addAttribute("handler", VariableCsvBean.getHandler());
-        return "csvDownloadView";
+        return "tsvDownloadView";
     }
 
     private void setModelForCsv(DataTablesInputDraft input, Model model) {

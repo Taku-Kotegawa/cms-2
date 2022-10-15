@@ -8,13 +8,10 @@ import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import jp.co.stnet.cms.common.constant.Constants;
-
 import jp.co.stnet.cms.common.datatables.DataTablesInputDraft;
-import jp.co.stnet.cms.common.util.CsvUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -57,7 +54,6 @@ public class AdminAccountDownloadController {
         authority.hasAuthority(Constants.OPERATION.LIST, loggedInUser);
 
         setModelForCsv(input, model);
-        model.addAttribute("csvConfig", CsvUtils.getCsvDefault());
         model.addAttribute("csvFileName", DOWNLOAD_FILENAME + ".csv");
         return "csvDownloadView";
     }
@@ -71,9 +67,8 @@ public class AdminAccountDownloadController {
         authority.hasAuthority(Constants.OPERATION.LIST, loggedInUser);
 
         setModelForCsv(input, model);
-        model.addAttribute("csvConfig", CsvUtils.getTsvDefault());
         model.addAttribute("csvFileName", DOWNLOAD_FILENAME + ".tsv");
-        return "csvDownloadView";
+        return "tsvDownloadView";
     }
 
     /**

@@ -47,5 +47,4 @@ public class SimpleEntity extends TSimpleEntity {
      */
     private List<LineItem> lineItems = new ArrayList<>();
 
-
 }

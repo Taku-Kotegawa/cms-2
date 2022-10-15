@@ -26,16 +26,17 @@
         <!--/* ここより下にメインコンテンツを記入 */-->
         <div th:replace="~{fragments/include-upload :: include-upload}"></div>
 
-        <!-- アップロードファイルの仕様説明 -->
-        <caption>ファイルレイアウト</caption>
+        <!--/* アップロードファイルの仕様説明 */-->
+        <br>
+        <caption><b>ファイルレイアウト</b></caption>
         <table class="table-sm">
             <thead>
             <tr>
                 <th>No</th>
                 <th>カラム名</th>
                 <th>日本語名</th>
-                <th>入力要領</th>
-                <th>必須</th>
+                <th>編集要領</th>
+                <th>入力チェック</th>
                 <th>例</th>
             </tr>
             </thead>
@@ -219,6 +220,7 @@
             </tbody>
         </table>
         <br>
+        <b>ヘッダーレコードのサンプル</b>
         <div class="border">
             id,status,text01,text02,text03,text04,text05,radio01,radio02,checkbox01,checkbox02,textarea01,date01,datetime01,select01,select02,select03,select04,combobox01,combobox02,combobox03,attachedFile01
         </div>
