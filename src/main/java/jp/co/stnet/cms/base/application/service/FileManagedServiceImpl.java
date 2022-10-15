@@ -30,6 +30,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
@@ -47,8 +48,8 @@ public class FileManagedServiceImpl implements FileManagedService {
 
     @Override
     @Transactional(readOnly = true)
-    public byte[] getFile(String id) {
-        String filePath = fileStoreBasedir + findById(id).getUri();
+    public byte[] getFile(String uuid) {
+        String filePath = fileStoreBasedir + findById(uuid).getUri();
         try {
             return Files.readAllBytes(Paths.get(filePath));
         } catch (IOException e) {
@@ -57,8 +58,8 @@ public class FileManagedServiceImpl implements FileManagedService {
     }
 
     @Transactional(readOnly = true)
-    public FileManaged findById(String id) {
-        return fileManagedRepository.findById(id).orElse(null);
+    public FileManaged findById(String uuid) {
+        return fileManagedRepository.findById(uuid).orElse(null);
     }
 
     @Transactional(readOnly = true)
@@ -94,7 +95,7 @@ public class FileManagedServiceImpl implements FileManagedService {
         // FileManagedの登録
         FileManaged fileManaged = FileManaged.builder()
                 .uuid(uuid)
-                .fileType(fileType.name())
+                .fileType(fileType.getCodeValue())
                 .originalFilename(file.getOriginalFilename())
                 .fileMime(mimeType)
                 .fileSize(file.getSize())
@@ -130,7 +131,7 @@ public class FileManagedServiceImpl implements FileManagedService {
         // FileManagedの登録
         FileManaged fileManaged = FileManaged.builder()
                 .uuid(uuid)
-                .fileType(fileType.name())
+                .fileType(fileType.getCodeValue())
                 .originalFilename(path.getFileName().toString())
                 .fileMime(mimeType)
                 .fileSize(Files.size(path))
@@ -164,9 +165,9 @@ public class FileManagedServiceImpl implements FileManagedService {
 
 
     @Override
-    public FileManaged permanent(String id) {
-        var fileManaged = fileManagedRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("id = " + id));
+    public FileManaged permanent(String uuid) {
+        var fileManaged = fileManagedRepository.findById(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("uuid = " + uuid));
         fileManaged.setStatus(FileStatus.PERMANENT.getCodeValue());
         return fileManagedRepository.save(fileManaged);
     }
@@ -200,10 +201,10 @@ public class FileManagedServiceImpl implements FileManagedService {
 
     @Override
     @Transactional(readOnly = true)
-    public String getContent(String id) throws IOException, TikaException {
+    public String getContent(String uuid) throws IOException, TikaException {
         Tika tika = new Tika();
         tika.setMaxStringLength(1000 * 1000); // 1M
-        return tika.parseToString(new FileInputStream(new File(getFileStoreBaseDir() + findById(id).getUri())));
+        return tika.parseToString(new FileInputStream(new File(getFileStoreBaseDir() + findById(uuid).getUri())));
     }
 
     @Override
@@ -222,7 +223,8 @@ public class FileManagedServiceImpl implements FileManagedService {
     @Override
     public void deleteFile(String uri) {
         if (uri != null) {
-            String filePath = fileStoreBasedir + uri.replace('/', '\\');
+//            String filePath = fileStoreBasedir + uri.replace('/', '\\');
+            String filePath = fileStoreBasedir + uri;
             try {
                 Files.delete(Path.of(filePath));
             } catch (IOException e) {
@@ -261,6 +263,21 @@ public class FileManagedServiceImpl implements FileManagedService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public FileManaged findByIdAndCreatedBy(String uuid, String username) {
+        return fileManagedRepository.findByIdAndCreatedBy(uuid, username).orElse(null);
+    }
+
+    @Override
+    public FileManaged findByIdAndFileType(String uuid, FileType fileType) {
+        return fileManagedRepository.findByIdAndFileType(uuid, fileType).orElse(null);
+    }
+
+    @Override
+    public FileManaged findByIdAndFileTypeAndCreatedBy(String uuid, FileType fileType, String username) {
+        return fileManagedRepository.findByIdAndFileTypeAndCreatedBy(uuid, fileType, username).orElse(null);
     }
 
     /**

@@ -20,18 +20,18 @@ public interface FileManagedService {
     /**
      * idでファイルの内容をbyte[]で取得する。
      *
-     * @param id id
+     * @param uuid uuid
      * @return ファイル
      */
-    byte[] getFile(String id);
+    byte[] getFile(String uuid);
 
     /**
      * idでFileManagedを検索する。
      *
-     * @param id id
+     * @param uuid uuid
      * @return FileManaged
      */
-    FileManaged findById(String id);
+    FileManaged findById(String uuid);
 
     /**
      * ファイルを保存する。(一時保存)
@@ -56,16 +56,16 @@ public interface FileManagedService {
     /**
      * ファイルのステータスを一時保存から永久保存に変更する。
      *
-     * @param id id
+     * @param uuid uuid
      */
-    FileManaged permanent(String id);
+    FileManaged permanent(String uuid);
 
     /**
      * idでFileManagedとファイルを削除する。
      *
-     * @param id id
+     * @param uuid uuid
      */
-    void delete(String id);
+    void delete(String uuid);
 
     /**
      * 指定日時以前の一時保存状態のFileManagedとファイルを削除する。
@@ -84,20 +84,20 @@ public interface FileManagedService {
     /**
      * ファイルの内容を取得する。
      *
-     * @param id UUID
+     * @param uuid UUID
      * @return ファイルの内容
      * @throws IOException ファイルの読み込みに失敗する場合
      */
-    String getContent(String id) throws IOException, TikaException;
+    String getContent(String uuid) throws IOException, TikaException;
 
     /**
      * FileManagedとファイルをコピーし、新しいUUIDを発番する。
      *
-     * @param id ID
+     * @param uuid UUID
      * @return コピー後のFileManaged
      * @throws IOException ファイルの操作に失敗した場合
      */
-    FileManaged copy(String id) throws IOException;
+    FileManaged copy(String uuid) throws IOException;
 
     /**
      * 指定したURIでファイルを削除する。(物理ファイルのみ)
@@ -124,5 +124,29 @@ public interface FileManagedService {
     ContentDisposition getAttachmentContentDisposition(FileManaged fileManaged);
 
 
-    public MediaType getMediaType(FileManaged fileManaged);
+    MediaType getMediaType(FileManaged fileManaged);
+
+    /**
+     * @param uuid
+     * @param username
+     * @return
+     */
+    FileManaged findByIdAndCreatedBy(String uuid, String username);
+
+
+    /**
+     * @param uuid
+     * @param fileType
+     * @return
+     */
+    FileManaged findByIdAndFileType(String uuid, FileType fileType);
+
+    /**
+     * @param uuid
+     * @param fileType
+     * @param username
+     * @return
+     */
+    FileManaged findByIdAndFileTypeAndCreatedBy(String uuid, FileType fileType, String username);
+
 }

@@ -34,9 +34,6 @@ class FileManagedServiceTest {
     FileManagedRepository repository;
 
 
-
-
-
     private MultipartFile createMultipartFile() {
 
         Path path = Paths.get("src/test/resources/input.txt");
@@ -174,6 +171,12 @@ class FileManagedServiceTest {
 
     @Nested
     class deleteFile {
+
+        @Test
+        void test001(){
+            target.delete("02ea9d01-a310-48da-b7ba-4c01740cdfaf");
+        }
+
     }
 
     @Nested
