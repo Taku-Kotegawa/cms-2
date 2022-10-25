@@ -39,6 +39,13 @@
         <collection property="text05" ofType="String">
             <id column="text05"/>
         </collection>
+        <collection property="lineItems" ofType="jp.co.stnet.cms.example.domain.model.mbg.LineItem">
+            <id column="simple_entity_id"/>
+            <id column="item_no" jdbcType="BIGINT" property="itemNo" />
+            <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+            <result column="item_number" jdbcType="INTEGER" property="itemNumber" />
+            <result column="unit_prise" jdbcType="INTEGER" property="unitPrise" />
+        </collection>
     </resultMap>
 
     <select id="findByInput" resultMap="BaseResultMap">
@@ -74,7 +81,12 @@
         st4.simple_entity_id as st4_id,
         st4.select04,
         tx5.simple_entity_id as tx5_id,
-        tx5.text05
+        tx5.text05,
+        li.simple_entity_id,
+        li.item_no,
+        li.item_name,
+        li.item_number,
+        unit_prise
         <!--        -->
         from
         (
@@ -95,6 +107,7 @@
         left outer join simple_entity_select02 st2 on st2.simple_entity_id = se.id
         left outer join simple_entity_select04 st4 on st4.simple_entity_id = se.id
         left outer join simple_entity_text05 tx5 on tx5.simple_entity_id = se.id
+        left outer join simple_entity_line_items li on li.simple_entity_id = se.id
         <!--        -->
         order by
         <if test="dataTablesInput.orderByClause != null">
@@ -109,7 +122,8 @@
         st4.simple_entity_id,
         st4.select04,
         tx5.simple_entity_id,
-        tx5.text05
+        tx5.text05,
+        li.item_no
     </select>
 
     <select id="countByInput" resultType="java.lang.Long">
@@ -153,7 +167,12 @@
         st4.simple_entity_id as st4_id,
         st4.select04,
         tx5.simple_entity_id as tx5_id,
-        tx5.text05
+        tx5.text05,
+        li.simple_entity_id,
+        li.item_no,
+        li.item_name,
+        li.item_number,
+        unit_prise
         <!--        -->
         from
         (
@@ -168,6 +187,7 @@
         left outer join simple_entity_select02 st2 on st2.simple_entity_id = se.id
         left outer join simple_entity_select04 st4 on st4.simple_entity_id = se.id
         left outer join simple_entity_text05 tx5 on tx5.simple_entity_id = se.id
+        left outer join simple_entity_line_items li on li.simple_entity_id = se.id
         <!--        -->
         order by
         cb2.simple_entity_id,
@@ -179,7 +199,8 @@
         st4.simple_entity_id,
         st4.select04,
         tx5.simple_entity_id,
-        tx5.text05
+        tx5.text05,
+        li.item_no
     </select>
 
 </mapper>

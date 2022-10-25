@@ -11,7 +11,7 @@
     <th:block th:if="${fieldState.__${field_id}____view}">
 
         <th:block th:with="uuid=${__${value}__}">
-            <th:block th:with="fileManaged=${@fileManagedServiceImpl.findByUuid(uuid)}">
+            <th:block th:with="fileManaged=${@fileManagedServiceImpl.findByIdOrNull(uuid)}">
 
                 <th:block th:if="${fieldState.__${field_id}____view}">
                     <th:block th:if="${fileManaged}">

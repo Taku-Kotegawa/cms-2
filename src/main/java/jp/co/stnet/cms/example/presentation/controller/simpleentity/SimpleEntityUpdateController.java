@@ -7,6 +7,9 @@ import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.example.application.service.SimpleEntityService;
+import jp.co.stnet.cms.example.domain.model.SimpleEntity;
+import jp.co.stnet.cms.example.domain.model.mbg.LineItem;
+import jp.co.stnet.cms.example.presentation.request.LineItemForm;
 import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -37,9 +40,7 @@ public class SimpleEntityUpdateController {
     private final SimpleEntityService simpleEntityService;
     private final SimpleEntityHelper helper;
     private final SimpleEntityAuthority authority;
-    private final FileManagedService fileManagedService;
-    private final ModelMapper beanMapper;
-    private final ApplicationContext applicationContext;
+    private final ModelMapper modelMapper;
 
     @ModelAttribute
     SimpleEntityForm setUp() {
@@ -62,8 +63,10 @@ public class SimpleEntityUpdateController {
 
         // 初回表示(入力チェックエラー時の再表示でない場合)
         if (form.getVersion() == null) {
-            beanMapper.map(entity, form);
+            modelMapper.map(entity, form);
         }
+
+        helper.addLastOneEmptyLine(form);
 
         model.addAttribute("simpleEntity", entity);
         model.addAttribute("buttonState", helper.getButtonStateMap(Constants.OPERATION.UPDATE, entity, form).asMap());
@@ -92,8 +95,9 @@ public class SimpleEntityUpdateController {
             return updateForm(form, model, loggedInUser, id);
         }
 
+        // 存在確認
         var entity = simpleEntityService.findById(id);
-        beanMapper.map(form, entity);
+        modelMapper.map(form, entity);
 
         try {
             simpleEntityService.save(entity);
@@ -110,7 +114,7 @@ public class SimpleEntityUpdateController {
     }
 
 
-    // ---------------- 無効化 ---------------------------------------------------------
+    // --- 無効化 -------------------------------------------------------------------------------------------------------
 
     @GetMapping(value = "{id}/invalid")
     @TransactionTokenCheck(type = TransactionTokenType.BEGIN)
@@ -133,7 +137,7 @@ public class SimpleEntityUpdateController {
         return "redirect:" + op.getEditUrl(id.toString());
     }
 
-    // ---------------- 無効解除 ---------------------------------------------------------
+    // --- 無効解除 -----------------------------------------------------------------------------------------------------
 
     @GetMapping(value = "{id}/valid")
     @TransactionTokenCheck(type = TransactionTokenType.BEGIN)
@@ -155,5 +159,12 @@ public class SimpleEntityUpdateController {
         OperationsUtil op = new OperationsUtil(BASE_PATH);
         return "redirect:" + op.getEditUrl(id.toString());
     }
+
+    // --- 行追加 -------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
 }

@@ -13,7 +13,7 @@ CREATE TABLE simple_entity (
 	combobox02 varchar(255) NULL,
 	date01 date NULL,
 	datetime01 timestamp NULL,
-	radio01 varchar(255) NULL,
+	radio01 boolean NULL,
 	radio02 varchar(255) NULL,
 	select01 varchar(255) NULL,
 	select03 varchar(255) NULL,
@@ -21,7 +21,7 @@ CREATE TABLE simple_entity (
 	text01 varchar(255) NULL,
 	text02 int4 NULL,
 	text03 float4 NULL,
-	text04 int2 NULL,
+	text04 boolean NULL,
 	textarea01 varchar(255) NULL,
 	CONSTRAINT simple_entity_pkey PRIMARY KEY (id)
 );
@@ -52,7 +52,7 @@ CREATE TABLE simple_entity_revision (
 	date01 date NULL,
 	datetime01 timestamp NULL,
 	id int8 NOT NULL,
-	radio01 varchar(255) NULL,
+	radio01 boolean NULL,
 	radio02 varchar(255) NULL,
 	select01 varchar(255) NULL,
 	select03 varchar(255) NULL,
@@ -60,7 +60,7 @@ CREATE TABLE simple_entity_revision (
 	text01 varchar(255) NULL,
 	text02 int4 NULL,
 	text03 float4 NULL,
-	text04 bool NULL,
+	text04 boolean NULL,
 	textarea01 varchar(255) NULL,
 	CONSTRAINT simple_entity_revision_pkey PRIMARY KEY (rid)
 );

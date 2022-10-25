@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.example.application.repository;
 
 import jp.co.stnet.cms.base.application.repository.AbstractComplexVersionRepository;
-import jp.co.stnet.cms.base.application.repository.AbstractVersionRepository;
 import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
 import jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +23,7 @@ import java.util.Optional;
 @Transactional
 @Component
 public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSimpleEntity, TSimpleEntityExample, Long, SimpleEntity>
-    implements VersionRepositoryInterface<SimpleEntity, TSimpleEntityExample, Long> {
+        implements VersionRepositoryInterface<SimpleEntity, TSimpleEntityExample, Long> {
 
     private final TSimpleEntityMapper mapper;
 
@@ -79,6 +77,11 @@ public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSi
         var example5 = new SimpleEntityText05Example();
         example5.or().andSimpleEntityIdEqualTo(id);
         simpleEntityText05Mapper.deleteByExample(example5);
+
+        var example6 = new LineItemExample();
+        example6.or().andSimpleEntityIdEqualTo(id);
+        lineItemMapper.deleteByExample(example6);
+
     }
 
     @Override
@@ -135,7 +138,14 @@ public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSi
         }
 
         if (entity.getLineItems() != null) {
-            entity.getLineItems().forEach(lineItemMapper::insert);
+//            entity.getLineItems().forEach(lineItemMapper::insert);
+            long i = 0L;
+            for (LineItem lineItem : entity.getLineItems()) {
+                lineItem.setSimpleEntityId(entity.getId());
+                lineItem.setItemNo(i);
+                lineItemMapper.insert(lineItem);
+                i++;
+            }
         }
 
     }

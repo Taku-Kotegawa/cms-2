@@ -56,7 +56,7 @@ public class AdminAccountUploadController {
         form.setJobName(UPLOAD_JOB_ID);
 
 //        if (form.getUploadFileUuid() != null) {
-//            form.setUploadFileManaged(fileManagedService.findByUuid(form.getUploadFileUuid()));
+//            form.setUploadFileManaged(fileManagedService.findByIdOrNull(form.getUploadFileUuid()));
 //        }
 
         model.addAttribute("pageTitle", "Import Account");

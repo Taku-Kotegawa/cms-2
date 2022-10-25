@@ -34,6 +34,13 @@ public interface FileManagedService {
     FileManaged findById(String uuid);
 
     /**
+     *
+     * @param uuid uuid
+     * @return FileManaged, uuid = null -> null
+     */
+    FileManaged findByIdOrNull(String uuid);
+
+    /**
      * ファイルを保存する。(一時保存)
      *
      * @param file     保存するファイル(MultipartFile)

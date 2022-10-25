@@ -68,7 +68,7 @@ public class SimpleEntityDownloadController {
     /**
      * ファイルダウンロード
      */
-    @GetMapping("{uuid}/download")
+    @GetMapping("/{uuid}/download")
     public String download(
             Model model,
             @PathVariable("uuid") String uuid,

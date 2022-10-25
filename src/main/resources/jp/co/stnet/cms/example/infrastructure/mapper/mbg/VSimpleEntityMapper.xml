@@ -26,7 +26,7 @@
     <result column="text01" jdbcType="VARCHAR" property="text01" />
     <result column="text02" jdbcType="INTEGER" property="text02" />
     <result column="text03" jdbcType="REAL" property="text03" />
-    <result column="text04" jdbcType="SMALLINT" property="text04" />
+    <result column="text04" jdbcType="BIT" property="text04" />
     <result column="textarea01" jdbcType="VARCHAR" property="textarea01" />
     <result column="cb2_id" jdbcType="BIGINT" property="cb2Id" />
     <result column="checkbox02" jdbcType="VARCHAR" property="checkbox02" />

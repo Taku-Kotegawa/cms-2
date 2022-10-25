@@ -1518,52 +1518,52 @@ public class VSimpleEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andText04EqualTo(Short value) {
+        public Criteria andText04EqualTo(Boolean value) {
             addCriterion("text04 =", value, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04NotEqualTo(Short value) {
+        public Criteria andText04NotEqualTo(Boolean value) {
             addCriterion("text04 <>", value, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04GreaterThan(Short value) {
+        public Criteria andText04GreaterThan(Boolean value) {
             addCriterion("text04 >", value, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04GreaterThanOrEqualTo(Short value) {
+        public Criteria andText04GreaterThanOrEqualTo(Boolean value) {
             addCriterion("text04 >=", value, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04LessThan(Short value) {
+        public Criteria andText04LessThan(Boolean value) {
             addCriterion("text04 <", value, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04LessThanOrEqualTo(Short value) {
+        public Criteria andText04LessThanOrEqualTo(Boolean value) {
             addCriterion("text04 <=", value, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04In(List<Short> values) {
+        public Criteria andText04In(List<Boolean> values) {
             addCriterion("text04 in", values, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04NotIn(List<Short> values) {
+        public Criteria andText04NotIn(List<Boolean> values) {
             addCriterion("text04 not in", values, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04Between(Short value1, Short value2) {
+        public Criteria andText04Between(Boolean value1, Boolean value2) {
             addCriterion("text04 between", value1, value2, "text04");
             return (Criteria) this;
         }
 
-        public Criteria andText04NotBetween(Short value1, Short value2) {
+        public Criteria andText04NotBetween(Boolean value1, Boolean value2) {
             addCriterion("text04 not between", value1, value2, "text04");
             return (Criteria) this;
         }

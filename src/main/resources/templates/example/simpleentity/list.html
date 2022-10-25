@@ -48,7 +48,9 @@ function setSort(column) {
                 </thead>
                 <tbody>
                 <tr th:each="item, status : ${page.getContent}">
-                    <td th:text="${item.id}"></td>
+                    <td>
+                        <a th:href="@{${item.id}}" th:text="${item.id}"></a>
+                    </td>
                     <td th:text="${item.text01}"></td>
                     <td th:text="${item.lastModifiedDate}"></td>
                 </tr>

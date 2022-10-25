@@ -221,7 +221,7 @@ public class VSimpleEntity implements Serializable, VersionInterface, StatusInte
      *
      * @mbg.generated
      */
-    private Short text04;
+    private Boolean text04;
 
     /**
      *

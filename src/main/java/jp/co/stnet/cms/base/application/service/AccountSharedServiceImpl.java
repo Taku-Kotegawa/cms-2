@@ -214,7 +214,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
     public FileManaged getImage(String username) {
         Account account = accountRepository.findById(username)
                 .orElseThrow(() -> new ResourceNotFoundException(ResultMessages.error().add(E_SL_FW_5001, username)));
-//        return fileManagedService.findByUuid(account.getImageUuid());
+//        return fileManagedService.findByIdOrNull(account.getImageUuid());
         // TODO
         return null;
     }

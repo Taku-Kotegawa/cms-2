@@ -175,6 +175,7 @@
                enableUpdateByExample="false"
                enableUpdateByPrimaryKey="false"
         />
+        <table tableName="t_test" />
 
     </context>
 </generatorConfiguration>

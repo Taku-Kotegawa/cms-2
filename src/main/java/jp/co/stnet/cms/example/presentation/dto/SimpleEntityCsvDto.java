@@ -91,7 +91,7 @@ public class SimpleEntityCsvDto implements Serializable {
     private Float text03;
 
     @JsonProperty(index = 21)
-    private Short text04;
+    private Boolean text04;
 
     @JsonProperty(index = 22)
     private String textarea01;

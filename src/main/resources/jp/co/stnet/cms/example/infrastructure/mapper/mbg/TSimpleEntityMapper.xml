@@ -26,7 +26,7 @@
     <result column="text01" jdbcType="VARCHAR" property="text01" />
     <result column="text02" jdbcType="INTEGER" property="text02" />
     <result column="text03" jdbcType="REAL" property="text03" />
-    <result column="text04" jdbcType="SMALLINT" property="text04" />
+    <result column="text04" jdbcType="BIT" property="text04" />
     <result column="textarea01" jdbcType="VARCHAR" property="textarea01" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -169,7 +169,7 @@
       #{date01,jdbcType=DATE}, #{datetime01,jdbcType=TIMESTAMP}, #{radio01,jdbcType=BIT}, 
       #{radio02,jdbcType=VARCHAR}, #{select01,jdbcType=VARCHAR}, #{select03,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{text01,jdbcType=VARCHAR}, #{text02,jdbcType=INTEGER}, 
-      #{text03,jdbcType=REAL}, #{text04,jdbcType=SMALLINT}, #{textarea01,jdbcType=VARCHAR}
+      #{text03,jdbcType=REAL}, #{text04,jdbcType=BIT}, #{textarea01,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="jp.co.stnet.cms.example.domain.model.mbg.TSimpleEntity" useGeneratedKeys="true">
@@ -302,7 +302,7 @@
         #{text03,jdbcType=REAL},
       </if>
       <if test="text04 != null">
-        #{text04,jdbcType=SMALLINT},
+        #{text04,jdbcType=BIT},
       </if>
       <if test="textarea01 != null">
         #{textarea01,jdbcType=VARCHAR},
@@ -381,7 +381,7 @@
         text03 = #{row.text03,jdbcType=REAL},
       </if>
       <if test="row.text04 != null">
-        text04 = #{row.text04,jdbcType=SMALLINT},
+        text04 = #{row.text04,jdbcType=BIT},
       </if>
       <if test="row.textarea01 != null">
         textarea01 = #{row.textarea01,jdbcType=VARCHAR},
@@ -417,7 +417,7 @@
       text01 = #{row.text01,jdbcType=VARCHAR},
       text02 = #{row.text02,jdbcType=INTEGER},
       text03 = #{row.text03,jdbcType=REAL},
-      text04 = #{row.text04,jdbcType=SMALLINT},
+      text04 = #{row.text04,jdbcType=BIT},
       textarea01 = #{row.textarea01,jdbcType=VARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -482,7 +482,7 @@
         text03 = #{text03,jdbcType=REAL},
       </if>
       <if test="text04 != null">
-        text04 = #{text04,jdbcType=SMALLINT},
+        text04 = #{text04,jdbcType=BIT},
       </if>
       <if test="textarea01 != null">
         textarea01 = #{textarea01,jdbcType=VARCHAR},
@@ -515,7 +515,7 @@
       text01 = #{text01,jdbcType=VARCHAR},
       text02 = #{text02,jdbcType=INTEGER},
       text03 = #{text03,jdbcType=REAL},
-      text04 = #{text04,jdbcType=SMALLINT},
+      text04 = #{text04,jdbcType=BIT},
       textarea01 = #{textarea01,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -596,7 +596,7 @@
         text03 = #{text03,jdbcType=REAL},
       </if>
       <if test="text04 != null">
-        text04 = #{text04,jdbcType=SMALLINT},
+        text04 = #{text04,jdbcType=BIT},
       </if>
       <if test="textarea01 != null">
         textarea01 = #{textarea01,jdbcType=VARCHAR},
@@ -630,7 +630,7 @@
       text01 = #{text01,jdbcType=VARCHAR},
       text02 = #{text02,jdbcType=INTEGER},
       text03 = #{text03,jdbcType=REAL},
-      text04 = #{text04,jdbcType=SMALLINT},
+      text04 = #{text04,jdbcType=BIT},
       textarea01 = #{textarea01,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
      and version = #{version,jdbcType=BIGINT}

@@ -222,7 +222,7 @@ public class TSimpleEntity implements Serializable, KeyInterface<Long>, VersionI
      *
      * @mbg.generated
      */
-    private Short text04;
+    private Boolean text04;
 
     /**
      *

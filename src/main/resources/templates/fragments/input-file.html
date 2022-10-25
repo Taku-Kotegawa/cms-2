@@ -12,7 +12,7 @@
     <th:block th:if="${fieldState.__${field_id}____input}">
 
         <th:block th:with="uuid=*{__${field_id}__}">
-            <th:block th:with="fileManaged=${@fileManagedServiceImpl.findByUuid(uuid)}">
+            <th:block th:with="fileManaged=${@fileManagedServiceImpl.findByIdOrNull(uuid)}">
 
                 <input class="form-control form-control-file file-managed"
                        th:data-file-type="${data_file_type}"

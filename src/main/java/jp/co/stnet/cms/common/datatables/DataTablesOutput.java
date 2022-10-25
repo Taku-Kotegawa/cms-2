@@ -33,6 +33,7 @@ public class DataTablesOutput<T> {
      * Total records, before filtering (i.e. the total number of records in the database)
      */
     @JsonView(View.class)
+    @Builder.Default
     private long recordsTotal = 0L;
 
     /**
@@ -40,6 +41,7 @@ public class DataTablesOutput<T> {
      * applied - not just the number of records being returned for this page of data).
      */
     @JsonView(View.class)
+    @Builder.Default
     private long recordsFiltered = 0L;
 
     /**
@@ -48,6 +50,7 @@ public class DataTablesOutput<T> {
      * ajaxDT option's dataSrc property.
      */
     @JsonView(View.class)
+    @Builder.Default
     private List<T> data = Collections.emptyList();
 
     /**

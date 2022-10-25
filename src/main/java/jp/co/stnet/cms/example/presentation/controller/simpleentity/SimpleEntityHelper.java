@@ -6,8 +6,10 @@ import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.util.StateMap;
 import jp.co.stnet.cms.example.domain.model.SimpleEntity;
 import jp.co.stnet.cms.example.presentation.dto.SimpleEntityBean;
+import jp.co.stnet.cms.example.presentation.request.LineItemForm;
 import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.NonNull;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,10 @@ public class SimpleEntityHelper {
     @Autowired
     @Named("CL_STATUS")
     CodeList statusCodeList;
+
+    @Autowired
+    ModelMapper modelMapper;
+
 
     // 許可されたOperation
     private static final Set<String> allowedOperation = Set.of(
@@ -130,15 +136,16 @@ public class SimpleEntityHelper {
      * @return StateMap
      */
     StateMap getFiledStateMap(String operation, SimpleEntity record, SimpleEntityForm form) {
-        List<String> excludeKeys = new ArrayList<>();
 
         // 常設の隠しフィールドは状態管理しない
+        var excludeKeys = List.of("id", "version");
         StateMap fieldState = new StateMap(SimpleEntityForm.class, new ArrayList<>(), excludeKeys);
-
 
         // 新規作成
         if (Constants.OPERATION.CREATE.equals(operation)) {
             fieldState.setInputTrueAll();
+            fieldState.setInputFalse("status");
+            fieldState.setHiddenTrue("status");
         }
 
         // 編集
@@ -149,6 +156,9 @@ public class SimpleEntityHelper {
             if (Status.INVALID.getCodeValue().equals(record.getStatus())) {
                 fieldState.setDisabledTrueAll();
             }
+            fieldState.setInputFalse("status");
+            fieldState.setHiddenTrue("status");
+            fieldState.setViewTrue("status");
         }
 
         // 参照
@@ -227,5 +237,34 @@ public class SimpleEntityHelper {
 
         return destination;
     }
+
+
+    /**
+     * ListItemFormのリストがnull or Emptyの場合、１行の空白行のリストを返す。
+     *
+     * @param form SimpleEntityForm
+     */
+    void addLastOneEmptyLine(SimpleEntityForm form) {
+
+            if (form.getLineItems() == null) {
+                form.setLineItems(new ArrayList<LineItemForm>());
+            }
+
+            if (form.getLineItems().isEmpty()) {
+                form.getLineItems().add(new LineItemForm());
+            }
+
+    }
+
+
+//    public SimpleEntity formToEntity(SimpleEntityForm form) {
+//        var entity = modelMapper.map(form, SimpleEntity.class);
+//        for (int i=0; i < entity.getLineItems().size(); i++) {
+//            entity.getLineItems().get(i).setItemNo(Long.valueOf(i));
+//            entity.getLineItems().get(i).setSimpleEntityId(entity.getId());
+//        }
+//        return entity;
+//    }
+
 
 }

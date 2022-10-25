@@ -25,24 +25,23 @@
         <!--/* ここより下にメインコンテンツを記入 */-->
 
         <form autocomplete="off" enctype="multipart/form-data" method="post" th:action
-              th:object="${simpleEntityForm}" th:with="id= ${simpleEntity != null} ? ${simpleEntity.id} : 0">
+              th:object="${simpleEntityForm}" th:with="id = ${simpleEntity != null} ? ${simpleEntity.id} : 0">
 
-            <!-- EnterキーによるPOSTを無効化 -->
+            <!--/* EnterキーによるPOSTを無効化 */-->
             <input disabled style="display:none" type="submit"/>
 
-            <!-- 隠しフィールド -->
+            <!--/* 隠しフィールド */-->
             <input th:field="*{id}" type="hidden"/>
             <input th:field="*{version}" type="hidden"/>
 
-            <!-- button -->
+            <!--/* button */-->
             <div th:replace="~{fragments/button-area :: m(${id})}"></div>
             <hr>
 
-            <!-- Input -->
+            <!--/* Input */-->
             <div class="row">
                 <div class="col-18">
 
-                    <!-- TODO 式を含むフォールドの表示方法の部品化-->
                     <div th:replace="~{fragments/field::input('status', 'ステータス', '@CL_STATUS.asMap()[simpleEntity.status]', '')}"></div>
 
                     <div th:replace="~{fragments/field::input('text01', 'テキストフィールド', 'simpleEntity.text01', 'テキストを入力して下さい')}"></div>
@@ -89,6 +88,25 @@
 
             </div>
             <br>
+
+
+<!--            編集／参照をまとめる方法 -->
+<!--            <th:block-->
+<!--                    th:with="tempLineItems = ${fieldState.lineItems__view} ? ${simpleEntity.lineItems} : *{lineItems}">-->
+<!--                <table class="table-sm" id="lineItemTable2">-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="item, status : ${tempLineItems}">-->
+<!--                        <td class="row">-->
+<!--                            <div class="col-18">-->
+<!--                                [[${item}]]-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </th:block>-->
+
+            <!-- サンプルはBootstrapのグリッドで列を作っているが、普通の表組み<TD>を使っても良い -->
             <div class="row">
                 <div class="col-36">
                     <table class="table-sm" id="lineItemTable">
@@ -96,47 +114,82 @@
                         <tr>
                             <td class="row">
                                 <div class="col-18">商品名</div>
-                                <div class="col-6">単価</div>
+                                <div class="col-9">単価</div>
                                 <div class="col-9">数量</div>
-                                <div class="col-3 text-center">削除</div>
                             </td>
                         </tr>
                         </thead>
                         <tbody>
+
+                        <!--/* 編集 */-->
                         <tr th:each="item, status : *{lineItems}">
                             <td class="row">
                                 <div class="col-18">
-                                    <input th:field="*{lineItems[__${status.index}__].itemName}" class="form-control" />
-                                </div>
-                                <div class="col-6">
-                                    <input th:field="*{lineItems[__${status.index}__].unitPrise}" class="form-control" />
+                                    <input th:field="*{lineItems[__${status.index}__].itemName}" class="form-control"
+                                           th:errorclass="is-invalid"
+                                           th:disabled="${fieldState.lineItems_itemName__disabled}"
+                                           th:readonly="${fieldState.lineItems_itemName__readonly}"/>
+                                    <span class="invalid-feedback whitespace-nowrap"
+                                          th:errors="*{lineItems[__${status.index}__].itemName}"
+                                          th:id="lineItems[__${status.index}__].itemName-error"></span>
                                 </div>
                                 <div class="col-9">
-                                    <input th:field="*{lineItems[__${status.index}__].itemNumber}" class="form-control" />
+                                    <input th:field="*{lineItems[__${status.index}__].unitPrise}" class="form-control"
+                                           th:disabled="${fieldState.lineItems_unitPrise__disabled}"
+                                           th:readonly="${fieldState.lineItems_unitPrise__readonly}"
+                                           th:errorclass="is-invalid" type="number"/>
+                                    <span class="invalid-feedback whitespace-nowrap"
+                                          th:errors="*{lineItems[__${status.index}__].unitPrise}"
+                                          th:id="lineItems[__${status.index}__].unitPrise-error"></span>
                                 </div>
-                                <div class="col-3 text-center">
-                                    <button class="btn-button" onclick="lineDelete(this)" type="button">削除</button>
+                                <div class="col-9">
+                                    <input th:field="*{lineItems[__${status.index}__].itemNumber}" class="form-control"
+                                           th:disabled="${fieldState.lineItems_itemNumber__disabled}"
+                                           th:readonly="${fieldState.lineItems_itemNumber__readonly}"
+                                           th:errorclass="is-invalid" type="number"/>
+                                    <span class="invalid-feedback whitespace-nowrap"
+                                          th:errors="*{lineItems[__${status.index}__].itemNumber}"
+                                          th:id="lineItems[__${status.index}__].itemNumber-error"></span>
                                 </div>
-
                             </td>
                         </tr>
+
+                        <!--/* 参照 */-->
+                        <th:block th:if="${fieldState.lineItems__view}">
+                            <tr th:each="item, status : ${simpleEntity.lineItems}">
+                                <td class="row">
+                                    <div class="col-18">
+                                        [[${item.itemName}]]
+                                    </div>
+                                    <div class="col-9">
+                                        [[${item.unitPrise}]]
+                                    </div>
+                                    <div class="col-9">
+                                        [[${item.itemNumber}]]
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </th:block>
+
                         </tbody>
                     </table>
 
-                    <div class="row">
+                    <!--/* ※明細行を削除する場合、inputタグのnameの連番を歯抜けにしないように削除しなければならない。SpringMVCがformにマッピングする際に歯抜けのデータもListに登録する */-->
+                    <div class="row" th:if="${fieldState.lineItems__input}">
                         <div class="col-36">
-                            <button class="btn-button" formaction="#addLinebutton" id="addLinebutton"
-                                    name="addlineitem">行追加(POST)
-                            </button>
                             <button class="btn-button" onclick="addLine('lineItemTable')" type="button">
-                                行追加(JavaScript)
+                                行追加
+                            </button>
+                            <button class="btn-button" onclick="deleteLastLine('lineItemTable')" type="button">
+                                最終行削除
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
+            <!--/* Button */-->
             <br>
             <hr>
             <div th:replace="~{fragments/button-area :: m(${id})}"></div>
@@ -147,8 +200,8 @@
 </section>
 
 <script>
-  function lineDelete(e) {
 
+  function lineDelete(e) {
     let table = e.closest('table')
     if (table.rows.length == 2) {
       alert('全ての行は削除できません。');
@@ -157,20 +210,33 @@
     let tr = e.closest('tr').remove();
   }
 
+  function deleteLastLine(table_id) {
+    let table = document.getElementById(table_id);
+    if (table.rows.length == 2) {
+      alert('全ての行は削除できません。');
+      return false;
+    }
+    let rows = table.rows;
+    let lastRow = rows[rows.length -1];
+    lastRow.remove();
+  }
+
   function addLine(table_id) {
     let table = document.getElementById(table_id);
     let newRowIdx = table.rows.length - 1;
     let firstRow = table.rows[1];
     let newRow = firstRow.cloneNode(true);
+
     let replaceRowHTML = newRow.innerHTML.replace(/lineItems\[0\]/g, 'lineItems[' + newRowIdx + ']');
     replaceRowHTML = replaceRowHTML.replace(/lineItems0/g, 'lineItems' + newRowIdx);
-    replaceRowHTML = replaceRowHTML.replace(/value=".*"/g, '');
+    replaceRowHTML = replaceRowHTML.replace(/value=".*"/g, 'value');
+    replaceRowHTML = replaceRowHTML.replace(/<span.*>/g, '');
+    replaceRowHTML = replaceRowHTML.replace(/is-invalid/g, '');
     let row = table.insertRow(-1);
     row.innerHTML = replaceRowHTML;
   }
+
 </script>
-
-
 
 </body>
 </html>
