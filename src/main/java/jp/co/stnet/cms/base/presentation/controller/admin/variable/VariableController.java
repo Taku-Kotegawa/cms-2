@@ -56,7 +56,7 @@ public class VariableController {
     private final String JSP_FORM = BASE_PATH + "/form";
     private final String JSP_VIEW = BASE_PATH + "/view";
     private final String JSP_UPLOAD_FORM = BASE_PATH + "/uploadform";
-    private final String JSP_UPLOAD_COMPLETE = "common/upload/complete";
+    private final String JSP_UPLOAD_COMPLETE = "upload/complete";
 
     // CSV/Excelのファイル名(拡張子除く)
     private final String DOWNLOAD_FILENAME = "variable";
