@@ -16,4 +16,6 @@ public interface AccountQueryMapper {
 
     List<Account> findPageByInput(@Param("dataTablesInput") DataTablesInput dataTablesInput, @Param("pageable") Pageable pageable);
 
+    long countByInput(@Param("dataTablesInput") DataTablesInput dataTablesInput);
+
 }

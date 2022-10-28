@@ -36,6 +36,7 @@ public class ModelMapperConfig {
                 .setMatchingStrategy(MatchingStrategies.STRICT)
                 .setFullTypeMatchingRequired(true)
                 .setCollectionsMergeEnabled(false);
+//                .setSkipNullEnabled(true);
 
         // カスタムコンバーターの追加
         modelMapper.addConverter(setToString);
@@ -45,6 +46,8 @@ public class ModelMapperConfig {
 
         return modelMapper;
     }
+
+
 
 
     /**
@@ -86,7 +89,6 @@ public class ModelMapperConfig {
             return Arrays.asList(source.split(",", 0));
         }
     };
-
 
     /**
      * 大文字に変換(String -> String)

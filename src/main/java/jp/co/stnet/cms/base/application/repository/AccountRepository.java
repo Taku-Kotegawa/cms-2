@@ -183,9 +183,9 @@ public class AccountRepository extends AbstractComplexVersionRepository<TAccount
      */
     public Page<Account> findPageByInput(DataTablesInput input) {
         input.setWhereClause(DataTablesUtil.getWhereClause(input, fieldMap));
-        var totalCount = mapper().countByExample(null);
         var pageable = PageRequest.of(input.getStart() / input.getLength(), input.getLength());
         var entities = accountQueryMapper.findPageByInput(input, pageable);
+        var totalCount = accountQueryMapper.countByInput(input);
         return new PageImpl<>(entities, pageable, totalCount);
     }
 

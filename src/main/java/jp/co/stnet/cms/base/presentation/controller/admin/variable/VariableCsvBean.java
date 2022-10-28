@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -117,35 +118,35 @@ public class VariableCsvBean implements Serializable {
      */
     @JsonProperty(index = 17)
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date date1;
+    private LocalDate date1;
 
     /**
      * 日付2
      */
     @JsonProperty(index = 18)
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date date2;
+    private LocalDate date2;
 
     /**
      * 日付3
      */
     @JsonProperty(index = 19)
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date date3;
+    private LocalDate date3;
 
     /**
      * 日付4
      */
     @JsonProperty(index = 20)
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date date4;
+    private LocalDate date4;
 
     /**
      * 日付5
      */
     @JsonProperty(index = 21)
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date date5;
+    private LocalDate date5;
 
     /**
      * 整数1

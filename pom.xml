@@ -214,14 +214,14 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper-module-java8</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
             <type>pom</type>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper-module-jsr310 -->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper-module-jsr310</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>

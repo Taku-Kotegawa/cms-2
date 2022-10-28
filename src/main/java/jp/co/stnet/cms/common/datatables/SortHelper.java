@@ -32,15 +32,15 @@ public class SortHelper {
      * 昇順・降順の矢印文字を返す
      *
      * @param column カラム名
-     * @return 昇順=↓, 降順=↑
+     * @return 昇順=↑, 降順=↓
      */
     public String arrow(String column) {
         for (var order : sort.toList()) {
             if (column.equals(order.getProperty())) {
                 if (order.getDirection().isAscending()) {
-                    return "↓";
-                } else {
                     return "↑";
+                } else {
+                    return "↓";
                 }
             }
         }

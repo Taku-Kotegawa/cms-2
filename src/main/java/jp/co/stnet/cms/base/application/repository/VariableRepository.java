@@ -144,9 +144,9 @@ public class VariableRepository extends AbstractVersionRepository<Variable, Vari
      */
     public Page<Variable> findPageByInput(DataTablesInput input) {
         input.setWhereClause(DataTablesUtil.getWhereClause(input, fieldMap));
-        var totalCount = mapper().countByExample(null);
         var pageable = PageRequest.of(input.getStart() / input.getLength(), input.getLength());
         var entities = variableQueryMapper.findPageByInput(input, pageable);
+        var totalCount = variableQueryMapper.countByInput(input);
         return new PageImpl<>(entities, pageable, totalCount);
     }
 

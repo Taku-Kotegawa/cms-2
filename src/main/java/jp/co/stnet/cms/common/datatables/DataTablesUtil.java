@@ -79,8 +79,9 @@ public class DataTablesUtil {
                 sql.append(convertedColumnName);
                 sql.append(" ILIKE #{dataTablesInput.search.value}");
             } else if (isBoolean(originalColumnName, fieldMap)) {
+                sql.append("to_char(cast(");
                 sql.append(convertedColumnName);
-                sql.append(" ILIKE #{dataTablesInput.search.value}");
+                sql.append(" as integer), 'FM9') ILIKE #{dataTablesInput.search.value}");
             } else {
                 sql.append(convertedColumnName);
                 sql.append(" ILIKE #{dataTablesInput.search.value}");
@@ -124,8 +125,9 @@ public class DataTablesUtil {
                 sql.append(", 'FM999999999') ILIKE #{dataTablesInput.columns[" + i + "].search.value}");
                 setWildcard(column);
             } else if (isBoolean(originalColumnName, fieldMap)) {
+                sql.append("to_char(cast(");
                 sql.append(convertedColumnName);
-                sql.append(" = #{dataTablesInput.columns[" + i + "].search.value}");
+                sql.append(" as integer), 'FM9') = #{dataTablesInput.columns[" + i + "].search.value}");
             } else {
                 sql.append(convertedColumnName);
                 sql.append(" ILIKE #{dataTablesInput.columns[" + i + "].search.value}");
