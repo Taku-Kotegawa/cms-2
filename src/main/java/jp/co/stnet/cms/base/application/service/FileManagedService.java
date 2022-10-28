@@ -113,13 +113,13 @@ public interface FileManagedService {
      */
     void deleteFile(String uri);
 
-    /**
-     * HTMLエスケープおよび連続する空白の除去
-     *
-     * @param rawContent 文字列
-     * @return エスケースされた文字列
-     */
-    String escapeContent(String rawContent);
+//    /**
+//     * HTMLエスケープおよび連続する空白の除去
+//     *
+//     * @param rawContent 文字列
+//     * @return エスケースされた文字列
+//     */
+//    String escapeContent(String rawContent);
 
 
     /**

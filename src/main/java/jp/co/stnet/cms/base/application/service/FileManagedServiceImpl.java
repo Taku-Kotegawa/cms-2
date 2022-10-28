@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+//import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 @Slf4j
 @Service
@@ -219,11 +219,11 @@ public class FileManagedServiceImpl implements FileManagedService {
         }
     }
 
-    @Override
-    public String escapeContent(String rawContent) {
-        rawContent = rawContent.replaceAll("[ |　|\\n|\\r\\n|\\r|\t]+", " ");
-        return escapeHtml4(rawContent);
-    }
+//    @Override
+//    public String escapeContent(String rawContent) {
+//        rawContent = rawContent.replaceAll("[ |　|\\n|\\r\\n|\\r|\t]+", " ");
+//        return escapeHtml4(rawContent);
+//    }
 
 
     @Override
