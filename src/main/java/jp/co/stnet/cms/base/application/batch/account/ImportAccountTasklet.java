@@ -7,6 +7,7 @@ import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.common.batch.ReaderFactory;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.datetime.DateTimeFactory;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.passay.CharacterRule;
@@ -20,7 +21,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -33,6 +33,8 @@ import java.util.Objects;
 
 import static java.lang.String.format;
 
+
+@RequiredArgsConstructor
 @Component
 public class ImportAccountTasklet implements Tasklet {
 
@@ -40,28 +42,15 @@ public class ImportAccountTasklet implements Tasklet {
     private static final Logger log = LoggerFactory.getLogger("JobLogger");
 
     // インポートファイルのカラム定義
-    private final String[] columns = {"username", "firstName", "lastName", "department", "email", "url", "profile", "roles", "status", "statusLabel", "imageUuid", "apiKey", "allowedIp"};
+    private static final String[] columns = {"username", "firstName", "lastName", "department", "email", "url", "profile", "roles", "status", "statusLabel", "imageUuid", "apiKey", "allowedIp"};
 
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    AccountRepository accountRepository;
-
-    @Autowired
-    SmartValidator smartValidator;
-
-    @Autowired
-    ModelMapper beanMapper;
-
-    @Autowired
-    DateTimeFactory dateTimeFactory;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    PasswordGenerator passwordGenerator;
+    private final AccountService accountService;
+    private final AccountRepository accountRepository;
+    private final SmartValidator smartValidator;
+    private final ModelMapper modelMapper;
+    private final DateTimeFactory dateTimeFactory;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordGenerator passwordGenerator;
 
     @Resource(name = "passwordGenerationRules")
     List<CharacterRule> passwordGenerationRules;
@@ -79,7 +68,7 @@ public class ImportAccountTasklet implements Tasklet {
         MDC.put("jobInstanceId", jobInstanceId.toString());
         MDC.put("jobName", jobName);
         MDC.put("jobExecutionId", jobExecutionId.toString());
-        MDC.put("jobName_jobExecutionId", jobName + "_" + jobExecutionId.toString());
+        MDC.put("jobName_jobExecutionId", jobName + "_" + jobExecutionId);
 
 
         // DB操作時の例外発生の有無を記録する
@@ -216,7 +205,7 @@ public class ImportAccountTasklet implements Tasklet {
     private Account map(AccountCsv csv) {
         final String jobUser = "job_user";
 
-        Account v = beanMapper.map(csv, Account.class);
+        Account v = modelMapper.map(csv, Account.class);
         v.setCreatedDate(dateTimeFactory.getNow());
         v.setLastModifiedDate(dateTimeFactory.getNow());
         v.setCreatedBy(jobUser);

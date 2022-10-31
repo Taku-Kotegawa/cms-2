@@ -1,23 +1,22 @@
 package jp.co.stnet.cms.base.application.service;
 
-
 import jp.co.stnet.cms.base.application.repository.PasswordHistoryRepository;
 import jp.co.stnet.cms.base.domain.model.mbg.PasswordHistory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 @Transactional
 public class PasswordHistoryServiceImpl implements PasswordHistoryService {
 
-    @Autowired
-    PasswordHistoryRepository passwordHistoryRepository;
+    private final PasswordHistoryRepository passwordHistoryRepository;
 
     @Override
     public int insert(PasswordHistory history) {

@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Component
 public class DateTimeFactory {
 
-    public LocalDateTime getNow(){
+    public LocalDateTime getNow() {
         return LocalDateTime.now();
-    };
+    }
 
 }

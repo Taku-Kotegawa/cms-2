@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.common.validation;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum ParseableType {

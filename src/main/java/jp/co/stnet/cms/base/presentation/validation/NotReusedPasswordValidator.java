@@ -139,7 +139,7 @@ public class NotReusedPasswordValidator implements
         } else {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(
-                    encodedPasswordHistoryValidator.getMessages(result).get(0))
+                            encodedPasswordHistoryValidator.getMessages(result).get(0))
                     .addPropertyNode(newPasswordPropertyName)
                     .addConstraintViolation();
             return false;

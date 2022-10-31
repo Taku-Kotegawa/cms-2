@@ -22,6 +22,7 @@ public class FailedPasswordReissueRepository extends AbstractRepository<FailedPa
     MapperInterface<FailedPasswordReissue, FailedPasswordReissueExample, FailedPasswordReissueKey> mapper() {
         return mapper;
     }
+
     @Override
     FailedPasswordReissueExample example() {
         return new FailedPasswordReissueExample();

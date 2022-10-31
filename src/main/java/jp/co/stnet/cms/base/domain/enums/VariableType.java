@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.base.domain.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.terasoluna.gfw.common.codelist.EnumCodeList;
 
 /**
@@ -9,7 +9,7 @@ import org.terasoluna.gfw.common.codelist.EnumCodeList;
  * <p>
  * 変数のタイプと利用するフィールドのラベルを設定する。使わないフィールドのラベルは設定しない(空白文字)
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public enum VariableType implements EnumCodeList.CodeListItem {
 

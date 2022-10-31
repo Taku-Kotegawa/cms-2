@@ -2,16 +2,15 @@ package jp.co.stnet.cms.base.presentation.controller.admin.account;
 
 
 import jp.co.stnet.cms.base.application.service.AccountService;
-import jp.co.stnet.cms.base.application.service.FileManagedService;
 import jp.co.stnet.cms.base.application.service.UnlockService;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,31 +30,18 @@ import static jp.co.stnet.cms.base.presentation.controller.admin.account.Account
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.BASE_PATH;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.TEMPLATE_FORM;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(BASE_PATH)
 @TransactionTokenCheck(BASE_PATH)
 public class AdminAccountUpdateController {
 
-    @Autowired
-    AdminAccountHelper helper;
-
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    AdminAccountAuthority authority;
-
-    @Autowired
-    FileManagedService fileManagedService;
-
-    @Autowired
-    UnlockService unlockService;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    ModelMapper beanMapper;
+    private final AdminAccountHelper helper;
+    private final AccountService accountService;
+    private final AdminAccountAuthority authority;
+    private final UnlockService unlockService;
+    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper beanMapper;
 
     @ModelAttribute
     AccountForm setUp() {

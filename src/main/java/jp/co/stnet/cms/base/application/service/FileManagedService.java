@@ -34,7 +34,6 @@ public interface FileManagedService {
     FileManaged findById(String uuid);
 
     /**
-     *
      * @param uuid uuid
      * @return FileManaged, uuid = null -> null
      */
@@ -112,15 +111,6 @@ public interface FileManagedService {
      * @param uri URI
      */
     void deleteFile(String uri);
-
-//    /**
-//     * HTMLエスケープおよび連続する空白の除去
-//     *
-//     * @param rawContent 文字列
-//     * @return エスケースされた文字列
-//     */
-//    String escapeContent(String rawContent);
-
 
     /**
      * ContentDisposition を取得する

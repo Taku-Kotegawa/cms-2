@@ -19,6 +19,7 @@ public class Account extends TAccount {
     /**
      * ロール
      */
+    @Builder.Default
     List<String> roles = new ArrayList<>();
 
     /**
@@ -28,7 +29,9 @@ public class Account extends TAccount {
      * @return 新規Accountエンティティ
      */
     public static Account of(TAccount tAccount) {
-        if (tAccount == null) {return null;}
+        if (tAccount == null) {
+            return null;
+        }
         var newEntity = new Account();
         BeanUtils.copyProperties(tAccount, newEntity);
         return newEntity;

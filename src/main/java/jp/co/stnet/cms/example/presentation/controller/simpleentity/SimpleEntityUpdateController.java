@@ -1,19 +1,14 @@
 package jp.co.stnet.cms.example.presentation.controller.simpleentity;
 
 
-import jp.co.stnet.cms.base.application.service.FileManagedService;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.example.application.service.SimpleEntityService;
-import jp.co.stnet.cms.example.domain.model.SimpleEntity;
-import jp.co.stnet.cms.example.domain.model.mbg.LineItem;
-import jp.co.stnet.cms.example.presentation.request.LineItemForm;
 import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -161,10 +156,6 @@ public class SimpleEntityUpdateController {
     }
 
     // --- 行追加 -------------------------------------------------------------------------------------------------------
-
-
-
-
 
 
 }

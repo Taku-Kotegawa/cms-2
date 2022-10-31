@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.base.domain.enums;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.terasoluna.gfw.common.codelist.EnumCodeList;
 
 /**

@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.base.presentation.controller.authentication.passwordchange;
 
 
-
 import jp.co.stnet.cms.base.presentation.validation.ConfirmOldPassword;
 import jp.co.stnet.cms.base.presentation.validation.NotReusedPassword;
 import jp.co.stnet.cms.common.validation.StrongPassword;

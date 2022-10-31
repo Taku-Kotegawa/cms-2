@@ -8,8 +8,6 @@ import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.example.application.service.SimpleEntityService;
 import jp.co.stnet.cms.example.domain.model.SimpleEntity;
-import jp.co.stnet.cms.example.domain.model.mbg.LineItem;
-import jp.co.stnet.cms.example.presentation.request.LineItemForm;
 import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,10 +24,6 @@ import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
 import javax.validation.groups.Default;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static jp.co.stnet.cms.example.presentation.controller.simpleentity.SimpleEntityConstant.BASE_PATH;
 import static jp.co.stnet.cms.example.presentation.controller.simpleentity.SimpleEntityConstant.TEMPLATE_FORM;
@@ -48,7 +42,7 @@ public class SimpleEntityCreateController {
     @ModelAttribute
     SimpleEntityForm setUp() {
         // 初期値設定
-        var form =  SimpleEntityForm.builder()
+        var form = SimpleEntityForm.builder()
                 .status(Status.VALID.getCodeValue())
                 .build();
         helper.addLastOneEmptyLine(form);

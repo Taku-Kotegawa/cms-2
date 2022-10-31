@@ -1,12 +1,10 @@
 package jp.co.stnet.cms.base.application.repository;
 
 
-
 import jp.co.stnet.cms.base.domain.model.mbg.FailedEmailChangeRequest;
 import jp.co.stnet.cms.base.domain.model.mbg.FailedEmailChangeRequestExample;
 import jp.co.stnet.cms.base.domain.model.mbg.FailedEmailChangeRequestKey;
 import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
-
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.FailedEmailChangeRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

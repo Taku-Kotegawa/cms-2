@@ -6,9 +6,8 @@ import jp.co.stnet.cms.base.domain.enums.FileType;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import jp.co.stnet.cms.base.presentation.controller.uploadfile.UploadFileResult;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("file")
 public class FileRestController {
 
-    @Autowired
-    FileManagedService fileManagedService;
+    private final FileManagedService fileManagedService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
@@ -58,6 +57,7 @@ public class FileRestController {
                 for (String pattern : patterns) {
                     if (extension.equals(pattern)) {
                         find = true;
+                        break;
                     }
                 }
 
@@ -86,28 +86,5 @@ public class FileRestController {
         }
 
     }
-
-    @GetMapping("test")
-    public String test(@AuthenticationPrincipal LoggedInUser loggedInUser) {
-
-
-        if (false) {
-            throw new OptimisticLockingFailureException("testtest");
-        }
-
-        return "test";
-    }
-
-
-//    @GetMapping("{uuid}/delete")
-//    @ResponseStatus(HttpStatus.OK)
-//    public UploadFileResult delete(@PathVariable("uuid") String uuid) {
-//        fileManagedSharedService.delete(uuid);
-//        return new UploadFileResult().builder()
-//                .message("file deleted.")
-//                .uuid(uuid)
-//                .build();
-//
-//    }
 
 }

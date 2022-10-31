@@ -8,8 +8,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
-import java.util.List;
-
 /**
  * エンティティ(リビジョン管理なし)用の抽象クラスのインタフェース
  *

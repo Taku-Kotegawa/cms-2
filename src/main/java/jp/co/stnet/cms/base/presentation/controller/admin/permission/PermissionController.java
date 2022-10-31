@@ -4,9 +4,8 @@ import jp.co.stnet.cms.base.application.service.PermissionService;
 import jp.co.stnet.cms.base.domain.enums.Permission;
 import jp.co.stnet.cms.base.domain.enums.Role;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequiredArgsConstructor
 @Slf4j
 @Controller
 @RequestMapping("admin/permission")
 public class PermissionController {
 
-    @Autowired
-    PermissionService permissionService;
+    private final PermissionService permissionService;
 
     private final String BASE_PATH = "/admin/permission/";
     private final String JSP_LIST = "admin/permission/list";

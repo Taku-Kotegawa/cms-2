@@ -7,13 +7,12 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * 変数管理のCSVファイルのBean
  */
 @Data
-public class VariableCsvBean implements Serializable {
+public class VariableCsvDownloadDTO implements Serializable {
 
     /**
      * 内部ID

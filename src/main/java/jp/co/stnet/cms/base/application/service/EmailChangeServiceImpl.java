@@ -39,7 +39,6 @@ public class EmailChangeServiceImpl implements EmailChangeService {
     private final EmailChangeRequestRepository emailChangeRequestRepository;
     private final FailedEmailChangeRequestRepository failedEmailChangeRequestRepository;
     private final AccountSharedService accountSharedService;
-
     private final PasswordGenerator passwordGenerator;
     private final JavaMailSender mailSender;
     private final DateTimeFactory dateFactory;

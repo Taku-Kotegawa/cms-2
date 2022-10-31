@@ -7,11 +7,11 @@ import jp.co.stnet.cms.base.domain.enums.FileType;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.MimeTypes;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -34,15 +34,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-//import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
-
+@RequiredArgsConstructor
 @Slf4j
 @Service
 @Transactional
 public class FileManagedServiceImpl implements FileManagedService {
 
-    @Autowired
-    FileManagedRepository fileManagedRepository;
+    private final FileManagedRepository fileManagedRepository;
 
     @Value("${file.store.basedir}")
     String fileStoreBasedir;
@@ -59,14 +57,14 @@ public class FileManagedServiceImpl implements FileManagedService {
     }
 
     @Override
-    @Cacheable(value = "FileManaged", key = "#uuid", condition="#uuid != null")
+    @Cacheable(value = "FileManaged", key = "#uuid", condition = "#uuid != null")
     @Transactional(readOnly = true)
     public FileManaged findById(String uuid) {
         return fileManagedRepository.findById(uuid).orElse(null);
     }
 
     @Override
-    @Cacheable(value = "FileManaged", key = "#uuid", condition="#uuid != null")
+    @Cacheable(value = "FileManaged", key = "#uuid", condition = "#uuid != null")
     @Transactional(readOnly = true)
     public FileManaged findByIdOrNull(String uuid) {
         if (uuid == null) {
@@ -209,8 +207,7 @@ public class FileManagedServiceImpl implements FileManagedService {
     @Override
     public void deleteFile(String uri) {
         if (uri != null) {
-//            String filePath = fileStoreBasedir + uri.replace('/', '\\');
-            String filePath = fileStoreBasedir + uri;
+            var filePath = fileStoreBasedir + uri;
             try {
                 Files.delete(Path.of(filePath));
             } catch (IOException e) {
@@ -219,19 +216,13 @@ public class FileManagedServiceImpl implements FileManagedService {
         }
     }
 
-//    @Override
-//    public String escapeContent(String rawContent) {
-//        rawContent = rawContent.replaceAll("[ |　|\\n|\\r\\n|\\r|\t]+", " ");
-//        return escapeHtml4(rawContent);
-//    }
-
 
     @Override
     public ContentDisposition getAttachmentContentDisposition(FileManaged fileManaged) {
         Objects.requireNonNull(fileManaged);
         var originalFilename = fileManaged.getOriginalFilename();
         if (originalFilename != null) {
-            String encodedFilename = URLEncoder.encode(originalFilename, StandardCharsets.UTF_8).replace("+", "%20");
+            var encodedFilename = URLEncoder.encode(originalFilename, StandardCharsets.UTF_8).replace("+", "%20");
             if (isOpenWindows(fileManaged)) {
                 return ContentDisposition.builder("filename=\"" + encodedFilename + "\"").build();
             } else {
@@ -252,21 +243,21 @@ public class FileManagedServiceImpl implements FileManagedService {
     }
 
     @Override
-    @Cacheable(value = "FileManaged", key = "#uuid", condition="#uuid != null")
+    @Cacheable(value = "FileManaged", key = "#uuid", condition = "#uuid != null")
     @Transactional(readOnly = true)
     public FileManaged findByIdAndCreatedBy(String uuid, String username) {
         return fileManagedRepository.findByIdAndCreatedBy(uuid, username).orElse(null);
     }
 
     @Override
-    @Cacheable(value = "FileManaged", key = "#uuid", condition="#uuid != null")
+    @Cacheable(value = "FileManaged", key = "#uuid", condition = "#uuid != null")
     @Transactional(readOnly = true)
     public FileManaged findByIdAndFileType(String uuid, FileType fileType) {
         return fileManagedRepository.findByIdAndFileType(uuid, fileType).orElse(null);
     }
 
     @Override
-    @Cacheable(value = "FileManaged", key = "#uuid", condition="#uuid != null")
+    @Cacheable(value = "FileManaged", key = "#uuid", condition = "#uuid != null")
     @Transactional(readOnly = true)
     public FileManaged findByIdAndFileTypeAndCreatedBy(String uuid, FileType fileType, String username) {
         return fileManagedRepository.findByIdAndFileTypeAndCreatedBy(uuid, fileType, username).orElse(null);

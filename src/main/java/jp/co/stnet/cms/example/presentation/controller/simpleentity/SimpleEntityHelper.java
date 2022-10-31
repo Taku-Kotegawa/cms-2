@@ -246,13 +246,13 @@ public class SimpleEntityHelper {
      */
     void addLastOneEmptyLine(SimpleEntityForm form) {
 
-            if (form.getLineItems() == null) {
-                form.setLineItems(new ArrayList<LineItemForm>());
-            }
+        if (form.getLineItems() == null) {
+            form.setLineItems(new ArrayList<LineItemForm>());
+        }
 
-            if (form.getLineItems().isEmpty()) {
-                form.getLineItems().add(new LineItemForm());
-            }
+        if (form.getLineItems().isEmpty()) {
+            form.getLineItems().add(new LineItemForm());
+        }
 
     }
 

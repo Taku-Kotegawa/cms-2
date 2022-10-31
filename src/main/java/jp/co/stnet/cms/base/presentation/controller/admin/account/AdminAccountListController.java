@@ -12,8 +12,8 @@ import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import jp.co.stnet.cms.common.datatables.DataTablesOutput;
 import jp.co.stnet.cms.common.util.OperationsUtil;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -30,24 +30,16 @@ import java.util.List;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.BASE_PATH;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.TEMPLATE_LIST;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(BASE_PATH)
 public class AdminAccountListController {
 
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    AccountSharedService accountSharedService;
-
-    @Autowired
-    AdminAccountAuthority authority;
-
-    @Autowired
-    MailSendService mailSendService;
-
-    @Autowired
-    ModelMapper modelMapper;
+    private final AccountService accountService;
+    private final AccountSharedService accountSharedService;
+    private final AdminAccountAuthority authority;
+    private final MailSendService mailSendService;
+    private final ModelMapper modelMapper;
 
     /**
      * 一覧画面の表示
@@ -75,21 +67,20 @@ public class AdminAccountListController {
         List<AccountListBean> list = new ArrayList<>();
         Page<Account> accountPage = accountService.findPageByInput(input);
 
-        // Welcomeメールの最新の送信履歴を取得
+        // TODO Welcomeメールの最新の送信履歴を取得
 //        List<MailSendHistory> mailSendHistories = mailSendService.getNewest();
-//
+
         for (Account account : accountPage.getContent()) {
             AccountListBean accountListBean = modelMapper.map(account, AccountListBean.class);
             accountListBean.setOperations(getToggleButton(account.getUsername(), op));
             accountListBean.setDT_RowId(account.getUsername());
-//
-//            // ステータスラベル
+
             String statusLabel = account.getStatus().equals(Status.VALID.getCodeValue()) ? Status.VALID.getCodeLabel() : Status.INVALID.getCodeLabel();
             if (accountSharedService.isLocked(account.getUsername())) statusLabel = statusLabel + "(ロック)";
             accountListBean.setStatusLabel(statusLabel);
-//
+
 //            accountListBean.setWelcomeMailSendDate(getWelcomeMailSendDate(mailSendHistories, accountListBean.getUsername()));
-//
+
             list.add(accountListBean);
         }
 
@@ -111,6 +102,7 @@ public class AdminAccountListController {
      */
     private LocalDateTime getWelcomeMailSendDate(List<MailSendHistory> mailSendHistories, String username) {
         for (MailSendHistory mailSendHistory : mailSendHistories) {
+            // TODO
 //            if (username.equals(mailSendHistory.getReceiver().getUsername())) {
 //                return mailSendHistory.getSendTime();
 //            }

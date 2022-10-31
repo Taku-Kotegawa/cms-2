@@ -16,7 +16,6 @@
 package jp.co.stnet.cms.base.presentation.interceptor;
 
 
-
 import jp.co.stnet.cms.base.application.service.AccountSharedService;
 import jp.co.stnet.cms.base.domain.enums.Role;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;

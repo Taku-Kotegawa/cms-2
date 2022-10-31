@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.base.presentation.controller.admin.upload;
 
 
-
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

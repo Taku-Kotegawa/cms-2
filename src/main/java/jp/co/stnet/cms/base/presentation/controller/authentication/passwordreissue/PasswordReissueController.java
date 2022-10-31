@@ -16,11 +16,9 @@
 package jp.co.stnet.cms.base.presentation.controller.authentication.passwordreissue;
 
 
-
 import jp.co.stnet.cms.base.application.service.PasswordReissueService;
-import jp.co.stnet.cms.base.domain.model.mbg.PasswordReissueInfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -28,15 +26,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 
-import javax.inject.Inject;
-
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/reissue")
-@Transactional
 public class PasswordReissueController {
 
-    @Inject
-    PasswordReissueService passwordReissueService;
+    private final PasswordReissueService passwordReissueService;
 
     @ModelAttribute("createReissueInfoForm")
     public CreateReissueInfoForm setupReissueForm() {
@@ -61,7 +56,7 @@ public class PasswordReissueController {
             return showCreateReissueInfoForm(form);
         }
 
-        String rawSecret = passwordReissueService.createAndSendReissueInfo(form
+        var rawSecret = passwordReissueService.createAndSendReissueInfo(form
                 .getUsername());
         attributes.addFlashAttribute("secret", rawSecret);
         return "redirect:/reissue/create?complete";
@@ -76,7 +71,7 @@ public class PasswordReissueController {
     public String showPasswordResetForm(PasswordResetForm form, Model model,
                                         @RequestParam("token") String token) {
 
-        PasswordReissueInfo info = passwordReissueService.findOne(token);
+        var info = passwordReissueService.findOne(token);
 
         form.setUsername(info.getUsername());
         form.setToken(token);

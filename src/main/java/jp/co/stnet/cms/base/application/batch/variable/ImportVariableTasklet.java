@@ -6,6 +6,7 @@ import jp.co.stnet.cms.base.domain.model.mbg.Variable;
 import jp.co.stnet.cms.common.batch.ReaderFactory;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.datetime.DateTimeFactory;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -17,7 +18,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -27,28 +27,20 @@ import java.util.List;
 
 import static java.lang.String.format;
 
+@RequiredArgsConstructor
 @Component
 public class ImportVariableTasklet implements Tasklet {
 
     // 専用のJOBログ用のlogger
     private static final Logger log = LoggerFactory.getLogger("JobLogger");
     // インポートファイルのカラム定義
-    private final String[] columns = {"id", "version", "status", "statusLabel", "type", "code", "value1", "value2", "value3", "value4", "value5", "value6", "value7", "value8", "value9", "value10", "date1", "date2", "date3", "date4", "date5", "valint1", "valint2", "valint3", "valint4", "valint5", "textarea", "file1Uuid", "remark"};
+    private static final String[] columns = {"id", "version", "status", "statusLabel", "type", "code", "value1", "value2", "value3", "value4", "value5", "value6", "value7", "value8", "value9", "value10", "date1", "date2", "date3", "date4", "date5", "valint1", "valint2", "valint3", "valint4", "valint5", "textarea", "file1Uuid", "remark"};
 
-    @Autowired
-    VariableService variableService;
-
-    @Autowired
-    VariableRepository variableRepository;
-
-    @Autowired
-    SmartValidator smartValidator;
-
-    @Autowired
-    ModelMapper modelMapper;
-
-    @Autowired
-    DateTimeFactory dateTimeFactory;
+    private final VariableService variableService;
+    private final VariableRepository variableRepository;
+    private final SmartValidator smartValidator;
+    private final ModelMapper modelMapper;
+    private final DateTimeFactory dateTimeFactory;
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
@@ -63,7 +55,7 @@ public class ImportVariableTasklet implements Tasklet {
         MDC.put("jobInstanceId", jobInstanceId.toString());
         MDC.put("jobName", jobName);
         MDC.put("jobExecutionId", jobExecutionId.toString());
-        MDC.put("jobName_jobExecutionId", jobName + "_" + jobExecutionId.toString());
+        MDC.put("jobName_jobExecutionId", jobName + "_" + jobExecutionId);
 
 
         // DB操作時の例外発生の有無を記録する

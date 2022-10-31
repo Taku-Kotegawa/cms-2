@@ -1,17 +1,17 @@
 package jp.co.stnet.cms.base.application.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 @Transactional
 public class UnlockServiceImpl implements UnlockService {
 
-    @Autowired
-    AuthenticationEventService authenticationEventService;
+    private final AuthenticationEventService authenticationEventService;
 
     @Override
     public void unlock(String username) {

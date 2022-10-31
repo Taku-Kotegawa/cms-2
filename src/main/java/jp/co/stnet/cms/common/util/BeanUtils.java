@@ -85,6 +85,7 @@ public class BeanUtils {
                         }
 
                     } catch (NoSuchFieldException e) {
+                        throw new RuntimeException(e);
 
                     }
 

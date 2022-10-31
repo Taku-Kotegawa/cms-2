@@ -6,7 +6,6 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 public class JacksonCsvUtils {
@@ -72,9 +71,8 @@ public class JacksonCsvUtils {
      * @param value
      * @return
      * @throws JsonProcessingException
-     * @throws UnsupportedEncodingException
      */
-    public static InputStream writeStream(Class clazz, Object value) throws JsonProcessingException, UnsupportedEncodingException {
+    public static InputStream writeStream(Class clazz, Object value) throws JsonProcessingException {
         return new ByteArrayInputStream(write(clazz, value).getBytes(StandardCharsets.UTF_8));
     }
 
@@ -85,9 +83,8 @@ public class JacksonCsvUtils {
      * @param value
      * @return
      * @throws JsonProcessingException
-     * @throws UnsupportedEncodingException
      */
-    public static InputStream writeBomStream(Class clazz, Object value) throws JsonProcessingException, UnsupportedEncodingException {
+    public static InputStream writeBomStream(Class clazz, Object value) throws JsonProcessingException {
         return new ByteArrayInputStream(withBom(write(clazz, value)).getBytes(StandardCharsets.UTF_8));
     }
 
@@ -114,9 +111,8 @@ public class JacksonCsvUtils {
      * @param value
      * @return
      * @throws JsonProcessingException
-     * @throws UnsupportedEncodingException
      */
-    public static InputStream writeTsvStream(Class clazz, Object value) throws JsonProcessingException, UnsupportedEncodingException {
+    public static InputStream writeTsvStream(Class clazz, Object value) throws JsonProcessingException {
         return new ByteArrayInputStream(writeTsv(clazz, value).getBytes(StandardCharsets.UTF_8));
     }
 
@@ -127,9 +123,8 @@ public class JacksonCsvUtils {
      * @param value
      * @return
      * @throws JsonProcessingException
-     * @throws UnsupportedEncodingException
      */
-    public static InputStream writeBomTsvStream(Class clazz, Object value) throws JsonProcessingException, UnsupportedEncodingException {
+    public static InputStream writeBomTsvStream(Class clazz, Object value) throws JsonProcessingException {
         return new ByteArrayInputStream(withBom(writeTsv(clazz, value)).getBytes(StandardCharsets.UTF_8));
     }
 

@@ -4,7 +4,6 @@ package jp.co.stnet.cms.base.presentation.controller.admin.account;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jp.co.stnet.cms.base.domain.model.Account;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,7 +43,8 @@ public class AccountListBean extends Account {
     @Override
     @JsonIgnore
     public String getPassword() {
-        return null;
+        // 極秘情報の漏洩防止
+        return "***";
     }
 
     private String statusLabel;

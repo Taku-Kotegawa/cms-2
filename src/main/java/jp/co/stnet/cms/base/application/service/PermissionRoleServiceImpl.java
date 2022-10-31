@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.base.application.service;
 
 import jp.co.stnet.cms.base.application.repository.PermissionRoleRepository;
-import jp.co.stnet.cms.base.domain.enums.Role;
 import jp.co.stnet.cms.base.domain.model.mbg.PermissionRole;
 import jp.co.stnet.cms.base.domain.model.mbg.TRole;
 import lombok.RequiredArgsConstructor;

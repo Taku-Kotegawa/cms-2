@@ -40,10 +40,11 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
 
     /**
      * 管理者としてログインの権限チェック
-     * @param userDetails UserDetails
+     *
+     * @param userDetails    UserDetails
      * @param authentication Authentication
      */
-    protected void loginAsAdminCheck(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication){
+    protected void loginAsAdminCheck(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) {
         LoggedInUser loggedInUser = (LoggedInUser) userDetails;
         Account account = loggedInUser.getAccount();
 
@@ -63,7 +64,8 @@ public class FormLoginDaoAuthenticationProvider extends DaoAuthenticationProvide
 
     /**
      * 接続元IPチェック
-     * @param userDetails UserDetails
+     *
+     * @param userDetails    UserDetails
      * @param authentication Authentication
      */
     protected void allowedIpCheck(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) {

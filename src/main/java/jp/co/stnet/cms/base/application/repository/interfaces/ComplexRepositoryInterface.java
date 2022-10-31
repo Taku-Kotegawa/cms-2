@@ -10,8 +10,6 @@ import java.util.Optional;
 public interface ComplexRepositoryInterface<T extends KeyInterface<I>, E, I, S extends T> {
 
     /**
-     *
-     *
      * @param id
      * @return
      */

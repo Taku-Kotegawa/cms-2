@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * MyBatisGeneratorで生成されるMapper Interface共通のメソッドを定義する
+ *
  * @param <T> Modelクラス　ex) Account
  */
 public interface MapperInterface<T extends KeyInterface<ID>, U, ID> {

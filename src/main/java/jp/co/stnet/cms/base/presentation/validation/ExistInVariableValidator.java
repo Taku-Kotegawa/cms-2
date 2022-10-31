@@ -2,8 +2,6 @@ package jp.co.stnet.cms.base.presentation.validation;
 
 
 import jp.co.stnet.cms.base.application.repository.VariableRepository;
-
-
 import jp.co.stnet.cms.base.domain.model.mbg.Variable;
 import jp.co.stnet.cms.base.presentation.controller.admin.variable.VariableForm;
 import org.springframework.beans.factory.annotation.Autowired;

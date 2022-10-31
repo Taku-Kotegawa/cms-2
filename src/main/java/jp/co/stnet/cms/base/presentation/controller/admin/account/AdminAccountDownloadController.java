@@ -9,9 +9,8 @@ import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.datatables.DataTablesInputDraft;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -27,22 +26,16 @@ import java.util.List;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.BASE_PATH;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.DOWNLOAD_FILENAME;
 
-@Slf4j
+
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(BASE_PATH)
 public class AdminAccountDownloadController {
 
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    AdminAccountAuthority authority;
-
-    @Autowired
-    FileManagedService fileManagedService;
-
-    @Autowired
-    ModelMapper modelMapper;
+    private final AccountService accountService;
+    private final AdminAccountAuthority authority;
+    private final FileManagedService fileManagedService;
+    private final ModelMapper modelMapper;
 
 
     /**
@@ -81,20 +74,20 @@ public class AdminAccountDownloadController {
         input.setStart(0);
         input.setLength(Constants.CSV.MAX_LENGTH);
 
-        List<AccountCsvDlBean> csvList = new ArrayList<>();
+        List<AccountCsvDownloadDTO> csvList = new ArrayList<>();
         List<Account> list = new ArrayList<>();
 
         Page<Account> page = accountService.findPageByInput(input);
         list.addAll(page.getContent());
 
         for (Account account : list) {
-            AccountCsvDlBean row = modelMapper.map(account, AccountCsvDlBean.class);
+            AccountCsvDownloadDTO row = modelMapper.map(account, AccountCsvDownloadDTO.class);
             row.setStatusLabel(Status.getByValue(account.getStatus()).getCodeLabel());
             csvList.add(row);
         }
 
         model.addAttribute("exportCsvData", csvList);
-        model.addAttribute("class", AccountCsvDlBean.class);
+        model.addAttribute("class", AccountCsvDownloadDTO.class);
     }
 
     /**

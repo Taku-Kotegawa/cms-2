@@ -1,10 +1,9 @@
 package jp.co.stnet.cms.base.presentation.controller.authentication.emailchange;
 
-import jp.co.stnet.cms.base.application.service.AccountService;
 import jp.co.stnet.cms.base.application.service.EmailChangeService;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.mbg.EmailChangeRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +16,12 @@ import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
 import java.util.Objects;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("emailchange")
 public class EmailChangeController {
 
-    @Autowired
-    EmailChangeService emailChangeService;
-
-    @Autowired
-    AccountService accountSharedService;
+    private final EmailChangeService emailChangeService;
 
     @ModelAttribute
     public EmailChangeForm setUpForm() {
@@ -48,7 +44,7 @@ public class EmailChangeController {
         if (bindingResult.hasErrors()) {
             return showForm();
         }
-        String token = emailChangeService.createAndSendMailChangeRequest(loggedInUser.getUsername(), form.getNewEmail());
+        var token = emailChangeService.createAndSendMailChangeRequest(loggedInUser.getUsername(), form.getNewEmail());
         attributes.addAttribute("token", token);
         return "redirect:/emailchange/formToken";
     }
@@ -80,12 +76,10 @@ public class EmailChangeController {
             return "redirect:/emailchange?complete";
 
         } else {
-
             emailChangeService.fail(form.getToken());
             attributes.addAttribute("token", form.getToken());
             return "redirect:/emailchange/formToken";
         }
-
     }
 
     @GetMapping(params = "complete")

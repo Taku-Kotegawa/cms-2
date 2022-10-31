@@ -5,7 +5,6 @@ import jp.co.stnet.cms.base.domain.model.mbg.PasswordHistory;
 import jp.co.stnet.cms.base.domain.model.mbg.PasswordHistoryExample;
 import jp.co.stnet.cms.base.domain.model.mbg.PasswordHistoryKey;
 import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
-
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.PasswordHistoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.RowBounds;

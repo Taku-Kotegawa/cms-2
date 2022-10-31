@@ -16,7 +16,7 @@ import java.util.Optional;
 @Component
 public class NewsRepository {
 
-    private final VariableMapper mapper;
+    private final VariableMapper variableMapper;
 
     /**
      * VariableテーブルをIDで検索してデータを取得
@@ -24,9 +24,9 @@ public class NewsRepository {
      * @param id データのID
      * @return
      */
-    public Optional<Variable> findById(Long id){
-        return Optional.ofNullable(mapper.selectByPrimaryKey(id));
-    };
+    public Optional<Variable> findById(Long id) {
+        return Optional.ofNullable(variableMapper.selectByPrimaryKey(id));
+    }
 
 
     /**
@@ -41,7 +41,7 @@ public class NewsRepository {
      * @param date2  　検索日
      * @return
      */
-    List<Variable> findByTypeAndStatusAndDate1LessThanEqualAndDate2GreaterThanEqual(String type, String status, LocalDate date1, LocalDate date2){
+    List<Variable> findByTypeAndStatusAndDate1LessThanEqualAndDate2GreaterThanEqual(String type, String status, LocalDate date1, LocalDate date2) {
         return null;
-    };
+    }
 }

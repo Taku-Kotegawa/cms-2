@@ -3,12 +3,10 @@ package jp.co.stnet.cms.base.application.service;
 import jp.co.stnet.cms.base.application.repository.PermissionRoleRepository;
 import jp.co.stnet.cms.base.domain.enums.Permission;
 import jp.co.stnet.cms.base.domain.enums.Role;
-
 import jp.co.stnet.cms.base.domain.model.mbg.PermissionRole;
 import jp.co.stnet.cms.base.domain.model.mbg.PermissionRoleExample;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -18,7 +18,6 @@ import org.springframework.util.ReflectionUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -54,7 +53,7 @@ public class MybatisAuditDataInterceptor implements Interceptor {
             try {
                 LoggedInUser loggedInUser = (LoggedInUser) authentication.getPrincipal();
                 username = (loggedInUser != null) ? loggedInUser.getUsername() : "anonymous";
-            } catch (ClassCastException ex ) {
+            } catch (ClassCastException ex) {
                 username = "anonymous";
             }
         } else {
@@ -99,7 +98,7 @@ public class MybatisAuditDataInterceptor implements Interceptor {
     }
 
     private void setupInsertInformation(String userName, LocalDateTime localDateTimeNow, Object dto)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws IllegalArgumentException {
 
         // 作成者の設定
         updateFiled(dto, CREATE_USER, String.class, userName);
@@ -136,7 +135,7 @@ public class MybatisAuditDataInterceptor implements Interceptor {
 
 
     private void setupUpdateInformation(String userName, LocalDateTime localDateTimeNow, Object dto)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws IllegalArgumentException {
 
         // 更新者の設定
         updateFiled(dto, UPDATE_USER, String.class, userName);

@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.common.validation;
 
 
-
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;

@@ -37,27 +37,27 @@ public class MessageKeysGen {
                 try {
 
 
-                inputStream = new FileInputStream(messageProperty);
-                br = new BufferedReader(new InputStreamReader(inputStream));
+                    inputStream = new FileInputStream(messageProperty);
+                    br = new BufferedReader(new InputStreamReader(inputStream));
 
-                while ((line = br.readLine()) != null) {
+                    while ((line = br.readLine()) != null) {
 
-                    // コメント行を読み飛ばす
-                    if (line.startsWith("#")) {
-                        continue;
+                        // コメント行を読み飛ばす
+                        if (line.startsWith("#")) {
+                            continue;
+                        }
+
+                        String[] vals = line.split("=", 2);
+                        if (vals.length > 1) {
+                            String key = vals[0].trim();
+                            String value = vals[1].trim();
+                            pw.println("    /** " + key + "=" + value + " */");
+                            pw.println("    public static final String "
+                                    + key.toUpperCase().replaceAll(Pattern.quote("."),
+                                    "_").replaceAll(Pattern.quote("-"), "_")
+                                    + " = \"" + key + "\";");
+                        }
                     }
-
-                    String[] vals = line.split("=", 2);
-                    if (vals.length > 1) {
-                        String key = vals[0].trim();
-                        String value = vals[1].trim();
-                        pw.println("    /** " + key + "=" + value + " */");
-                        pw.println("    public static final String "
-                                + key.toUpperCase().replaceAll(Pattern.quote("."),
-                                "_").replaceAll(Pattern.quote("-"), "_")
-                                + " = \"" + key + "\";");
-                    }
-                }
 
                 } finally {
                     br.close();

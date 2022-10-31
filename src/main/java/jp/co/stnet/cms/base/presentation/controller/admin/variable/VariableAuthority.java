@@ -2,7 +2,6 @@ package jp.co.stnet.cms.base.presentation.controller.admin.variable;
 
 import jp.co.stnet.cms.base.domain.enums.Permission;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
-
 import jp.co.stnet.cms.common.constant.Constants;
 import lombok.NonNull;
 import org.springframework.security.access.AccessDeniedException;

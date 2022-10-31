@@ -1,13 +1,13 @@
 package jp.co.stnet.cms.base.domain.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.terasoluna.gfw.common.codelist.EnumCodeList;
 
 /**
  * ファイルステータス
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public enum FileStatus implements EnumCodeList.CodeListItem {
 

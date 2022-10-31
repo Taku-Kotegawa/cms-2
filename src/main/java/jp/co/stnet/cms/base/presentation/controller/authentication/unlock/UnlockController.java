@@ -15,9 +15,8 @@
  */
 package jp.co.stnet.cms.base.presentation.controller.authentication.unlock;
 
-
-
 import jp.co.stnet.cms.base.application.service.UnlockService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,14 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 
-import javax.inject.Inject;
-
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/unlock")
 public class UnlockController {
 
-    @Inject
-    UnlockService unlockService;
+    private final UnlockService unlockService;
 
     @GetMapping(params = "form")
     public String showForm(UnlockForm form) {

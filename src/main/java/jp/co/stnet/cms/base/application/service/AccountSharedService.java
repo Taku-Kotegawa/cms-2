@@ -16,7 +16,6 @@
 package jp.co.stnet.cms.base.application.service;
 
 
-
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 

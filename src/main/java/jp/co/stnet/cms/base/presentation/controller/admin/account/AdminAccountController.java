@@ -1,12 +1,11 @@
 package jp.co.stnet.cms.base.presentation.controller.admin.account;
 
-import jp.co.stnet.cms.base.application.service.AccountService;
 import jp.co.stnet.cms.base.application.service.AccountSharedService;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.util.OperationsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,18 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.BASE_PATH;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.TEMPLATE_FORM;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(BASE_PATH)
 public class AdminAccountController {
 
-    @Autowired
-    AdminAccountHelper helper;
-
-    @Autowired
-    AccountSharedService accountSharedService;
-
-    @Autowired
-    AdminAccountAuthority authority;
+    private final AdminAccountHelper helper;
+    private final AccountSharedService accountSharedService;
+    private final AdminAccountAuthority authority;
 
     @ModelAttribute
     AccountForm setUp() {

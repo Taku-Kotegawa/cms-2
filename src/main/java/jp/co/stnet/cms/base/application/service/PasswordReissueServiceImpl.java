@@ -32,19 +32,12 @@ import static jp.co.stnet.cms.common.message.MessageKeys.*;
 public class PasswordReissueServiceImpl implements PasswordReissueService {
 
     private final PasswordReissueFailureService passwordReissueFailureService;
-
     private final PasswordReissueMailService mailSharedService;
-
     private final PasswordReissueInfoRepository passwordReissueInfoRepository;
-
     private final FailedPasswordReissueRepository failedPasswordReissueRepository;
-
     private final AccountSharedService accountSharedService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final PasswordGenerator passwordGenerator;
-
     private final DateTimeFactory dateTimeFactory;
 
     @Resource(name = "passwordGenerationRules")

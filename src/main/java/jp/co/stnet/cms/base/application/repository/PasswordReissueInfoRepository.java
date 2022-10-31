@@ -4,7 +4,6 @@ package jp.co.stnet.cms.base.application.repository;
 import jp.co.stnet.cms.base.domain.model.mbg.PasswordReissueInfo;
 import jp.co.stnet.cms.base.domain.model.mbg.PasswordReissueInfoExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface;
-
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.PasswordReissueInfoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

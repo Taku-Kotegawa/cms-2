@@ -20,6 +20,7 @@ public class FailedAuthenticationRepository extends AbstractRepository<FailedAut
     MapperInterface<FailedAuthentication, FailedAuthenticationExample, FailedAuthenticationKey> mapper() {
         return mapper;
     }
+
     @Override
     FailedAuthenticationExample example() {
         return new FailedAuthenticationExample();

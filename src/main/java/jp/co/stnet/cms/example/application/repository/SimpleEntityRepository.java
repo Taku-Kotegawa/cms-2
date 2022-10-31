@@ -138,7 +138,6 @@ public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSi
         }
 
         if (entity.getLineItems() != null) {
-//            entity.getLineItems().forEach(lineItemMapper::insert);
             long i = 0L;
             for (LineItem lineItem : entity.getLineItems()) {
                 lineItem.setSimpleEntityId(entity.getId());

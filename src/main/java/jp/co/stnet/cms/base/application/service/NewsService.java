@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *NewsService
+ * NewsService
  */
 public interface NewsService {
 

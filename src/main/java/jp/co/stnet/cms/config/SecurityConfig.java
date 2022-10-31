@@ -76,7 +76,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    public AbstractPreAuthenticatedProcessingFilter preAuthenticatedProcessingFilter() throws Exception {
+    public AbstractPreAuthenticatedProcessingFilter preAuthenticatedProcessingFilter() {
         AbstractPreAuthenticatedProcessingFilter preAuthenticatedProcessingFilter = new ApiPreAuthenticatedProcessingFilter();
         preAuthenticatedProcessingFilter.setAuthenticationManager(apiAuthenticationManager());
         return preAuthenticatedProcessingFilter;
@@ -174,7 +174,7 @@ public class SecurityConfig {
         return filter;
     }
 
-    private List<SessionAuthenticationStrategy> strategies(){
+    private List<SessionAuthenticationStrategy> strategies() {
         List<SessionAuthenticationStrategy> strategies = new ArrayList<>();
         strategies.add(new CsrfAuthenticationStrategy(new HttpSessionCsrfTokenRepository()));
         strategies.add(new SessionFixationProtectionStrategy());

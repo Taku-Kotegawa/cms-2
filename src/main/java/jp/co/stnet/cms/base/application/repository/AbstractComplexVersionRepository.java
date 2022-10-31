@@ -35,7 +35,6 @@ import java.util.Optional;
  * @param <I>
  */
 @Transactional
-@SuppressWarnings("unchecked")
 public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I> & VersionInterface, E, I, S extends T> implements ComplexVersionRepositoryInterface<T, E, I, S> {
 
     private static final int DEFAULT_PAGE_SIZE = 5;

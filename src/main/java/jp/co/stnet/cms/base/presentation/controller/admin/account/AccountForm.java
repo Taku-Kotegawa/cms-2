@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.base.presentation.controller.admin.account;
 
 
-
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
 import jp.co.stnet.cms.common.validation.NotContainControlChars;
 import jp.co.stnet.cms.common.validation.NotContainControlCharsExceptNewlines;
@@ -47,9 +46,6 @@ public class AccountForm {
 
     @NotContainControlChars
     private String url;
-
-    // ダミー
-    private String image;
 
     private String imageUuid;
 

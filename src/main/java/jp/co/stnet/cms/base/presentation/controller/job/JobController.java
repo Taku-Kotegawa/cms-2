@@ -5,11 +5,11 @@ import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.presentation.controller.uploadfile.UploadFileForm;
 import jp.co.stnet.cms.common.exception.IllegalStateBusinessException;
 import jp.co.stnet.cms.common.message.MessageKeys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Slf4j
 @Controller
 @RequestMapping("job")
@@ -40,12 +41,11 @@ public class JobController {
     private static final String JSP_JOBLOG = BASE_PATH + "/joblog";
     private static final String JSP_SUMMARY = BASE_PATH + "/summary";
 
-    @Autowired
-    JobExplorer jobExplorer;
+    private final JobExplorer jobExplorer;
+    private final JdbcTemplate jdbcTemplate;
 
     @Value("${job.log.dir}")
     String jobLogDir;
-
 
     private static final String FIND_EXECUTIONS =
             "SELECT p.JOB_EXECUTION_ID FROM BATCH_JOB_EXECUTION_PARAMS p\n" +
@@ -55,15 +55,10 @@ public class JobController {
                     "ORDER BY p.JOB_EXECUTION_ID DESC\n" +
                     "LIMIT 20";
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-
     @ModelAttribute
     UploadFileForm setup() {
         return new UploadFileForm();
     }
-
 
     /**
      * ユーザが管理者を持っている。
@@ -78,14 +73,14 @@ public class JobController {
     @GetMapping("summary")
     public String summary(Model model, @AuthenticationPrincipal LoggedInUser loggedInUser) {
         List<Map<String, Object>> jobSummary = new ArrayList<>();
-        List<String> jobNames = jobExplorer.getJobNames();
+        var jobNames = jobExplorer.getJobNames();
 
         if (isAdmin(loggedInUser)) {
 
             // 管理者はすべてのジョブの結果を確認できる。
             for (String jobName : jobNames) {
-                Map map = new LinkedHashMap();
-                JobInstance jobInstance = jobExplorer.getLastJobInstance(jobName);
+                var map = new LinkedHashMap<String, Object>();
+                var jobInstance = jobExplorer.getLastJobInstance(jobName);
                 map.put("jobName", jobName);
                 map.put("jobInstance", jobInstance);
                 map.put("jobExecution", jobExplorer.getLastJobExecution(jobInstance));
@@ -95,10 +90,10 @@ public class JobController {
         } else {
             // 通常は自分が実行したジョブの結果を確認できる。
             for (String jobName : jobNames) {
-                List<Long> jobExecutionIds = jdbcTemplate.queryForList(FIND_EXECUTIONS, Long.class, loggedInUser.getUsername(), jobName);
+                var jobExecutionIds = jdbcTemplate.queryForList(FIND_EXECUTIONS, Long.class, loggedInUser.getUsername(), jobName);
                 if (!jobExecutionIds.isEmpty()) {
-                    JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionIds.get(0));
-                    Map map = new LinkedHashMap();
+                    var jobExecution = jobExplorer.getJobExecution(jobExecutionIds.get(0));
+                    var map = new LinkedHashMap<String, Object>();
                     map.put("jobName", jobName);
                     map.put("jobInstance", jobExecution.getJobInstance());
                     map.put("jobExecution", jobExecution);
@@ -118,7 +113,6 @@ public class JobController {
                          @RequestParam(value = "targetjob", required = false) String targetjob,
                          @AuthenticationPrincipal LoggedInUser loggedInUser) {
 
-
         List<String> jobList = jobExplorer.getJobNames();
 
         if (targetjob == null && !jobList.isEmpty()) {
@@ -131,17 +125,16 @@ public class JobController {
         if (isAdmin(loggedInUser)) {
             // 管理者は全ジョブを参照可能
             instances = jobExplorer.getJobInstances(targetjob, 0, 20);
-            for (JobInstance i : instances) {
-                ArrayList<JobExecution> list = (ArrayList<JobExecution>) jobExplorer.getJobExecutions(i);
-
+            for (var i : instances) {
+                List<JobExecution> list = jobExplorer.getJobExecutions(i);
                 executions.addAll(list);
             }
 
         } else {
             // 通常は自分が実行したジョブを参照可能
-            List<Long> jobExecutionIds = jdbcTemplate.queryForList(FIND_EXECUTIONS, Long.class, loggedInUser.getUsername(), targetjob);
-            for (Long jobExecutionId : jobExecutionIds) {
-                JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
+            var jobExecutionIds = jdbcTemplate.queryForList(FIND_EXECUTIONS, Long.class, loggedInUser.getUsername(), targetjob);
+            for (var jobExecutionId : jobExecutionIds) {
+                var jobExecution = jobExplorer.getJobExecution(jobExecutionId);
                 instances.add(jobExecution.getJobInstance());
                 executions.add(jobExecution);
             }
@@ -158,8 +151,8 @@ public class JobController {
                          @AuthenticationPrincipal LoggedInUser loggedInUser) {
 
         if (!isAdmin(loggedInUser)) {
-            List<String> jobNames = jobExplorer.getJobNames();
-            List<Long> jobExecutionIds = new ArrayList<>();
+            var jobNames = jobExplorer.getJobNames();
+            var jobExecutionIds = new ArrayList<Long>();
 
             for (String jobName : jobNames) {
                 jobExecutionIds.addAll(jdbcTemplate.queryForList(FIND_EXECUTIONS, Long.class, loggedInUser.getUsername(), jobName));
@@ -169,17 +162,16 @@ public class JobController {
                 // 権限なし
                 throw new IllegalStateBusinessException(ResultMessages.error().add(MessageKeys.E_SL_FW_5001));
             }
-
         }
 
-        JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
+        var jobExecution = jobExplorer.getJobExecution(jobExecutionId);
         if (jobExecution == null) {
             throw new IllegalStateBusinessException(ResultMessages.error().add(MessageKeys.E_SL_FW_5001));
         }
 
-        String jobName = jobExecution.getJobInstance().getJobName();
-        String filePath = jobLogDir + "/Job_" + jobName + "_" + jobExecutionId + ".log";
-        List<String> fileLines = new ArrayList<>();
+        var jobName = jobExecution.getJobInstance().getJobName();
+        var filePath = jobLogDir + "/Job_" + jobName + "_" + jobExecutionId + ".log";
+        List<String> fileLines = new ArrayList<String>();
         try {
             fileLines = Files.readAllLines(Paths.get(filePath));
         } catch (IOException e) {

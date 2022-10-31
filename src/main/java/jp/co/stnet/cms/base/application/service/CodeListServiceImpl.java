@@ -2,22 +2,20 @@ package jp.co.stnet.cms.base.application.service;
 
 
 import jp.co.stnet.cms.base.domain.enums.VariableType;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.codelist.ReloadableCodeList;
 
-import javax.inject.Named;
-
+@RequiredArgsConstructor
 @Slf4j
 @Service
 @Transactional
 public class CodeListServiceImpl implements CodeListService {
 
-    @Autowired
-    ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Override
     public void refresh(String codeListName) {
@@ -29,6 +27,7 @@ public class CodeListServiceImpl implements CodeListService {
                 codeList.refresh();
             }
         } catch (Exception e) {
+            throw new RuntimeException(e);
 
         }
 

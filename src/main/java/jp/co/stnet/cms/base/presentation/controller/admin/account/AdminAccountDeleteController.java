@@ -6,7 +6,7 @@ import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,15 +20,13 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.BASE_PATH;
 
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(BASE_PATH)
 public class AdminAccountDeleteController {
 
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    AdminAccountAuthority authority;
+    private final AccountService accountService;
+    private final AdminAccountAuthority authority;
 
     /**
      * 削除

@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.base.application.repository;
 
 import jp.co.stnet.cms.base.application.repository.interfaces.VersionRepositoryInterface;
-import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.Variable;
 import jp.co.stnet.cms.base.domain.model.mbg.VariableExample;
 import jp.co.stnet.cms.base.infrastructure.mapper.VariableQueryMapper;

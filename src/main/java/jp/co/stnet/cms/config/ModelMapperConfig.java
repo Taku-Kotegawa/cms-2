@@ -48,8 +48,6 @@ public class ModelMapperConfig {
     }
 
 
-
-
     /**
      * Set<String> -> String Set -> カンマ区切り
      */

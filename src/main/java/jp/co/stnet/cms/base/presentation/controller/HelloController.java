@@ -2,19 +2,16 @@ package jp.co.stnet.cms.base.presentation.controller;
 
 
 import jp.co.stnet.cms.base.application.service.NewsService;
-import jp.co.stnet.cms.base.domain.model.mbg.Variable;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
+@RequiredArgsConstructor
 @Controller
 public class HelloController {
 
-    @Autowired
-    NewsService newsService;
+    private final NewsService newsService;
 
     /**
      * ログイン後のトップ画面を表示する
@@ -25,10 +22,10 @@ public class HelloController {
     @GetMapping
     public String top(Model model) {
 
-        List<Variable> variableList = newsService.findOpenNews();
+        var variableList = newsService.findOpenNews();
 
         //modelに属性を登録する
-        model.addAttribute("variableList",variableList);
+        model.addAttribute("variableList", variableList);
 
         return "top";
     }

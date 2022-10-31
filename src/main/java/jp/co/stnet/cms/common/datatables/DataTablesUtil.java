@@ -1,6 +1,5 @@
 package jp.co.stnet.cms.common.datatables;
 
-import jp.co.stnet.cms.common.util.BeanUtils;
 import jp.co.stnet.cms.common.util.StringUtils;
 
 import java.util.ArrayList;

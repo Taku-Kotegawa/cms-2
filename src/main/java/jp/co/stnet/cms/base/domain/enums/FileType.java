@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.base.domain.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.terasoluna.gfw.common.codelist.EnumCodeList;
 
 
@@ -10,7 +10,7 @@ import org.terasoluna.gfw.common.codelist.EnumCodeList;
  * <p>
  * 保存可能なファイルの拡張子、サイズを指定する。
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public enum FileType implements EnumCodeList.CodeListItem {
 

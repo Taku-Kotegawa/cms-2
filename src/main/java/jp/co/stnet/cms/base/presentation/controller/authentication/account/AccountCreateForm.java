@@ -31,7 +31,6 @@ public class AccountCreateForm implements Serializable {
     @Size(min = 1, max = 128)
     private String lastName;
 
-    @NotNull
     @NotContainControlChars
     @Size(min = 1, max = 128)
     @DomainRestrictedEmail(allowedDomains = {"stnet.co.jp", "somedomainexample.co.jp"}, allowSubDomain = true)

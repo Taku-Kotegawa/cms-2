@@ -18,13 +18,14 @@ import jp.co.stnet.cms.common.datatables.DataTablesOutput;
 import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.common.util.StateMap;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -39,13 +40,13 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
-import javax.inject.Named;
 import javax.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Slf4j
 @Controller
 @RequestMapping("admin/variable")
@@ -64,27 +65,14 @@ public class VariableController {
     // アップロード用のインポートジョブID
     private final String UPLOAD_JOB_ID = Constants.JOBID.IMPORT_VARIABLE;
 
-    @Autowired
-    VariableService variableService;
-
-    @Autowired
-    VariableAuthority authority;
-
-    @Autowired
-    FileManagedService fileManagedService;
-
-    @Autowired
-    CodeListService codeListService;
-
-    @Autowired
-    JobStarter jobStarter;
-
-    @Autowired
-    @Named("CL_STATUS")
-    CodeList statusCodeList;
-
-    @Autowired
-    ModelMapper beanMapper;
+    private final VariableService variableService;
+    private final VariableAuthority authority;
+    private final FileManagedService fileManagedService;
+    private final CodeListService codeListService;
+    private final JobStarter jobStarter;
+    @Qualifier("CL_STATUS")
+    private final CodeList statusCodeList;
+    private final ModelMapper beanMapper;
 
     @ModelAttribute
     private VariableForm setUp() {
@@ -240,7 +228,7 @@ public class VariableController {
         input.setStart(0);
         input.setLength(Constants.CSV.MAX_LENGTH);
 
-        List<VariableCsvBean> list = new ArrayList<>();
+        List<VariableCsvDownloadDTO> list = new ArrayList<>();
         List<Variable> variableList = new ArrayList<>();
 
 //        if (input.getDraft()) { // 下書き含む最新
@@ -255,13 +243,13 @@ public class VariableController {
 //        }
 
         for (Variable variable : variableList) {
-            VariableCsvBean row = beanMapper.map(variable, VariableCsvBean.class);
+            VariableCsvDownloadDTO row = beanMapper.map(variable, VariableCsvDownloadDTO.class);
             row.setStatusLabel(Status.getByValue(variable.getStatus()).getCodeLabel());
             list.add(row);
         }
 
         model.addAttribute("exportCsvData", list);
-        model.addAttribute("class", VariableCsvBean.class);
+        model.addAttribute("class", VariableCsvDownloadDTO.class);
     }
 
 

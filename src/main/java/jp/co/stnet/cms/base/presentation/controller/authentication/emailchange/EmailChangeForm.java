@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class EmailChangeForm {
 
-
     /**
      * 新規メール
      */

@@ -25,7 +25,6 @@ import jp.co.stnet.cms.base.domain.model.mbg.PasswordHistory;
 import jp.co.stnet.cms.base.domain.model.mbg.SuccessfulAuthentication;
 import jp.co.stnet.cms.common.datetime.DateTimeFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.passay.CharacterRule;
 import org.passay.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +132,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 
     @Override
     public boolean isLocked(String username) {
-        List<FailedAuthentication> failureEvents = (List<FailedAuthentication>) authenticationEventService
+        List<FailedAuthentication> failureEvents = authenticationEventService
                 .findLatestFailureEvents(username, lockingThreshold);
 
         if (failureEvents.size() < lockingThreshold) {

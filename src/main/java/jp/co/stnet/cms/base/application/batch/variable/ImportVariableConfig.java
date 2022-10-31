@@ -1,6 +1,7 @@
 package jp.co.stnet.cms.base.application.batch.variable;
 
 import jp.co.stnet.cms.common.constant.Constants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -8,11 +9,11 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@RequiredArgsConstructor
 @EnableBatchProcessing
 @Configuration
 public class ImportVariableConfig {
@@ -21,15 +22,10 @@ public class ImportVariableConfig {
 
     private static final String TASKLET_NAME = JOB_ID + "Tasklet";
 
-    @Autowired
-    JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
-    StepBuilderFactory stepBuilderFactory;
-
-    @Autowired
+    private final JobBuilderFactory jobBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
     @Qualifier(TASKLET_NAME)
-    Tasklet tasklet;
+    private final Tasklet tasklet;
 
     /**
      * メソッド名でBean定義される点に注意

@@ -1,7 +1,6 @@
 package jp.co.stnet.cms.base.presentation.controller.admin.account;
 
 
-import jp.co.stnet.cms.base.application.service.AccountService;
 import jp.co.stnet.cms.base.application.service.FileManagedService;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.mbg.FileManaged;
@@ -10,11 +9,11 @@ import jp.co.stnet.cms.base.presentation.controller.job.JobStarter;
 import jp.co.stnet.cms.common.constant.Constants;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.common.util.StateMap;
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,21 +27,14 @@ import java.util.Map;
 
 import static jp.co.stnet.cms.base.presentation.controller.admin.account.AdminAccountConstant.*;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(BASE_PATH)
 public class AdminAccountUploadController {
 
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    AdminAccountAuthority authority;
-
-    @Autowired
-    FileManagedService fileManagedService;
-
-    @Autowired
-    JobStarter jobStarter;
+    private final AdminAccountAuthority authority;
+    private final FileManagedService fileManagedService;
+    private final JobStarter jobStarter;
 
     /**
      * アップロードファイル指定画面の表示
@@ -54,10 +46,6 @@ public class AdminAccountUploadController {
         authority.hasAuthority(Constants.OPERATION.UPLOAD, loggedInUser);
 
         form.setJobName(UPLOAD_JOB_ID);
-
-//        if (form.getUploadFileUuid() != null) {
-//            form.setUploadFileManaged(fileManagedService.findByIdOrNull(form.getUploadFileUuid()));
-//        }
 
         model.addAttribute("pageTitle", "Import Account");
         model.addAttribute("referer", "list");
@@ -94,10 +82,11 @@ public class AdminAccountUploadController {
         try {
             jobExecutionId = jobStarter.start(jobName, jobParams);
 
-        } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException e) {
+        } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException | JobRestartException |
+                 JobInstanceAlreadyCompleteException e) {
             e.printStackTrace();
-
-            // メッセージをセットして、フォーム画面に戻る。
+            throw new RuntimeException(e);
+            // TODO メッセージをセットして、フォーム画面に戻る。
 
         }
 

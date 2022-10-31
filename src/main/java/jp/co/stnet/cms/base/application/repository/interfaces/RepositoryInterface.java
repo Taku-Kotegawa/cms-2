@@ -1,8 +1,6 @@
 package jp.co.stnet.cms.base.application.repository.interfaces;
 
 import jp.co.stnet.cms.base.domain.model.KeyInterface;
-import jp.co.stnet.cms.base.domain.model.mbg.Variable;
-import jp.co.stnet.cms.common.datatables.DataTablesInput;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
 

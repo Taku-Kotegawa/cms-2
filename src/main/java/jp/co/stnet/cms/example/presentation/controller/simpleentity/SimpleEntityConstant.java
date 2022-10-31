@@ -1,7 +1,5 @@
 package jp.co.stnet.cms.example.presentation.controller.simpleentity;
 
-import jp.co.stnet.cms.common.constant.Constants;
-
 public class SimpleEntityConstant {
 
     static final String BASE_PATH = "example/simpleentity";

@@ -1,7 +1,7 @@
 package jp.co.stnet.cms.base.presentation.controller.job;
 
-
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -12,21 +12,18 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.batch.support.PropertiesConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+@RequiredArgsConstructor
 @Component
 public class JobStarter {
 
     private final JobParametersConverter jobParametersConverter = new DefaultJobParametersConverter();
 
-    @Autowired
-    JobLauncher jobLauncher;
-
-    @Autowired
-    ApplicationContext applicationContext;
+    private final JobLauncher jobLauncher;
+    private final ApplicationContext applicationContext;
 
     public Long start(String jobName, String parameters) throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
 

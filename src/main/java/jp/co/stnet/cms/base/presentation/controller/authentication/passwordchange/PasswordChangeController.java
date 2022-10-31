@@ -4,6 +4,7 @@ package jp.co.stnet.cms.base.presentation.controller.authentication.passwordchan
 import jp.co.stnet.cms.base.application.service.PasswordChangeService;
 import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.inject.Inject;
-
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("password")
 public class PasswordChangeController {
 
-    @Inject
-    PasswordChangeService passwordChangeService;
+    private final PasswordChangeService passwordChangeService;
 
     @ModelAttribute("passwordChangeForm")
     public PasswordChangeForm setUpPasswordChangeForm() {

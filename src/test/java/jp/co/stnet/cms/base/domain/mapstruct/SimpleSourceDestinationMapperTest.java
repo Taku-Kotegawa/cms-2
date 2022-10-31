@@ -3,12 +3,13 @@ package jp.co.stnet.cms.base.domain.mapstruct;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SimpleSourceDestinationMapperTest {
 
-    private SimpleSourceDestinationMapper mapper
+    private final SimpleSourceDestinationMapper mapper
             = Mappers.getMapper(SimpleSourceDestinationMapper.class);
+
     @Test
     public void givenSourceToDestination_whenMaps_thenCorrect() {
         SimpleSource simpleSource = new SimpleSource();
@@ -20,6 +21,7 @@ class SimpleSourceDestinationMapperTest {
         assertEquals(simpleSource.getDescription(),
                 destination.getDescription());
     }
+
     @Test
     public void givenDestinationToSource_whenMaps_thenCorrect() {
         SimpleDestination destination = new SimpleDestination();

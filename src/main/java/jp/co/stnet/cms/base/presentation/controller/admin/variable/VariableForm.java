@@ -28,11 +28,6 @@ import java.time.LocalDate;
 public class VariableForm implements Serializable {
 
     /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = 2601462768185636865L;
-
-    /**
      * 内部ID
      */
     private Long id;

@@ -22,23 +22,21 @@ public class SimpleEntityListForm implements Serializable {
         StringBuilder sb = new StringBuilder();
 
 
-            if (q != null) {
-                sb.append(",q='").append(q).append("'");
-            }
+        if (q != null) {
+            sb.append(",q='").append(q).append("'");
+        }
 
-            if (sort != null) {
-                sb.append(",sort='").append(sort).append("'");
-            }
+        if (sort != null) {
+            sb.append(",sort='").append(sort).append("'");
+        }
 
-            // null or Empty を返すとThymeleafがエラーになるので、なんでも良いので値を返す
-            if (sb.toString().length() == 0) {
-                return ",sort=";
-            }
+        // null or Empty を返すとThymeleafがエラーになるので、なんでも良いので値を返す
+        if (sb.toString().length() == 0) {
+            return ",sort=";
+        }
 
         return sb.toString();
     }
-
-
 
 
 }
