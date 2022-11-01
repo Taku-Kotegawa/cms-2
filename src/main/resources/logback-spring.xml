@@ -9,7 +9,7 @@
 
     <!-- Application.propertiesから設定読み込み -->
     <springProperty scope="context" name="jobLogDir" source="job.log.dir"
-                    defaultValue="/log/job"/>
+                    defaultValue="log/job"/>
 
     <appender name="Job" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
