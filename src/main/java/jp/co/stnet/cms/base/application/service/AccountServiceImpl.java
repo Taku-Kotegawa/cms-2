@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class AccountServiceImpl extends AbstractNodeService<Account, TAccountExample, String> implements AccountService {
 

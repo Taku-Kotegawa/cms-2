@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class PasswordReissueFailureServiceImpl implements PasswordReissueFailureService {
 
     private final FailedPasswordReissueRepository failedPasswordReissueRepository;

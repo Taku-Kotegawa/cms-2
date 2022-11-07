@@ -28,7 +28,7 @@ import static jp.co.stnet.cms.common.message.MessageKeys.*;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class PasswordReissueServiceImpl implements PasswordReissueService {
 
     private final PasswordReissueFailureService passwordReissueFailureService;

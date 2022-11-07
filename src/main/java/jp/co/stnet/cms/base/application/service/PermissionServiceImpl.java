@@ -15,7 +15,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class PermissionServiceImpl implements PermissionService {
 
     private final PermissionRoleRepository permissionRoleRepository;

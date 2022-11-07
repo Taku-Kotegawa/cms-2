@@ -35,4 +35,24 @@
         <appender-ref ref="Job" />
     </logger>
 
+
+    <!-- MONITORING_LOG -->
+    <appender name="MONITORING_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${app.log.dir:-log}/cms-monitoring.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${app.log.dir:-log}/cms-monitoring-%d{yyyyMMdd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern><![CDATA[date:%d{yyyy-MM-dd HH:mm:ss}\tX-Track:%X{X-Track}\tlevel:%-5level\tmessage:%replace(%msg){'(\r\n|\r|\n)','$1  '}%n%replace(%replace(%xEx){'(\r\n|\r|\n)','$1  '}){'  $',''}%nopex]]></pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.terasoluna.gfw.common.exception.ExceptionLogger.Monitoring" additivity="false">
+        <level value="error" />
+        <appender-ref ref="MONITORING_LOG_FILE" />
+    </logger>
+
+
 </configuration>

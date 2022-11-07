@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class SimpleEntityServiceImpl extends AbstractNodeService<SimpleEntity, TSimpleEntityExample, Long> implements SimpleEntityService {
 

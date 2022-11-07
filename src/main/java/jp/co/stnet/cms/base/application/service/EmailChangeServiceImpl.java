@@ -32,7 +32,7 @@ import static jp.co.stnet.cms.common.message.MessageKeys.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class EmailChangeServiceImpl implements EmailChangeService {
 
@@ -56,7 +56,6 @@ public class EmailChangeServiceImpl implements EmailChangeService {
     int tokenValidityThreshold;
 
     @Override
-    @Transactional(rollbackFor = MailException.class)
     public String createAndSendMailChangeRequest(String username, String mail) {
 
         // 暗証番号を生成

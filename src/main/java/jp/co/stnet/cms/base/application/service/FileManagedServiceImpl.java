@@ -37,7 +37,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class FileManagedServiceImpl implements FileManagedService {
 
     private final FileManagedRepository fileManagedRepository;

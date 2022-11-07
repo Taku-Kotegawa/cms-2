@@ -24,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class MailSendServiceImpl implements MailSendService {
 
     private static final String VARIABLE_TYPE_MESSAGE_TEMPLATE = VariableType.MESSAGE_TEMPLATE.name();

@@ -35,6 +35,7 @@ public class DataTablesInput {
      */
     @NotNull
     @Min(0)
+    @Builder.Default
     private Integer draw = 1;
 
     /**
@@ -43,6 +44,7 @@ public class DataTablesInput {
      */
     @NotNull
     @Min(0)
+    @Builder.Default
     private Integer start = 0;
 
     /**
@@ -53,24 +55,28 @@ public class DataTablesInput {
      */
     @NotNull
     @Min(-1)
+    @Builder.Default
     private Integer length = 10;
 
     /**
      * Global search parameter.
      */
     @NotNull
+    @Builder.Default
     private Search search = new Search();
 
     /**
      * Order parameter
      */
     @NotEmpty
+    @Builder.Default
     private List<Order> order = new ArrayList<>();
 
     /**
      * Per-column search parameter
      */
     @NotEmpty
+    @Builder.Default
     private List<Column> columns = new ArrayList<>();
 
     /**

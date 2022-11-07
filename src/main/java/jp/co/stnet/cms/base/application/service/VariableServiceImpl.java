@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class VariableServiceImpl extends AbstractNodeService<Variable, VariableExample, Long> implements VariableService {
 
     private final VariableRepository repository;

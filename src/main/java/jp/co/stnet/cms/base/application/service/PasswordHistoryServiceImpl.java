@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class PasswordHistoryServiceImpl implements PasswordHistoryService {
 
     private final PasswordHistoryRepository passwordHistoryRepository;

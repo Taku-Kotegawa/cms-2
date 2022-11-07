@@ -47,7 +47,7 @@ import static jp.co.stnet.cms.common.message.MessageKeys.E_SL_FW_5001;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class AccountSharedServiceImpl implements AccountSharedService {
 
     @Autowired

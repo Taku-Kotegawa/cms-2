@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Component
 public class SimpleEntityRepository extends AbstractComplexVersionRepository<TSimpleEntity, TSimpleEntityExample, Long, SimpleEntity>
         implements VersionRepositoryInterface<SimpleEntity, TSimpleEntityExample, Long> {

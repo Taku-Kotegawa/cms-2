@@ -12,7 +12,7 @@ import org.terasoluna.gfw.common.codelist.ReloadableCodeList;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class CodeListServiceImpl implements CodeListService {
 
     private final ApplicationContext applicationContext;

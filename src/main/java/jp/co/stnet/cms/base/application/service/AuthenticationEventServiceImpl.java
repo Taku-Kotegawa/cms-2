@@ -18,7 +18,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class AuthenticationEventServiceImpl implements AuthenticationEventService {
 
