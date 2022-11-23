@@ -146,7 +146,7 @@ public class AccountRepository extends AbstractComplexVersionRepository<TAccount
      * @return 削除テーブル
      */
     private int deleteRoleAll() {
-        return tRoleMapper.deleteByExample(new TRoleExample());
+        return tRoleMapper.deleteByExample(null);
     }
 
     /**

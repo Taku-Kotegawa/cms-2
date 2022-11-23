@@ -202,7 +202,7 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
     @Override
     public void deleteAll() {
         beforeDeleteAll();
-        mapper().deleteByExample(example());
+        mapper().deleteByExample(null);
     }
 
     @Override

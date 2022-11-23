@@ -40,7 +40,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public void deleteAll() {
-        permissionRoleRepository.deleteByExample(new PermissionRoleExample());
+        permissionRoleRepository.deleteByExample(null);
     }
 
     @Override

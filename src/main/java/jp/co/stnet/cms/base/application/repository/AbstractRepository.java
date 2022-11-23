@@ -113,7 +113,7 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
 
     @Override
     public void deleteAll() {
-        mapper().deleteByExample(example());
+        mapper().deleteByExample(null);
     }
 
     @Override
