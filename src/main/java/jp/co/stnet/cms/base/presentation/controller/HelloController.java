@@ -2,20 +2,22 @@ package jp.co.stnet.cms.base.presentation.controller;
 
 
 import jp.co.stnet.cms.base.application.service.NewsService;
+import jp.co.stnet.cms.common.component.RemoteIpHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.TypeMismatchException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
+
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class HelloController {
 
     private final NewsService newsService;
+    private final RemoteIpHelper remoteIpHelper;
 
     /**
      * ログイン後のトップ画面を表示する
@@ -25,6 +27,8 @@ public class HelloController {
      */
     @GetMapping
     public String top(Model model) {
+
+        log.info("ReportAddr: {}", remoteIpHelper.getClinetRemoteIp());
 
         var variableList = newsService.findOpenNews();
 
