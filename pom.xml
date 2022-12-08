@@ -15,8 +15,9 @@
     <description>CMS Example Project (MyBatis Version)</description>
     <properties>
         <java.version>17</java.version>
+        <org.terasoluna.gfw.version>5.7.1.RELEASE</org.terasoluna.gfw.version>
         <testcontainers.version>1.17.3</testcontainers.version>
-        <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     </properties>
     <dependencies>
@@ -148,52 +149,47 @@
         <dependency>
             <groupId>org.terasoluna.gfw</groupId>
             <artifactId>terasoluna-gfw-common</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.terasoluna.gfw</groupId>
             <artifactId>terasoluna-gfw-web</artifactId>
-            <version>5.7.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.terasoluna.gfw</groupId>
-            <artifactId>terasoluna-gfw-web-jsp</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.terasoluna.gfw</groupId>
             <artifactId>terasoluna-gfw-security-web</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.terasoluna.gfw</groupId>
             <artifactId>terasoluna-gfw-string</artifactId>
-            <version>5.7.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.terasoluna.gfw</groupId>
-            <artifactId>terasoluna-gfw-codepoints</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.terasoluna.gfw</groupId>
             <artifactId>terasoluna-gfw-validator</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terasoluna.gfw</groupId>
+            <artifactId>terasoluna-gfw-codepoints</artifactId>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.terasoluna.gfw.codepoints</groupId>
             <artifactId>terasoluna-gfw-codepoints-jisx0201</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.terasoluna.gfw.codepoints</groupId>
             <artifactId>terasoluna-gfw-codepoints-jisx0208</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.terasoluna.gfw.codepoints</groupId>
             <artifactId>terasoluna-gfw-codepoints-jisx0208kanji</artifactId>
-            <version>5.7.1.RELEASE</version>
+            <version>${org.terasoluna.gfw.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
