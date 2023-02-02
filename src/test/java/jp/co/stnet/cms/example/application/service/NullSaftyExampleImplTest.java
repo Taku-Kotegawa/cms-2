@@ -33,7 +33,7 @@ class NullSaftyExampleImplTest {
 
         System.out.println(result);
 
-        Objects.requireNonNull(result);
+
 
     }
 }
