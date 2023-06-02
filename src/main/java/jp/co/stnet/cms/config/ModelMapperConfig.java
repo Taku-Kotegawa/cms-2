@@ -35,7 +35,8 @@ public class ModelMapperConfig {
                 .getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT)
                 .setFullTypeMatchingRequired(true)
-                .setCollectionsMergeEnabled(false);
+                .setCollectionsMergeEnabled(false)
+                ;
 //                .setSkipNullEnabled(true);
 
         // カスタムコンバーターの追加

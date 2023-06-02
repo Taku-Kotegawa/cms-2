@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class ScheduleTestImpl implements ScheduleTest {
 
     @Override
-    @Scheduled(initialDelayString = "${ScheduleTest.initialDelay}", fixedDelayString = "${ScheduleTest.fixedDelay}")
+//    @Scheduled(initialDelayString = "${ScheduleTest.initialDelay}", fixedDelayString = "${ScheduleTest.fixedDelay}")
     public void test01() {
 
         log.info("Start ScheduleTest.test01");

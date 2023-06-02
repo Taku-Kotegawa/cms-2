@@ -112,10 +112,11 @@ public class SecurityConfig {
                 .antMatchers("/app/**").permitAll()
                 .antMatchers("/AdminLTE/**").permitAll()
                 .antMatchers("/plugins/**").permitAll()
+                .antMatchers("/error").permitAll()
 
                 // 管理者のみアクセス可
                 .antMatchers("/unlock/**").hasAnyRole("ADMIN")
-//                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
 
                 // デフォルトでは認証が必要
                 .anyRequest()

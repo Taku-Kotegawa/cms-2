@@ -247,9 +247,9 @@ create table t_file_managed (
 );
 
 comment on table t_file_managed is 'ファイルマネージドエンティティ';
-comment on column t_file_managed.id is 'ファイルマネージドid';
+--comment on column t_file_managed.id is 'ファイルマネージドid';
 comment on column t_file_managed.uuid is 'ファイルを一意に特定する番号';
-comment on column t_file_managed.version is 'バージョン';
+--comment on column t_file_managed.version is 'バージョン';
 comment on column t_file_managed.status is 'ステータス';
 comment on column t_file_managed.created_by is '作成者';
 comment on column t_file_managed.created_date is '作成日時';

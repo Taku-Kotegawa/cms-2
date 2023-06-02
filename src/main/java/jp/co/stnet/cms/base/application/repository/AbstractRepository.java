@@ -118,7 +118,7 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
 
     @Override
     public void deleteByExample(E example) {
-        Objects.requireNonNull(example);
+//        Objects.requireNonNull(example);
         mapper().deleteByExample(example);
     }
 

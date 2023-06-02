@@ -49,18 +49,18 @@ public class TerasolunaWebMvcConfiguration implements WebMvcConfigurer {
         return codeListInterceptor;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public SystemExceptionResolver systemExceptionResolver() {
-        TerasolunaProperties.Mvc mvc = terasolunaProperties.getMvc();
-        SystemExceptionResolver exceptionResolver = new SystemExceptionResolver();
-        exceptionResolver.setOrder(3);
-        exceptionResolver.setExceptionMappings(mvc.getExceptionMappings());
-        exceptionResolver.setStatusCodes(mvc.getStatusCodes());
-        exceptionResolver.setDefaultErrorView(mvc.getDefaultErrorView());
-        exceptionResolver.setStatusCodes(mvc.getStatusCodes());
-        return exceptionResolver;
-    }
+//    @Bean
+//    @ConditionalOnMissingBean
+//    public SystemExceptionResolver systemExceptionResolver() {
+//        TerasolunaProperties.Mvc mvc = terasolunaProperties.getMvc();
+//        SystemExceptionResolver exceptionResolver = new SystemExceptionResolver();
+//        exceptionResolver.setOrder(3);
+//        exceptionResolver.setExceptionMappings(mvc.getExceptionMappings());
+//        exceptionResolver.setStatusCodes(mvc.getStatusCodes());
+//        exceptionResolver.setDefaultErrorView(mvc.getDefaultErrorView());
+//        exceptionResolver.setStatusCodes(mvc.getStatusCodes());
+//        return exceptionResolver;
+//    }
 
     @Bean
     public HandlerExceptionResolverLoggingInterceptor handlerExceptionResolverLoggingInterceptor(ExceptionLogger exceptionLogger) {
