@@ -17,12 +17,12 @@ public class MailSendHistoryRepository extends AbstractRepository<MailSendHistor
     private final MailSendHistoryMapper mapper;
 
     @Override
-    MapperInterface<MailSendHistory, MailSendHistoryExample, Long> mapper() {
+    protected MapperInterface<MailSendHistory, MailSendHistoryExample, Long> mapper() {
         return mapper;
     }
 
     @Override
-    MailSendHistoryExample example() {
+    protected MailSendHistoryExample example() {
         return new MailSendHistoryExample();
     }
 }

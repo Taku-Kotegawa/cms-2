@@ -19,12 +19,12 @@ public class PasswordReissueInfoRepository extends AbstractRepository<PasswordRe
     private final PasswordReissueInfoMapper mapper;
 
     @Override
-    MapperInterface<PasswordReissueInfo, PasswordReissueInfoExample, String> mapper() {
+    protected MapperInterface<PasswordReissueInfo, PasswordReissueInfoExample, String> mapper() {
         return mapper;
     }
 
     @Override
-    PasswordReissueInfoExample example() {
+    protected PasswordReissueInfoExample example() {
         return new PasswordReissueInfoExample();
     }
 

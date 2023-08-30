@@ -17,12 +17,12 @@ public class TempFileRepository extends AbstractRepository<TempFile, TempFileExa
     private final TempFileMapper mapper;
 
     @Override
-    MapperInterface<TempFile, TempFileExample, String> mapper() {
+    protected MapperInterface<TempFile, TempFileExample, String> mapper() {
         return mapper;
     }
 
     @Override
-    TempFileExample example() {
+    protected TempFileExample example() {
         return new TempFileExample();
     }
 }

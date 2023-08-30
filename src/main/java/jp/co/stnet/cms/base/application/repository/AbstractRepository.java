@@ -17,9 +17,9 @@ import java.util.Optional;
 
 public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implements RepositoryInterface<T, E, I> {
 
-    abstract <S extends T> MapperInterface<T, E, I> mapper();
+    abstract protected  <S extends T> MapperInterface<T, E, I> mapper();
 
-    abstract E example();
+    abstract protected E example();
 
     @Override
     public T register(T entity) {

@@ -16,7 +16,7 @@ import java.util.Objects;
 @Component
 public abstract class AbstractVersionRepository<T extends KeyInterface<ID> & VersionInterface, E, ID> extends AbstractRepository<T, E, ID> implements RepositoryInterface<T, E, ID> {
 
-    abstract VersionMapperInterface<T, E, ID> mapper();
+    abstract protected VersionMapperInterface<T, E, ID> mapper();
 
     @Override
     public T save(T entity) {

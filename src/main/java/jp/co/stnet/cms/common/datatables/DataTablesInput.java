@@ -168,7 +168,8 @@ public class DataTablesInput {
         List<String> orderClause = new ArrayList<>();
         for (Order order : this.getOrder()) {
             orderClause.add(
-                    StringUtils.toLowerSnakeCase(this.getColumns().get(order.getColumn()).getData())
+                    StringUtils.toLowerSnakeCase(
+                            DataTablesUtil.convertColumnName(this.getColumns().get(order.getColumn()).getData()))
                             + " " + order.getDir());
         }
         return org.apache.commons.lang3.StringUtils.join(orderClause, ',');

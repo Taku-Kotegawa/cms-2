@@ -155,7 +155,4 @@ public class SimpleEntityUpdateController {
         return "redirect:" + op.getEditUrl(id.toString());
     }
 
-    // --- 行追加 -------------------------------------------------------------------------------------------------------
-
-
 }

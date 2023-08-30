@@ -153,7 +153,7 @@ public class SimpleEntityAuthority {
      *
      * @param operation 操作を表す定数
      */
-    private void validate(String operation) {
+    static void validate(String operation) {
         if (!allowedOperation.contains(operation)) {
             throw new IllegalArgumentException("Operation not allowed.");
         }

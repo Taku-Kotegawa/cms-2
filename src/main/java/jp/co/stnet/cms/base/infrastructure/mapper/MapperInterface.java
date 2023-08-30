@@ -11,11 +11,11 @@ import java.util.List;
  *
  * @param <T> Modelクラス　ex) Account
  */
-public interface MapperInterface<T extends KeyInterface<ID>, U, ID> {
+public interface MapperInterface<T extends KeyInterface<ID>, E, ID> {
 
-    long countByExample(U example);
+    long countByExample(E example);
 
-    int deleteByExample(U example);
+    int deleteByExample(E example);
 
     int deleteByPrimaryKey(ID id);
 
@@ -23,15 +23,15 @@ public interface MapperInterface<T extends KeyInterface<ID>, U, ID> {
 
     int insertSelective(T row);
 
-    List<T> selectByExampleWithRowbounds(U example, RowBounds rowBounds);
+    List<T> selectByExampleWithRowbounds(E example, RowBounds rowBounds);
 
-    List<T> selectByExample(U example);
+    List<T> selectByExample(E example);
 
     T selectByPrimaryKey(ID id);
 
-    int updateByExampleSelective(@Param("row") T row, @Param("example") U example);
+    int updateByExampleSelective(@Param("row") T row, @Param("example") E example);
 
-    int updateByExample(@Param("row") T row, @Param("example") U example);
+    int updateByExample(@Param("row") T row, @Param("example") E example);
 
     int updateByPrimaryKeySelective(T row);
 

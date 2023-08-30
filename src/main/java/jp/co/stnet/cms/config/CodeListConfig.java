@@ -105,5 +105,30 @@ public class CodeListConfig {
         return jdbcCodeList;
     }
 
+    @Bean("CL_EMPLOYEE")
+    public JdbcCodeList employee() {
+        JdbcCodeList jdbcCodeList = getJdbcCodeListBase();
+        jdbcCodeList.setQuerySql("SELECT EMP_ID, EMP_NAME FROM EMPLOYEE ORDER BY EMP_ID");
+        jdbcCodeList.setValueColumn("EMP_ID");
+        jdbcCodeList.setLabelColumn("EMP_NAME");
+        return jdbcCodeList;
+    }
 
+    @Bean("CL_ORGANIZATION")
+    public JdbcCodeList organization() {
+        JdbcCodeList jdbcCodeList = getJdbcCodeListBase();
+        jdbcCodeList.setQuerySql("SELECT ORGANIZATION_ID, GROUP_NAME FROM ORGANIZATION ORDER BY ORGANIZATION_ID");
+        jdbcCodeList.setValueColumn("ORGANIZATION_ID");
+        jdbcCodeList.setLabelColumn("GROUP_NAME");
+        return jdbcCodeList;
+    }
+
+    @Bean("CL_POSITION")
+    public JdbcCodeList position() {
+        JdbcCodeList jdbcCodeList = getJdbcCodeListBase();
+        jdbcCodeList.setQuerySql("SELECT POSITION_ID, POSITION_NAME FROM POSITION ORDER BY POSITION_ID");
+        jdbcCodeList.setValueColumn("POSITION_ID");
+        jdbcCodeList.setLabelColumn("POSITION_NAME");
+        return jdbcCodeList;
+    }
 }

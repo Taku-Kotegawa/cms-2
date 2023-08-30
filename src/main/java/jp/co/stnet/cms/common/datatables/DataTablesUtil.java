@@ -320,7 +320,7 @@ public class DataTablesUtil {
      * @param fieldName 変換前のフィールド名
      * @return 変換後のフォールド名
      */
-    protected static String convertColumnName(String fieldName) {
+    public static String convertColumnName(String fieldName) {
         if (StringUtils.endsWith(fieldName, "Label")) {
             return StringUtils.left(fieldName, fieldName.length() - 5);
         } else {

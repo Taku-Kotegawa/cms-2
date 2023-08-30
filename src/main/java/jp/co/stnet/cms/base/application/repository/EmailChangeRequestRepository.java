@@ -18,12 +18,12 @@ public class EmailChangeRequestRepository extends AbstractRepository<EmailChange
     private final EmailChangeRequestMapper mapper;
 
     @Override
-    MapperInterface<EmailChangeRequest, EmailChangeRequestExample, String> mapper() {
+    protected MapperInterface<EmailChangeRequest, EmailChangeRequestExample, String> mapper() {
         return mapper;
     }
 
     @Override
-    EmailChangeRequestExample example() {
+    protected EmailChangeRequestExample example() {
         return new EmailChangeRequestExample();
     }
 

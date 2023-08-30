@@ -379,9 +379,9 @@
                     <dependency>
                         <groupId>com.example</groupId>
                         <artifactId>mbg-plugins</artifactId>
-                        <version>1.0</version>
+                        <version>1.0.20230831</version>
                         <scope>system</scope>
-                        <systemPath>${basedir}/src/main/resources/lib/mbg-plugins-1.0.jar</systemPath>
+                        <systemPath>${basedir}/src/main/resources/lib/mbg-plugins-1.0.20230831.jar</systemPath>
                     </dependency>
                 </dependencies>
 
@@ -410,15 +410,24 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>view</id>
+                        <id>equipment</id>
                         <configuration>
-                            <configurationFile>${project.basedir}/src/main/resources/generatorConfig.xml
+                            <configurationFile>${project.basedir}/src/main/resources/generatorConfig_equipment.xml
                             </configurationFile>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
+            <!-- Liquibase -->
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <configuration>
+                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+                </configuration>
+            </plugin>
+            <!-- Liquibase -->
 
         </plugins>
     </build>

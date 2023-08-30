@@ -20,14 +20,14 @@
 
 <div class="th-field th-field-input-integer mt-3" th:fragment="input-integer(field_id, label, value, placeholder)">
     <div th:replace="~{fragments/label :: m(${field_id}, ${label})}"></div>
-    <div th:replace="~{fragments/input-text :: m(${field_id}, ${label}, ${value}, ${placeholder})}"></div>
+    <div th:replace="~{fragments/input-number :: m(${field_id}, ${label}, ${value}, ${placeholder})}"></div>
     <div th:replace="~{fragments/hidden :: m(${field_id})}"></div>
     <div th:replace="~{fragments/view-integer :: m(${field_id}, ${label}, ${value}, ${placeholder})}"></div>
 </div>
 
 <div class="th-field th-field-input-decimal mt-3" th:fragment="input-decimal(field_id, label, value, placeholder)">
     <div th:replace="~{fragments/label :: m(${field_id}, ${label})}"></div>
-    <div th:replace="~{fragments/input-text :: m(${field_id}, ${label}, ${value}, ${placeholder})}"></div>
+    <div th:replace="~{fragments/input-number-any :: m(${field_id}, ${label}, ${value}, ${placeholder})}"></div>
     <div th:replace="~{fragments/hidden :: m(${field_id})}"></div>
     <div th:replace="~{fragments/view-decimal :: m(${field_id}, ${label}, ${value}, ${placeholder})}"></div>
 </div>
@@ -46,9 +46,8 @@
     <div th:replace="~{fragments/view-checkbox :: m(${field_id}, ${label}, ${value}, ${placeholder}, ${items})}"></div>
 </div>
 
-<div class="th-field th-field-checkbox-inline mt-3"
-     th:fragment="checkbox-inline(field_id, label, value, placeholder, items)">
-    <!--/* <div th:replace="~{fragments/label :: m(${field_id}, ${label})}"></div> */-->
+<div class="th-field th-field-checkbox-inline mt-3" th:fragment="checkbox-inline(field_id, label, value, placeholder, items)">
+    <div th:replace="~{fragments/label :: m(${field_id}, ${label})}"></div>
     <div th:replace="~{fragments/input-checkbox-inline :: m(${field_id}, ${label}, ${value}, ${placeholder}, ${items})}"></div>
     <div th:replace="~{fragments/hidden :: m(${field_id})}"></div>
     <div th:replace="~{fragments/view-checkbox :: m(${field_id}, ${label}, ${value}, ${placeholder}, ${items})}"></div>
@@ -124,15 +123,14 @@
     <div th:replace="~{fragments/view-select :: m(${field_id}, ${label}, ${value}, ${placeholder}, ${items})}"></div>
 </div>
 
-<div class="th-field th-field-select2-tags-multi mt-3"
-     th:fragment="select2-tags-multi(field_id, label, value, placeholder, items)">
+<div class="th-field th-field-select2-tags-multi mt-3" th:fragment="select2-tags-multi(field_id, label, value, placeholder, items)">
     <div th:replace="~{fragments/label :: m(${field_id}, ${label})}"></div>
     <div th:replace="~{fragments/input-select2-tags-multi :: m(${field_id}, ${label}, ${value}, ${placeholder}, ${items})}"></div>
     <div th:replace="~{fragments/hidden :: m(${field_id})}"></div>
     <div th:replace="~{fragments/view-select-multi :: m(${field_id}, ${label}, ${value}, ${placeholder}, ${items})}"></div>
 </div>
 
-<div class="th-field th-field-input-combobox mt-3" th:fragment="input-combobox(field_id, label, value, placeholder, items)">
+<div class="th-field th-field-input-combobox mt-3" th:fragment="combobox(field_id, label, value, placeholder, items)">
     <div th:replace="~{fragments/label :: m(${field_id}, ${label})}"></div>
     <div th:replace="~{fragments/input-combobox :: m(${field_id}, ${label}, ${value}, ${placeholder}, ${items})}"></div>
     <div th:replace="~{fragments/hidden :: m(${field_id})}"></div>

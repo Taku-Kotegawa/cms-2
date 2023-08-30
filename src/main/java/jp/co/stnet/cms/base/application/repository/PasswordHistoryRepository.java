@@ -22,12 +22,12 @@ public class PasswordHistoryRepository extends AbstractRepository<PasswordHistor
     private final PasswordHistoryMapper mapper;
 
     @Override
-    MapperInterface<PasswordHistory, PasswordHistoryExample, PasswordHistoryKey> mapper() {
+    protected MapperInterface<PasswordHistory, PasswordHistoryExample, PasswordHistoryKey> mapper() {
         return mapper;
     }
 
     @Override
-    PasswordHistoryExample example() {
+    protected PasswordHistoryExample example() {
         return new PasswordHistoryExample();
     }
 

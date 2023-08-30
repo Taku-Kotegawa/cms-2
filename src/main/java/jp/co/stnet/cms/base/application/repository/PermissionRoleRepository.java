@@ -22,12 +22,12 @@ public class PermissionRoleRepository extends AbstractRepository<PermissionRole,
     private final PermissionRoleMapper mapper;
 
     @Override
-    MapperInterface<PermissionRole, PermissionRoleExample, PermissionRoleKey> mapper() {
+    protected MapperInterface<PermissionRole, PermissionRoleExample, PermissionRoleKey> mapper() {
         return mapper;
     }
 
     @Override
-    PermissionRoleExample example() {
+    protected PermissionRoleExample example() {
         return new PermissionRoleExample();
     }
 

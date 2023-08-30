@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.stnet.cms.equipment.infrastructure.mapper.EmployeeQueryMapper">
+    <resultMap id="BaseResultMap" type="jp.co.stnet.cms.equipment.domain.model.mbg.VEmployee">
+    </resultMap>
+
+    <select id="findPageByInput" resultMap="BaseResultMap">
+        SELECT
+          *
+        FROM
+          v_employee
+        <if test="dataTablesInput.whereClause != null">
+            ${dataTablesInput.whereClause}
+        </if>
+        <if test="dataTablesInput.orderByClause != null">
+            order by ${dataTablesInput.orderByClause}
+        </if>
+        LIMIT #{pageable.pageSize}
+        OFFSET #{pageable.offset}
+    </select>
+
+    <select id="countByInput" resultType="java.lang.Long">
+        SELECT
+          count(*)
+        FROM
+          v_employee
+        <if test="dataTablesInput.whereClause != null">
+            ${dataTablesInput.whereClause}
+        </if>
+    </select>
+
+</mapper>

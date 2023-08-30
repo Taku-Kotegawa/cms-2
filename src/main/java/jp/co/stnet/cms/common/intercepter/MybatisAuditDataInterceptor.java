@@ -161,11 +161,11 @@ public class MybatisAuditDataInterceptor implements Interceptor {
         if (field != null) {
             field.setAccessible(true);
             try {
-                if (field.get(dto) != null) {
-                    // 値がセットされていたら更新しない
-                } else {
+//                if (field.get(dto) != null) {
+//                    // 値がセットされていたら更新しない
+//                } else {
                     field.set(dto, value);
-                }
+//                }
             } catch (IllegalAccessException e) {
                 // 握りつぶす
                 e.printStackTrace();

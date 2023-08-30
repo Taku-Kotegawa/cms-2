@@ -31,12 +31,12 @@ public class VariableRepository extends AbstractVersionRepository<Variable, Vari
     private final Map<String, String> fieldMap = BeanUtils.getFields(Variable.class, null);
 
     @Override
-    VersionMapperInterface<Variable, VariableExample, Long> mapper() {
+    public VersionMapperInterface<Variable, VariableExample, Long> mapper() {
         return mapper;
     }
 
     @Override
-    VariableExample example() {
+    protected VariableExample example() {
         return new VariableExample();
     }
 

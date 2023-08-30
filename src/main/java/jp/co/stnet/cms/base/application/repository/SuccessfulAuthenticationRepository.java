@@ -18,12 +18,12 @@ public class SuccessfulAuthenticationRepository extends AbstractRepository<Succe
     private final SuccessfulAuthenticationMapper mapper;
 
     @Override
-    MapperInterface<SuccessfulAuthentication, SuccessfulAuthenticationExample, SuccessfulAuthenticationKey> mapper() {
+    protected MapperInterface<SuccessfulAuthentication, SuccessfulAuthenticationExample, SuccessfulAuthenticationKey> mapper() {
         return mapper;
     }
 
     @Override
-    SuccessfulAuthenticationExample example() {
+    protected SuccessfulAuthenticationExample example() {
         return new SuccessfulAuthenticationExample();
     }
 }

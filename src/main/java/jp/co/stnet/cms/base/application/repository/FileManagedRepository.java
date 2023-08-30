@@ -22,12 +22,12 @@ public class FileManagedRepository extends AbstractRepository<FileManaged, FileM
     private final FileManagedMapper mapper;
 
     @Override
-    MapperInterface<FileManaged, FileManagedExample, String> mapper() {
+    protected MapperInterface<FileManaged, FileManagedExample, String> mapper() {
         return mapper;
     }
 
     @Override
-    FileManagedExample example() {
+    protected FileManagedExample example() {
         return new FileManagedExample();
     }
 

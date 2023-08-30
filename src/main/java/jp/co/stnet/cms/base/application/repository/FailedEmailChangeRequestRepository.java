@@ -22,12 +22,12 @@ public class FailedEmailChangeRequestRepository extends AbstractRepository<Faile
     private final FailedEmailChangeRequestMapper mapper;
 
     @Override
-    MapperInterface<FailedEmailChangeRequest, FailedEmailChangeRequestExample, FailedEmailChangeRequestKey> mapper() {
+    protected MapperInterface<FailedEmailChangeRequest, FailedEmailChangeRequestExample, FailedEmailChangeRequestKey> mapper() {
         return mapper;
     }
 
     @Override
-    FailedEmailChangeRequestExample example() {
+    protected FailedEmailChangeRequestExample example() {
         return new FailedEmailChangeRequestExample();
     }
 

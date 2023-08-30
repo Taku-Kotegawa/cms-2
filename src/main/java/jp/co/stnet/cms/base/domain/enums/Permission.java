@@ -41,7 +41,32 @@ public enum Permission implements EnumCodeList.CodeListItem {
     SENTITY_UPLOAD("アップロード", "SENTITY"),
     SENTITY_LIST("管理一覧を表示", "SENTITY"),
     JOBLOG_ADMIN("全てのジョブログを閲覧", "JOBLOG"),
-    JOBLOG_VIEW_SELF("自分のジョブログを閲覧", "JOBLOG");
+    JOBLOG_VIEW_SELF("自分のジョブログを閲覧", "JOBLOG"),
+    EMPLOYEE_CREATE("新規登録", "EMPLOYEE"),
+    EMPLOYEE_UPDATE("編集", "EMPLOYEE"),
+    EMPLOYEE_SAVE("保存", "EMPLOYEE"),
+    EMPLOYEE_INVALID("無効化/無効解除", "EMPLOYEE"),
+    EMPLOYEE_DELETE("削除", "EMPLOYEE"),
+    EMPLOYEE_UPLOAD("アップロード", "EMPLOYEE"),
+    EMPLOYEE_LIST("一覧を表示", "EMPLOYEE"),
+
+    ORGANIZATION_CREATE("新規登録", "ORGANIZATION"),
+    ORGANIZATION_UPDATE("編集", "ORGANIZATION"),
+    ORGANIZATION_SAVE("保存", "ORGANIZATION"),
+    ORGANIZATION_INVALID("無効化/無効解除", "ORGANIZATION"),
+    ORGANIZATION_DELETE("削除", "ORGANIZATION"),
+    ORGANIZATION_UPLOAD("アップロード", "ORGANIZATION"),
+    ORGANIZATION_LIST("一覧を表示", "ORGANIZATION"),
+
+    POSITION_CREATE("新規登録", "POSITION"),
+    POSITION_UPDATE("編集", "POSITION"),
+    POSITION_SAVE("保存", "POSITION"),
+    POSITION_INVALID("無効化/無効解除", "POSITION"),
+    POSITION_DELETE("削除", "POSITION"),
+    POSITION_UPLOAD("アップロード", "POSITION"),
+    POSITION_LIST("一覧を表示", "POSITION"),
+    
+    ;
 
     /**
      * ラベル(日本語)

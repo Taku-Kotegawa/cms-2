@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static jp.co.stnet.cms.example.presentation.controller.simpleentity.SimpleEntityAuthority.validate;
+
 @Component
 public class SimpleEntityHelper {
 
@@ -31,7 +33,6 @@ public class SimpleEntityHelper {
 
     @Autowired
     ModelMapper modelMapper;
-
 
     // 許可されたOperation
     private static final Set<String> allowedOperation = Set.of(
@@ -50,17 +51,6 @@ public class SimpleEntityHelper {
             Constants.BUTTON.INVALID,
             Constants.BUTTON.DELETE
     );
-
-    /**
-     * 許可されたOperationか
-     *
-     * @param operation 操作を表す定数
-     */
-    private void validate(String operation) {
-        if (!allowedOperation.contains(operation)) {
-            throw new IllegalArgumentException("Operation not allowed.");
-        }
-    }
 
     /**
      * 画面に応じたボタンの状態を定義
@@ -255,16 +245,5 @@ public class SimpleEntityHelper {
         }
 
     }
-
-
-//    public SimpleEntity formToEntity(SimpleEntityForm form) {
-//        var entity = modelMapper.map(form, SimpleEntity.class);
-//        for (int i=0; i < entity.getLineItems().size(); i++) {
-//            entity.getLineItems().get(i).setItemNo(Long.valueOf(i));
-//            entity.getLineItems().get(i).setSimpleEntityId(entity.getId());
-//        }
-//        return entity;
-//    }
-
 
 }

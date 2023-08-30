@@ -17,12 +17,12 @@ public class FailedAuthenticationRepository extends AbstractRepository<FailedAut
     private final FailedAuthenticationMapper mapper;
 
     @Override
-    MapperInterface<FailedAuthentication, FailedAuthenticationExample, FailedAuthenticationKey> mapper() {
+    protected MapperInterface<FailedAuthentication, FailedAuthenticationExample, FailedAuthenticationKey> mapper() {
         return mapper;
     }
 
     @Override
-    FailedAuthenticationExample example() {
+    protected FailedAuthenticationExample example() {
         return new FailedAuthenticationExample();
     }
 
