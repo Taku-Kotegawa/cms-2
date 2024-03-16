@@ -1,4 +1,4 @@
-create view v_employee as
+create or replace view v_employee as
 select
 	e.emp_id ,
 	e."version" ,
