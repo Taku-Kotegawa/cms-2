@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.stnet.cms.example.infrastructure.mapper.SimpleEntityQueryMapper">
+    <resultMap id="BaseResultMap" type="jp.co.stnet.cms.example.domain.model.SimpleEntity">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+        <result column="version" jdbcType="BIGINT" property="version"/>
+        <result column="attached_file01uuid" jdbcType="VARCHAR" property="attachedFile01uuid"/>
+        <result column="checkbox01" jdbcType="VARCHAR" property="checkbox01"/>
+        <result column="combobox01" jdbcType="VARCHAR" property="combobox01"/>
+        <result column="combobox02" jdbcType="VARCHAR" property="combobox02"/>
+        <result column="date01" jdbcType="DATE" property="date01"/>
+        <result column="datetime01" jdbcType="TIMESTAMP" property="datetime01"/>
+        <result column="radio01" jdbcType="BIT" property="radio01"/>
+        <result column="radio02" jdbcType="VARCHAR" property="radio02"/>
+        <result column="select01" jdbcType="VARCHAR" property="select01"/>
+        <result column="select03" jdbcType="VARCHAR" property="select03"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="text01" jdbcType="VARCHAR" property="text01"/>
+        <result column="text02" jdbcType="INTEGER" property="text02"/>
+        <result column="text03" jdbcType="REAL" property="text03"/>
+        <result column="text04" jdbcType="SMALLINT" property="text04"/>
+        <result column="textarea01" jdbcType="VARCHAR" property="textarea01"/>
+        <collection property="checkbox02" ofType="String">
+            <id column="checkbox02"/>
+        </collection>
+        <collection property="combobox03" ofType="String">
+            <id column="combobox03"/>
+        </collection>
+        <collection property="select02" ofType="String">
+            <id column="select02"/>
+        </collection>
+        <collection property="select04" ofType="String">
+            <id column="select04"/>
+        </collection>
+        <collection property="text05" ofType="String">
+            <id column="text05"/>
+        </collection>
+        <collection property="lineItems" ofType="jp.co.stnet.cms.example.domain.model.mbg.LineItem">
+            <id column="simple_entity_id"/>
+            <id column="item_no" jdbcType="BIGINT" property="itemNo" />
+            <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+            <result column="item_number" jdbcType="INTEGER" property="itemNumber" />
+            <result column="unit_prise" jdbcType="INTEGER" property="unitPrise" />
+        </collection>
+    </resultMap>
+
+    <select id="findByInput" resultMap="BaseResultMap">
+        select
+        se.id,
+        se.created_by,
+        se.created_date,
+        se.last_modified_by,
+        se.last_modified_date,
+        se.version,
+        se.attached_file01uuid,
+        se.checkbox01,
+        se.combobox01,
+        se.combobox02,
+        se.date01,
+        se.datetime01,
+        se.radio01,
+        se.radio02,
+        se.select01,
+        se.select03,
+        se.status,
+        se.text01,
+        se.text02,
+        se.text03,
+        se.text04,
+        se.textarea01,
+        cb2.simple_entity_id as cb2_id,
+        cb2.checkbox02,
+        cb3.simple_entity_id as cb3_id,
+        cb3.combobox03,
+        st2.simple_entity_id as st2_id,
+        st2.select02,
+        st4.simple_entity_id as st4_id,
+        st4.select04,
+        tx5.simple_entity_id as tx5_id,
+        tx5.text05,
+        li.simple_entity_id,
+        li.item_no,
+        li.item_name,
+        li.item_number,
+        unit_prise
+        <!--        -->
+        from
+        (
+        select *
+        from simple_entity
+        <if test="dataTablesInput.whereClause != null">
+            ${dataTablesInput.whereClause}
+        </if>
+        <if test="dataTablesInput.orderByClause != null">
+            order by ${dataTablesInput.orderByClause}
+        </if>
+        LIMIT #{dataTablesInput.length}
+        OFFSET #{dataTablesInput.start}
+        ) se
+        <!--        -->
+        left outer join simple_entity_checkbox02 cb2 on cb2.simple_entity_id = se.id
+        left outer join simple_entity_combobox03 cb3 on cb3.simple_entity_id = se.id
+        left outer join simple_entity_select02 st2 on st2.simple_entity_id = se.id
+        left outer join simple_entity_select04 st4 on st4.simple_entity_id = se.id
+        left outer join simple_entity_text05 tx5 on tx5.simple_entity_id = se.id
+        left outer join simple_entity_line_items li on li.simple_entity_id = se.id
+        <!--        -->
+        order by
+        <if test="dataTablesInput.orderByClause != null">
+            ${dataTablesInput.orderByClause},
+        </if>
+        cb2.simple_entity_id,
+        cb2.checkbox02,
+        cb3.simple_entity_id,
+        cb3.combobox03,
+        st2.simple_entity_id,
+        st2.select02,
+        st4.simple_entity_id,
+        st4.select04,
+        tx5.simple_entity_id,
+        tx5.text05,
+        li.item_no
+    </select>
+
+    <select id="countByInput" resultType="java.lang.Long">
+        select count(*)
+        from simple_entity
+        <if test="dataTablesInput.whereClause != null">
+            ${dataTablesInput.whereClause}
+        </if>
+    </select>
+
+    <select id="findByPrimaryKey" resultMap="BaseResultMap">
+        select
+        se.id,
+        se.created_by,
+        se.created_date,
+        se.last_modified_by,
+        se.last_modified_date,
+        se.version,
+        se.attached_file01uuid,
+        se.checkbox01,
+        se.combobox01,
+        se.combobox02,
+        se.date01,
+        se.datetime01,
+        se.radio01,
+        se.radio02,
+        se.select01,
+        se.select03,
+        se.status,
+        se.text01,
+        se.text02,
+        se.text03,
+        se.text04,
+        se.textarea01,
+        cb2.simple_entity_id as cb2_id,
+        cb2.checkbox02,
+        cb3.simple_entity_id as cb3_id,
+        cb3.combobox03,
+        st2.simple_entity_id as st2_id,
+        st2.select02,
+        st4.simple_entity_id as st4_id,
+        st4.select04,
+        tx5.simple_entity_id as tx5_id,
+        tx5.text05,
+        li.simple_entity_id,
+        li.item_no,
+        li.item_name,
+        li.item_number,
+        unit_prise
+        <!--        -->
+        from
+        (
+        select *
+        from simple_entity
+        where
+        id = #{id, jdbcType=BIGINT}
+        ) se
+        <!--        -->
+        left outer join simple_entity_checkbox02 cb2 on cb2.simple_entity_id = se.id
+        left outer join simple_entity_combobox03 cb3 on cb3.simple_entity_id = se.id
+        left outer join simple_entity_select02 st2 on st2.simple_entity_id = se.id
+        left outer join simple_entity_select04 st4 on st4.simple_entity_id = se.id
+        left outer join simple_entity_text05 tx5 on tx5.simple_entity_id = se.id
+        left outer join simple_entity_line_items li on li.simple_entity_id = se.id
+        <!--        -->
+        order by
+        cb2.simple_entity_id,
+        cb2.checkbox02,
+        cb3.simple_entity_id,
+        cb3.combobox03,
+        st2.simple_entity_id,
+        st2.select02,
+        st4.simple_entity_id,
+        st4.select04,
+        tx5.simple_entity_id,
+        tx5.text05,
+        li.item_no
+    </select>
+
+</mapper>

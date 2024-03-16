@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>入力フィールドの部品(file)</title>
+    <!--/* テンプレート内でfileManagedを取得する */-->
+</head>
+<body>
+
+<th:block th:fragment="m(field_id, data_file_type)">
+
+    <th:block th:if="${fieldState.__${field_id}____input}">
+
+        <th:block th:with="uuid=*{__${field_id}__}">
+            <th:block th:with="fileManaged=${@fileManagedServiceImpl.findByIdOrNull(uuid)}">
+
+                <input class="form-control form-control-file file-managed"
+                       th:data-file-type="${data_file_type}"
+                       th:disabled="${fieldState.__${field_id}____disabled}"
+                       th:id="${field_id}"
+                       th:readonly="${fieldState.__${field_id}____readonly}"
+                       th:style="${fileManaged != null} ? 'display:none' : 'display:block'" type="file"/>
+                <span class="invalid-feedback whitespace-nowrap" th:errors="*{__${field_id}__}"
+                      th:id="__${field_id}__-error"></span>
+
+                <th:block th:if="${fileManaged != null}">
+                    <div class="input-group" th:id="|__${field_id}____attached-block|">
+                  <span>
+                    <i class="far fa-file ml-2"></i>
+                    <a class="link-attached"
+                       target="_blank"
+                       th:href="${op.getDownloadUrl(uuid)}">[[${fileManaged.originalFilename}]]</a>
+                      <th:block th:if="${!fieldState.__${field_id}____disabled}">
+                          <i class="far fa-trash-alt" style="color: brown;"
+                             th:onclick="|file_detach('__${field_id}__')|"></i>
+                      </th:block>
+                    <input th:field="*{__${field_id}__}" type="hidden"/>
+                  </span>
+                    </div>
+                </th:block>
+            </th:block>
+
+        </th:block>
+    </th:block>
+
+</th:block>
+</body>
+</html>

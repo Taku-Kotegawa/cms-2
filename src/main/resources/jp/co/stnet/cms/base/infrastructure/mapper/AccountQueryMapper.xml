@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.stnet.cms.base.infrastructure.mapper.AccountQueryMapper">
+
+    <resultMap id="BaseResultMap" type="jp.co.stnet.cms.base.domain.model.Account">
+        <id column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="version" jdbcType="BIGINT" property="version"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="department" jdbcType="VARCHAR" property="department"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="profile" jdbcType="VARCHAR" property="profile"/>
+        <result column="allowed_ip" jdbcType="VARCHAR" property="allowedIp"/>
+        <result column="api_key" jdbcType="VARCHAR" property="apiKey"/>
+        <collection property="roles" ofType="String">
+            <id column="role"/>
+        </collection>
+    </resultMap>
+
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        ta.*,
+        tr.role
+        from
+        t_account ta
+        left outer join t_role tr on tr.username = ta.username
+        where ta.username = #{username, jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="findPageByInput" resultMap="BaseResultMap">
+        select
+        ta.*,
+        tr.role
+        from
+        (
+        SELECT
+        *
+        FROM
+        t_account c
+        <if test="dataTablesInput.whereClause != null">
+            ${dataTablesInput.whereClause}
+        </if>
+        <if test="dataTablesInput.orderByClause != null">
+            order by ${dataTablesInput.orderByClause}
+        </if>
+        LIMIT #{pageable.pageSize}
+        OFFSET #{pageable.offset}
+        ) ta
+        left outer join t_role tr on tr.username = ta.username
+        order by
+        <if test="dataTablesInput.orderByClause != null">
+            ${dataTablesInput.orderByClause},
+        </if>
+        ta.username, tr."role"
+    </select>
+
+
+    <select id="countByInput" resultType="java.lang.Long">
+        select
+        count(*)
+        from
+        t_account c
+        <if test="dataTablesInput.whereClause != null">
+            ${dataTablesInput.whereClause}
+        </if>
+    </select>
+
+</mapper>

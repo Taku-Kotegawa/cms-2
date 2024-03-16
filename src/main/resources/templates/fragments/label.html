@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>入力フィールドの部品(label)</title>
+</head>
+<body>
+
+<th:block th:fragment="m(field_id, label)">
+
+    <!--/* ラベル */-->
+    <th:block th:if="!${#strings.isEmpty(label)}">
+
+        <th:block th:if="${fieldState.__${field_id}____label}">
+            <!--/* 計算式を含むまない場合($*) */-->
+            <th:block th:if="${!#strings.startsWith(label,'$')}">
+                <label th:for="${field_id}">[[${label}]]</label>
+            </th:block>
+            <!--/* 計算式を含む場合($*) */-->
+            <th:block th:if="${#strings.startsWith(label,'$')}">
+                <label th:for="${field_id}">[[__${label}__]]</label>
+            </th:block>
+        </th:block>
+
+    </th:block>
+
+</th:block>
+</body>
+</html>

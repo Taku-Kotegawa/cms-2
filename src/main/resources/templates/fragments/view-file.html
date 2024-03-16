@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>入力フィールドの部品(view-file)</title>
+</head>
+<body>
+
+<th:block th:fragment="m(field_id, value)">
+
+    <th:block th:if="${fieldState.__${field_id}____view}">
+
+        <th:block th:with="uuid=${__${value}__}">
+            <th:block th:with="fileManaged=${@fileManagedServiceImpl.findByIdOrNull(uuid)}">
+
+                <th:block th:if="${fieldState.__${field_id}____view}">
+                    <th:block th:if="${fileManaged}">
+                        <div class="input-group" th:id="|__${field_id}____attached-block|">
+                            <span>
+                            <i class="far fa-file ml-2"></i>
+                            <a class="link-attached"
+                               target="_blank"
+                               th:href="${op.getDownloadUrl(uuid)}">[[${fileManaged.originalFilename}]]</a>
+                            </span>
+                        </div>
+
+                    </th:block>
+                    <th:block th:if="!${fileManaged}">
+                        <div class="form-control form-control__view border-0"> -</div>
+                    </th:block>
+                </th:block>
+
+            </th:block>
+        </th:block>
+
+    </th:block>
+</th:block>
+</body>
+</html>
