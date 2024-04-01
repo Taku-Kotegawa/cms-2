@@ -2,7 +2,6 @@ package jp.co.stnet.cms.example.domain.model.mbg;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.EqualsAndHashCode;
 
 public class SimpleEntityText05Example {
     /**

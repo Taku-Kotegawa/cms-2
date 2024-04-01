@@ -136,6 +136,7 @@
             <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.LastModifiedInterface"/>
             <property name="targetColumn" value="last_modified_by"/>
         </plugin>
+
         <!-- フィールドの型に応じたアノテーションを追加 -->
         <!-- LocalDateTime: @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")) -->
         <!-- LocalDate: @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")) -->

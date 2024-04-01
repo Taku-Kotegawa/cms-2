@@ -101,7 +101,15 @@
             <property name="mapper_interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface"/>
 <!--            <property name="model_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>-->
             <property name="target_table"
-                      value=""/>
+                      value="dummy"/>
+        </plugin>
+
+        <!-- ビューに対するインタフェースを追加(Postgresqlの場合、KeyInterfaceは無効、Viewに主キーを設定できない) -->
+        <plugin type="plugins.CreateGenericInterfacePlugin">
+            <property name="mapper_interface" value="jp.co.stnet.cms.base.infrastructure.mapper.ViewMapperInterface"/>
+<!--            <property name="model_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>-->
+            <property name="target_table"
+                      value="v_employee"/>
         </plugin>
 
 
@@ -121,6 +129,18 @@
         <plugin type="plugins.BeanImplementation2Plugin">
             <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.StatusInterface"/>
             <property name="targetColumn" value="status"/>
+        </plugin>
+
+        <!-- Modelにインタフェースの追加(targetColumnを持つテーブル) -->
+        <plugin type="plugins.BeanImplementation2Plugin">
+            <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.CreatedInterface"/>
+            <property name="targetColumn" value="created_by"/>
+        </plugin>
+
+        <!-- Modelにインタフェースの追加(targetColumnを持つテーブル) -->
+        <plugin type="plugins.BeanImplementation2Plugin">
+            <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.LastModifiedInterface"/>
+            <property name="targetColumn" value="last_modified_by"/>
         </plugin>
 
         <!-- フィールドの型に応じたアノテーションを追加 -->

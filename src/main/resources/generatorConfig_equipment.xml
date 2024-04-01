@@ -93,9 +93,9 @@
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
         <!-- 複合主キーテーブルには対応していない -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
-            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface"/>
-            <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
-            <property name="target_table" value="approval_flow,confirm_history,employee,equip_type,manage_equip,organization,position,request_equip"/>
+            <property name="mapper_interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface"/>
+<!--            <property name="model_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>-->
+            <property name="target_table" value="simple_entity"/>
         </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
@@ -132,6 +132,18 @@
         <plugin type="plugins.BeanImplementation2Plugin">
             <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.StatusInterface"/>
             <property name="targetColumn" value="status"/>
+        </plugin>
+
+        <!-- Modelにインタフェースの追加(targetColumnを持つテーブル) -->
+        <plugin type="plugins.BeanImplementation2Plugin">
+            <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.CreatedInterface"/>
+            <property name="targetColumn" value="created_by"/>
+        </plugin>
+
+        <!-- Modelにインタフェースの追加(targetColumnを持つテーブル) -->
+        <plugin type="plugins.BeanImplementation2Plugin">
+            <property name="interfaceName" value="jp.co.stnet.cms.base.domain.model.LastModifiedInterface"/>
+            <property name="targetColumn" value="last_modified_by"/>
         </plugin>
 
         <!-- フィールドの型に応じたアノテーションを追加 -->
