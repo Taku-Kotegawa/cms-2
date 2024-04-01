@@ -1,5 +1,6 @@
 package jp.co.stnet.cms.config;
 
+
 import jp.co.stnet.cms.base.domain.enums.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

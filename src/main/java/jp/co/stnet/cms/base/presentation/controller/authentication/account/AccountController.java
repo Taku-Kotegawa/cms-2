@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.groups.Default;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.groups.Default;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -69,7 +69,7 @@ public final class AccountController {
         if (fileManaged != null) {
             headers.setContentType(fileManagedService.getMediaType(fileManaged));
             return new ResponseEntity<byte[]>(
-                    fileManagedService.getFile(fileManaged.getId()),
+                    fileManagedService.getFile(fileManaged.getPrimaryKey()),
                     headers,
                     HttpStatus.OK);
         } else {

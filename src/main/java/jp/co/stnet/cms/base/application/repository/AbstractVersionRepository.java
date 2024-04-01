@@ -21,16 +21,16 @@ public abstract class AbstractVersionRepository<T extends KeyInterface<ID> & Ver
     @Override
     public T save(T entity) {
         Objects.requireNonNull(entity);
-        if (!existsById(entity.getId())) {
+        if (!existsById(entity.getPrimaryKey())) {
             return register(entity);
         }
         int count = mapper().updateByPrimaryKeyAndVersion(entity);
         if (count != 1) {
             // 楽観的排他制御でエラー
-            T before = mapper().selectByPrimaryKey(entity.getId());
+            T before = mapper().selectByPrimaryKey(entity.getPrimaryKey());
             throw new OptimisticLockingFailureException("after = " + entity + ", before = " + before);
         }
-        return mapper().selectByPrimaryKey(entity.getId());
+        return mapper().selectByPrimaryKey(entity.getPrimaryKey());
     }
 
 }

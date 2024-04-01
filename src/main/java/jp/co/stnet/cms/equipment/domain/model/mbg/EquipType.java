@@ -130,7 +130,7 @@ public class EquipType implements Serializable, KeyInterface<Long>, VersionInter
      */
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Long getPrimaryKey() {
         return equipTypeId;
     }
 }

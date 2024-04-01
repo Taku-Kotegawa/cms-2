@@ -203,7 +203,7 @@ class FailedEmailChangeRequestRepositoryTest {
             );
 
             // 実行
-            var expected = target.findById(createEntity("10").getId()).orElseThrow();
+            var expected = target.findById(createEntity("10").getPrimaryKey()).orElseThrow();
             expected.setAttemptDate(LocalDateTime.of(1111,1,1,1,1,1));
             var actual = target.save(expected);
 
@@ -271,7 +271,7 @@ class FailedEmailChangeRequestRepositoryTest {
 
             // 実行
             var expected = List.of(
-                    target.findById(createEntity("10").getId()).orElseThrow(),
+                    target.findById(createEntity("10").getPrimaryKey()).orElseThrow(),
                     createEntity("11"));
 
             var actual = target.saveAll(expected);
@@ -293,7 +293,7 @@ class FailedEmailChangeRequestRepositoryTest {
             var expected = createEntity("10");
 
             // 実行
-            var actual = target.findById(expected.getId());
+            var actual = target.findById(expected.getPrimaryKey());
 
             // 検証
             assertThat(actual.isPresent()).isTrue();
@@ -327,7 +327,7 @@ class FailedEmailChangeRequestRepositoryTest {
             // 検証
             assertThatThrownBy(() -> {
                 // 実行
-                target.getOne(expected.getId());
+                target.getOne(expected.getPrimaryKey());
             }).isInstanceOf(ResourceNotFoundException.class);
         }
 
@@ -343,7 +343,7 @@ class FailedEmailChangeRequestRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.existsById(createEntity("10").getId());
+            var actual = target.existsById(createEntity("10").getPrimaryKey());
 
             // 検証
             assertThat(actual).isTrue();
@@ -356,7 +356,7 @@ class FailedEmailChangeRequestRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.existsById(createEntity("not exist").getId());
+            var actual = target.existsById(createEntity("not exist").getPrimaryKey());
 
             // 検証
             assertThat(actual).isFalse();
@@ -375,8 +375,8 @@ class FailedEmailChangeRequestRepositoryTest {
             // 実行
             var actual = target.findAllById(
                     List.of(
-                            createEntity("01").getId(),
-                            createEntity("02").getId()
+                            createEntity("01").getPrimaryKey(),
+                            createEntity("02").getPrimaryKey()
                     )
             );
 
@@ -399,8 +399,8 @@ class FailedEmailChangeRequestRepositoryTest {
             // 実行
             var actual = target.findAllById(
                     List.of(
-                            createEntity("a").getId(),
-                            createEntity("b").getId()
+                            createEntity("a").getPrimaryKey(),
+                            createEntity("b").getPrimaryKey()
                     )
             );
 
@@ -559,7 +559,7 @@ class FailedEmailChangeRequestRepositoryTest {
             prepare();
 
             // 実行
-            var deleteId = createEntity("01").getId();
+            var deleteId = createEntity("01").getPrimaryKey();
             target.deleteById(deleteId);
 
             // 検証
@@ -577,7 +577,7 @@ class FailedEmailChangeRequestRepositoryTest {
             prepare();
 
             // 実行
-            var deleteId = createEntity("a").getId();
+            var deleteId = createEntity("a").getPrimaryKey();
             target.deleteById(deleteId);
 
             // 検証
@@ -638,9 +638,9 @@ class FailedEmailChangeRequestRepositoryTest {
             var actual = mapper.countByExample(null);
             assertThat(actual).isEqualTo(8);
 
-            assertThat(target.existsById(createEntity("01").getId())).isFalse();
-            assertThat(target.existsById(createEntity("10").getId())).isFalse();
-            assertThat(target.existsById(createEntity("99").getId())).isFalse();
+            assertThat(target.existsById(createEntity("01").getPrimaryKey())).isFalse();
+            assertThat(target.existsById(createEntity("10").getPrimaryKey())).isFalse();
+            assertThat(target.existsById(createEntity("99").getPrimaryKey())).isFalse();
         }
     }
 
@@ -661,7 +661,7 @@ class FailedEmailChangeRequestRepositoryTest {
             // 検証
             var actual = mapper.countByExample(null);
             assertThat(actual).isEqualTo(9);
-            assertThat(target.existsById(createEntity("10").getId())).isFalse();
+            assertThat(target.existsById(createEntity("10").getPrimaryKey())).isFalse();
         }
     }
 

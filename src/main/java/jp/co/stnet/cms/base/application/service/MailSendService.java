@@ -2,7 +2,7 @@ package jp.co.stnet.cms.base.application.service;
 
 import jp.co.stnet.cms.base.domain.model.mbg.MailSendHistory;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.util.List;
 import java.util.Map;
 

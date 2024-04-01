@@ -5,12 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
  * 全コントローラクラスに適用される共通処理
  */
-@ControllerAdvice(annotations = Controller.class)
+@ControllerAdvice(annotations = {Controller.class, RestController.class})
 public class GlobalInitBinderControllerAdvice {
 
     /**

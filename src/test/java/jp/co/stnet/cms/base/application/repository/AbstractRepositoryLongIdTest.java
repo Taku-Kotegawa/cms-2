@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
@@ -243,7 +242,7 @@ public abstract class AbstractRepositoryLongIdTest<T extends KeyInterface<I>, E,
             target().register(createEntity("12"));
 
             // 実行
-            var actual = target().findById(expected.getId());
+            var actual = target().findById(expected.getPrimaryKey());
 
             // 検証
             assertThat(actual.isPresent()).isTrue();
@@ -295,7 +294,7 @@ public abstract class AbstractRepositoryLongIdTest<T extends KeyInterface<I>, E,
             var expected = target().register(createEntity("1"));
 
             // 実行
-            var actual = target().existsById(expected.getId());
+            var actual = target().existsById(expected.getPrimaryKey());
 
             // 検証
             assertThat(actual).isTrue();
@@ -326,8 +325,8 @@ public abstract class AbstractRepositoryLongIdTest<T extends KeyInterface<I>, E,
             // 準備
             deleteAll();
             var expected = List.of(
-                    target().register(createEntity("11")).getId(),
-                    target().register(createEntity("12")).getId()
+                    target().register(createEntity("11")).getPrimaryKey(),
+                    target().register(createEntity("12")).getPrimaryKey()
             );
 
             // 実行
@@ -510,13 +509,13 @@ public abstract class AbstractRepositoryLongIdTest<T extends KeyInterface<I>, E,
             var expected = target().register(createEntity("01"));
 
             // 実行
-            target().deleteById(expected.getId());
+            target().deleteById(expected.getPrimaryKey());
 
             // 検証
             var actual = mapper().countByExample(null);
             assertThat(actual).isEqualTo(0);
 
-            var actual2 = target().existsById(expected.getId());
+            var actual2 = target().existsById(expected.getPrimaryKey());
             assertThat(actual2).isFalse();
         }
 
@@ -588,8 +587,8 @@ public abstract class AbstractRepositoryLongIdTest<T extends KeyInterface<I>, E,
             var actual = mapper().countByExample(null);
             assertThat(actual).isEqualTo(10);
 
-            assertThat(target().existsById(entity1.getId())).isFalse();
-            assertThat(target().existsById(entity2.getId())).isFalse();
+            assertThat(target().existsById(entity1.getPrimaryKey())).isFalse();
+            assertThat(target().existsById(entity2.getPrimaryKey())).isFalse();
         }
     }
 

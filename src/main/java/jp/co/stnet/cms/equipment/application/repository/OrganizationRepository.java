@@ -11,7 +11,6 @@ import jp.co.stnet.cms.equipment.domain.model.mbg.OrganizationExample;
 import jp.co.stnet.cms.equipment.domain.model.mbg.VEmployee;
 import jp.co.stnet.cms.equipment.infrastructure.mapper.OrganizationQueryMapper;
 import jp.co.stnet.cms.equipment.infrastructure.mapper.mbg.OrganizationMapper;
-import liquibase.pro.packaged.O;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

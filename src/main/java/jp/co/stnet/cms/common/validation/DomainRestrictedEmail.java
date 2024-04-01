@@ -15,9 +15,9 @@
  */
 package jp.co.stnet.cms.common.validation;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.constraints.Email;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.Email;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

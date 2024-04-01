@@ -6,8 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.terasoluna.gfw.common.validator.constraints.Compare;
 import org.terasoluna.gfw.common.validator.constraints.Compare.Operator;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 @Data

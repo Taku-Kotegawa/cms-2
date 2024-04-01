@@ -17,8 +17,8 @@ package jp.co.stnet.cms.common.validation;
 
 import org.springframework.util.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

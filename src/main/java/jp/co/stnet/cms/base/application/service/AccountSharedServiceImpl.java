@@ -38,7 +38,7 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -176,7 +176,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
     }
 
     @Override
-    @CacheEvict(value = {"isInitialPassword", "isCurrentPasswordExpired"}, key = "#username")
+    @CacheEvict(value = {"isInitialPassword", "isCurrentPasswordExpired"}, key = "#p0")
     public boolean updatePassword(String username, String rawPassword) {
         String password = passwordEncoder.encode(rawPassword);
 

@@ -5,7 +5,7 @@ import jp.co.stnet.cms.common.validation.StrongPassword;
 import lombok.Data;
 import org.terasoluna.gfw.common.validator.constraints.Compare;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data

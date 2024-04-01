@@ -31,7 +31,7 @@ public class SimpleEntityListForm implements Serializable {
         }
 
         // null or Empty を返すとThymeleafがエラーになるので、なんでも良いので値を返す
-        if (sb.toString().length() == 0) {
+        if (sb.toString().isEmpty()) {
             return ",sort=";
         }
 

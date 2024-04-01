@@ -4,7 +4,6 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@EnableBatchProcessing
 @EnableAsync
 @Configuration
 public class AsyncBatchConfig {

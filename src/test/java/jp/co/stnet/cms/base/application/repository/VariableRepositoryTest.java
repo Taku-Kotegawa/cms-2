@@ -293,7 +293,7 @@ class VariableRepositoryTest {
             target.register(createEntity("12"));
 
             // 実行
-            var actual = target.findById(expected.getId());
+            var actual = target.findById(expected.getPrimaryKey());
 
             // 検証
             assertThat(actual.isPresent()).isTrue();
@@ -328,7 +328,7 @@ class VariableRepositoryTest {
             // 検証
             assertThatThrownBy(() -> {
                 // 実行
-                target.getOne(expected.getId());
+                target.getOne(expected.getPrimaryKey());
             }).isInstanceOf(ResourceNotFoundException.class);
         }
     }
@@ -344,7 +344,7 @@ class VariableRepositoryTest {
             var expected = target.register(createEntity("1"));
 
             // 実行
-            var actual = target.existsById(expected.getId());
+            var actual = target.existsById(expected.getPrimaryKey());
 
             // 検証
             assertThat(actual).isTrue();
@@ -381,8 +381,8 @@ class VariableRepositoryTest {
             // 実行
             var actual = target.findAllById(
                     List.of(
-                            list.get(0).getId(),
-                            list.get(0).getId() + 1L
+                            list.get(0).getPrimaryKey(),
+                            list.get(0).getPrimaryKey() + 1L
                     )
             );
 
@@ -489,13 +489,13 @@ class VariableRepositoryTest {
             var entity9 = target.register(createEntity("09"));
 
             // 実行
-            target.deleteById(entity1.getId());
+            target.deleteById(entity1.getPrimaryKey());
 
             // 検証
             var actual = mapper.countByExample(newExample());
             assertThat(actual).isEqualTo(8);
 
-            var actual2 = target.existsById(entity1.getId());
+            var actual2 = target.existsById(entity1.getPrimaryKey());
             assertThat(actual2).isFalse();
         }
 
@@ -561,7 +561,7 @@ class VariableRepositoryTest {
             assertThat(actual).isEqualTo(9);
 
             for (var entity : entities) {
-                assertThat(target.existsById(entity.getId()));
+                assertThat(target.existsById(entity.getPrimaryKey()));
             }
         }
     }

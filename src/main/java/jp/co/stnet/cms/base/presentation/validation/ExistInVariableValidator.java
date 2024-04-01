@@ -6,8 +6,8 @@ import jp.co.stnet.cms.base.domain.model.mbg.Variable;
 import jp.co.stnet.cms.base.presentation.controller.admin.variable.VariableForm;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.List;
 
 public class ExistInVariableValidator implements ConstraintValidator<ExistInVariable, Object> {

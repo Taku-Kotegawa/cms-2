@@ -171,7 +171,7 @@ public class FileManagedServiceImpl implements FileManagedService {
     public void cleanup(LocalDateTime deleteTo) {
         List<FileManaged> files = fileManagedRepository.findAllByCreatedDateLessThanAndStatus(deleteTo, FileStatus.TEMPORARY.getCodeValue());
         for (FileManaged file : files) {
-            delete(file.getId());
+            delete(file.getPrimaryKey());
         }
 
         //TODO 空のフォルダを削除

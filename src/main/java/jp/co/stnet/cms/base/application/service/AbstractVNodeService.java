@@ -48,11 +48,11 @@ public abstract class AbstractVNodeService<
     @Override
     public T save(T entity) {
         try {
-            if (!repository().existsById(entity.getId())) {
+            if (!repository().existsById(entity.getPrimaryKey())) {
                 return repository().save(entity);
             }
 
-            var current = repository().getOne(entity.getId());
+            var current = repository().getOne(entity.getPrimaryKey());
             beforeSave(entity, current);
             repository().save(entity);
             afterSave(entity, current);
@@ -62,7 +62,7 @@ public abstract class AbstractVNodeService<
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationBusinessException(ResultMessages.error().add(MessageKeys.E_CM_FW_8002, e.getMessage()));
         }
-        return repository().getOne(entity.getId());
+        return repository().getOne(entity.getPrimaryKey());
     }
 
     /**

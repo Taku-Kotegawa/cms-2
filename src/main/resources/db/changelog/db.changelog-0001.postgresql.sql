@@ -8,7 +8,7 @@ create table t_account (
     created_date timestamp(0) without time zone not null,
     last_modified_by varchar(255) not null,
     last_modified_date timestamp(0) without time zone not null,
-    password varchar (88) not null,
+    password varchar (128) not null,
     first_name varchar (128) not null,
     last_name varchar (128),
     email varchar (128) not null,
@@ -90,6 +90,7 @@ create table t_password_history (
     password varchar(128) not null,
     use_from timestamp,
     created_by varchar(255) not null,
+    created_date timestamp(0) without time zone not null,
     constraint pk_tbl_ph primary key (username, use_from)
 --    constraint fk_tbl_ph foreign key (username) references t_account(username)
 );
@@ -97,13 +98,14 @@ comment on table t_password_history is 'パスワード履歴';
 comment on column t_password_history.username is 'ユーザid';
 comment on column t_password_history.password is 'パスワード';
 comment on column t_password_history.use_from is '利用開始日時';
-
+comment on column t_account.created_by is '作成者';
+comment on column t_account.created_date is '作成日時';
 ----
 drop table if exists t_password_reissue_info cascade;
 create table t_password_reissue_info (
     token varchar(128),
     username varchar(128) not null,
-    secret varchar(88) not null,
+    secret varchar(128) not null,
     expiry_date timestamp not null,
     constraint pk_tbl_pri primary key (token)
 --    constraint fk_tbl_pri foreign key (username) references t_account(username)

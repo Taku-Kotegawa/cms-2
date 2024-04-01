@@ -445,9 +445,9 @@ public class MessageKeys {
      */
     public static final String TOO_MANY_OCCURRENCES = "TOO_MANY_OCCURRENCES";
     /**
-     * javax.validation.constraints.NotNull.message=入力してください
+     * jakarta.validation.constraints.NotNull.message=入力してください
      */
-    public static final String JAVAX_VALIDATION_CONSTRAINTS_NOTNULL_MESSAGE = "javax.validation.constraints.NotNull.message";
+    public static final String JAVAX_VALIDATION_CONSTRAINTS_NOTNULL_MESSAGE = "jakarta.validation.constraints.NotNull.message";
     /**
      * jp.co.stnet.cms.sales.domain.validation.ValidService.message=入力してください
      */

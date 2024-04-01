@@ -31,7 +31,7 @@
             <p class="login-box-msg">Sign in to start your session</p>
 
             <div th:if="${param.keySet().contains('error')}"
-                 th:with="exception=${#request.getAttribute('SPRING_SECURITY_LAST_EXCEPTION')} ?: ${session[SPRING_SECURITY_LAST_EXCEPTION]}">
+                 th:with="exception=${SPRING_SECURITY_LAST_EXCEPTION} ?: ${session[SPRING_SECURITY_LAST_EXCEPTION]}">
                 <div class="alert alert-error" th:if="${exception != null}">
                     <span th:text="${exception.message}"></span>
                 </div>

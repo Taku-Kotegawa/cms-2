@@ -39,7 +39,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             List<String> roleIds = new ArrayList<>();
 
             for (String roleLabel : account.getRoles()) {
-
                 if (!roleLabel.equals(Role.ADMIN.name())) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_" + roleLabel));
                     roleIds.add(roleLabel);

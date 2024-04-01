@@ -17,8 +17,8 @@ package jp.co.stnet.cms.common.validation;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.io.File;
 import java.util.regex.Pattern;
 

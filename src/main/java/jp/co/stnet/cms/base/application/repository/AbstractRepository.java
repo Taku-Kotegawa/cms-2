@@ -25,7 +25,7 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
     public T register(T entity) {
         Objects.requireNonNull(entity);
         mapper().insert(entity);
-        return getOne(entity.getId());
+        return getOne(entity.getPrimaryKey());
     }
 
     @Override
@@ -41,11 +41,11 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
     @Override
     public T save(T entity) {
         Objects.requireNonNull(entity);
-        if (!existsById(entity.getId())) {
+        if (!existsById(entity.getPrimaryKey())) {
             return register(entity);
         }
         mapper().updateByPrimaryKey(entity);
-        return getOne(entity.getId());
+        return getOne(entity.getPrimaryKey());
     }
 
     @Override
@@ -96,7 +96,7 @@ public abstract class AbstractRepository<T extends KeyInterface<I>, E, I> implem
     @Override
     public void delete(T entity) {
         Objects.requireNonNull(entity);
-        deleteById(entity.getId());
+        deleteById(entity.getPrimaryKey());
     }
 
     @Override

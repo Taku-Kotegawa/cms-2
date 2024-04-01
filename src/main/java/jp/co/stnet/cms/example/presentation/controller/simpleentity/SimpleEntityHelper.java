@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.terasoluna.gfw.common.codelist.CodeList;
 
-import javax.inject.Named;
-import javax.validation.groups.Default;
+import jakarta.inject.Named;
+import jakarta.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

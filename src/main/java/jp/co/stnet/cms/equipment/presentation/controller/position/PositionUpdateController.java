@@ -20,7 +20,7 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 import static jp.co.stnet.cms.common.constant.Constants.OPERATION;
 import static jp.co.stnet.cms.equipment.presentation.controller.position.PositionConstant.*;
@@ -105,7 +105,7 @@ public class PositionUpdateController {
         ResultMessages messages = ResultMessages.info().add(MessageKeys.I_CM_FW_0004);
         redirect.addFlashAttribute(messages);
 
-        return "redirect:" + op.getEditUrl(entity.getId().toString());
+        return "redirect:" + op.getEditUrl(entity.getPrimaryKey().toString());
     }
 
     // --- 無効化 -------------------------------------------------------------------------------------------------------

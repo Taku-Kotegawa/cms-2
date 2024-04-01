@@ -18,8 +18,8 @@ package jp.co.stnet.cms.common.validation;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class UploadFileRequiredValidator implements ConstraintValidator<UploadFileRequired, MultipartFile> {
 

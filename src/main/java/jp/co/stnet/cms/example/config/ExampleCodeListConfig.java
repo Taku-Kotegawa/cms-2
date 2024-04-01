@@ -10,6 +10,7 @@ import org.terasoluna.gfw.common.codelist.JdbcCodeList;
 
 import javax.sql.DataSource;
 
+
 @Configuration
 public class ExampleCodeListConfig {
 

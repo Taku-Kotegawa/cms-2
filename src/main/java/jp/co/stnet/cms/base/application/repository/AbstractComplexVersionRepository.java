@@ -128,7 +128,7 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
         Objects.requireNonNull(entity);
         mapper().insert(entity);
         afterRegister(entity);
-        return getOne(entity.getId());
+        return getOne(entity.getPrimaryKey());
     }
 
     @Override
@@ -144,17 +144,17 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
     @Override
     public S save(S entity) {
         Objects.requireNonNull(entity);
-        if (!existsById(entity.getId())) {
+        if (!existsById(entity.getPrimaryKey())) {
             return register(entity);
         }
         int count = mapper().updateByPrimaryKeyAndVersion(entity);
         if (count != 1) {
             // 楽観的排他制御でエラー
-            T before = mapper().selectByPrimaryKey(entity.getId());
+            T before = mapper().selectByPrimaryKey(entity.getPrimaryKey());
             throw new OptimisticLockingFailureException("after = " + entity + ", before = " + before);
         }
         afterSave(entity);
-        return getOne(entity.getId());
+        return getOne(entity.getPrimaryKey());
     }
 
     @Override
@@ -189,7 +189,7 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
     @Override
     public void delete(S entity) {
         Objects.requireNonNull(entity);
-        deleteById(entity.getId());
+        deleteById(entity.getPrimaryKey());
     }
 
     @Override
@@ -208,7 +208,7 @@ public abstract class AbstractComplexVersionRepository<T extends KeyInterface<I>
     @Override
     public void deleteAll(List<S> entities) {
         Objects.requireNonNull(entities);
-        deleteAllById(entities.stream().map(KeyInterface::getId).toList());
+        deleteAllById(entities.stream().map(KeyInterface::getPrimaryKey).toList());
     }
 
     @Override

@@ -7,6 +7,6 @@ public interface KeyInterface<I> {
      *
      * @return 主キーの値 or 主キークラス(複合主キーの場合)
      */
-    I getId();
+    I getPrimaryKey();
 
 }

@@ -153,7 +153,7 @@ public class ConfirmHistory implements Serializable, KeyInterface<Long>, Version
      */
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Long getPrimaryKey() {
         return confirmId;
     }
 }

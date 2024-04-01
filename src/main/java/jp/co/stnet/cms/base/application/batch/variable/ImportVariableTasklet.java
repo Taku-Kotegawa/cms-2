@@ -106,7 +106,7 @@ public class ImportVariableTasklet implements Tasklet {
 
                     } else {
 
-                        input.setId(current.getId());
+                        input.setId(current.getPrimaryKey());
                         input.setVersion(current.getVersion());
                         if (StringUtils.isNotBlank(input.getFile1Uuid())) {
                             input.setFile1Uuid(current.getFile1Uuid());
@@ -114,7 +114,7 @@ public class ImportVariableTasklet implements Tasklet {
 
                         if ("9".equals(input.getStatus())) {
                             // ステータス=9の場合は削除
-                            variableService.delete(input.getId());
+                            variableService.delete(input.getPrimaryKey());
                             countDelete++;
 
                         } else if (!equals(input, current)) {

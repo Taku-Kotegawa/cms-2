@@ -174,7 +174,7 @@ public class Employee implements Serializable, KeyInterface<String>, VersionInte
      */
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public String getPrimaryKey() {
         return empId;
     }
 }

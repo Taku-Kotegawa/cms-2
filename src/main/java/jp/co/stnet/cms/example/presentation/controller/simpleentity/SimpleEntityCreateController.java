@@ -11,6 +11,7 @@ import jp.co.stnet.cms.example.domain.model.SimpleEntity;
 import jp.co.stnet.cms.example.presentation.request.SimpleEntityForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.actuate.endpoint.jmx.JmxOperationResponseMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 import static jp.co.stnet.cms.example.presentation.controller.simpleentity.SimpleEntityConstant.BASE_PATH;
 import static jp.co.stnet.cms.example.presentation.controller.simpleentity.SimpleEntityConstant.TEMPLATE_FORM;
@@ -89,6 +90,7 @@ public class SimpleEntityCreateController {
         authority.hasAuthority(Constants.OPERATION.CREATE, loggedInUser);
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute(ResultMessages.error().add(MessageKeys.I_CM_FW_0001));
             return createForm(form, model, loggedInUser, null);
         }
 

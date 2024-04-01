@@ -27,7 +27,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.SmartValidator;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -133,7 +133,7 @@ public class ImportAccountTasklet implements Tasklet {
 
                         if ("9".equals(input.getStatus())) {
                             // ステータス=9の場合は削除
-                            accountService.delete(input.getId());
+                            accountService.delete(input.getPrimaryKey());
                             countDelete++;
 
                         } else if (!equals(input, current)) {

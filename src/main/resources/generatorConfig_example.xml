@@ -41,7 +41,7 @@
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
 
         <!-- Modelクラスに implements Serializable を追加 -->
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+<!--        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
 
         <!-- ModelクラスにtoStringメソッドを追加 -->
         <!-- <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
@@ -55,7 +55,7 @@
         <!-- カスタムプラグイン -->
 
         <!-- lombok -->
-        <plugin type="plugins.LombokPlugin">
+        <plugin type="plugins.ModelLombokPlugin">
             <property name="builder" value="false"/>
             <property name="superBuilder" value="true"/>
             <property name="toString" value="true"/>
@@ -71,36 +71,45 @@
 
 
         <!-- SQLMapperのUpdate命令から特定の項目を除外, excludeColumnsにテーブル項目名を指定, カンマ区切りで複数指定可能 -->
-        <plugin type="plugins.SqlMapUpdateExcludeColumnPlugin">
+        <plugin type="plugins.SqlUpdateExcludeColumnPlugin">
             <property name="excludeColumns" value="created_date,created_by"/>
         </plugin>
 
-        <!-- 楽観的排他制御用メソッド追加 + Interface追加 -->
-        <plugin type="plugins.SqlUpdateKeyAddVersionPlugin">
+        <!-- 楽観的排他制御用の更新番号をUpdate時に+1するSQLに変更-->
+        <plugin type="plugins.SqlUpdateVersionPlusOnePlugin">
+            <property name="versionColumns" value="version"/>
+            <property name="maxVersionNum" value="99999999"/>
+            <property name="excludeTable" value="simple_entity_revision,simple_entity_revision_checkbox02,simple_entity_revision_combobox03,simple_entity_revision_line_items,simple_entity_revision_select02,simple_entity_revision_select04,simple_entity_revision_text05"/>
+        </plugin>
+
+        <!-- 楽観的排他制御用メソッド追加 -->
+        <plugin type="plugins.SqlUpdateKeyAndVersionPlugin">
             <property name="versionColumns" value="version"/>
         </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
         <!-- 複合主キーテーブルには対応していない -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
-            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface"/>
-            <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
+            <property name="mapper_interface" value="jp.co.stnet.cms.base.infrastructure.mapper.VersionMapperInterface"/>
+<!--            <property name="model_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>-->
             <property name="target_table" value="simple_entity"/>
         </plugin>
 
         <!-- MapperインタフェースにGenericインタフェースを追加(インターフェースは手動で準備する前提) -->
         <!-- 複合主キーテーブルには対応していない -->
         <plugin type="plugins.CreateGenericInterfacePlugin">
-            <property name="interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface"/>
-            <property name="status_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
+            <property name="mapper_interface" value="jp.co.stnet.cms.base.infrastructure.mapper.MapperInterface"/>
+<!--            <property name="model_interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>-->
             <property name="target_table"
                       value=""/>
         </plugin>
 
-        <!-- 複合主キーのテーブル
-        role, permission_role, failed_email_change_request, failed_password_reissue, password_history, failed_authentication, successful_authentication
 
-        -->
+        <!-- Modelに主キーの値を取得するメソッドと親インタフェースも追加 -->
+        <plugin type="plugins.ModelExtendsPrimaryKeyInterfacePlugin">
+            <property name="interface" value="jp.co.stnet.cms.base.domain.model.KeyInterface"/>
+        </plugin>
+
 
         <!-- Modelにインタフェースの追加(targetColumnを持つテーブル) -->
         <plugin type="plugins.BeanImplementation2Plugin">
@@ -117,7 +126,7 @@
         <!-- フィールドの型に応じたアノテーションを追加 -->
         <!-- LocalDateTime: @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")) -->
         <!-- LocalDate: @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")) -->
-        <plugin type="plugins.AddFieldAnnotationPlugin"/>
+<!--        <plugin type="plugins.AddFieldAnnotationPlugin"/>-->
 
         <!-- コメントの出力仕様 -->
         <commentGenerator>
@@ -176,6 +185,7 @@
                enableUpdateByPrimaryKey="false"
         />
         <table tableName="t_test" />
+        <table tableName="simple_entity_revision" />
 
     </context>
 </generatorConfiguration>

@@ -129,7 +129,7 @@ public class ApprovalFlow implements Serializable, KeyInterface<Long>, VersionIn
      */
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Long getPrimaryKey() {
         return approvalFlowId;
     }
 }

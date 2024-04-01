@@ -48,7 +48,7 @@ function file_attach(element) {
 
     $.ajax({
       type: "POST",
-      url: contextPath + "/file?filetype=" + $file_type,
+      url: contextPath + "/api/file?filetype=" + $file_type,
       data: formData,
       enctype: 'multipart/form-data',
       dataType: "json",

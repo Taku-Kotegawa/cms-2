@@ -21,10 +21,10 @@ import org.passay.RuleResult;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class StrongPasswordValidator implements
         ConstraintValidator<StrongPassword, Object> {

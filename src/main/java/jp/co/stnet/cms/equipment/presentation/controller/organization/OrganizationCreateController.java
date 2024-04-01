@@ -21,7 +21,7 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 import static jp.co.stnet.cms.common.constant.Constants.OPERATION;
 import static jp.co.stnet.cms.equipment.presentation.controller.organization.OrganizationConstant.BASE_PATH;

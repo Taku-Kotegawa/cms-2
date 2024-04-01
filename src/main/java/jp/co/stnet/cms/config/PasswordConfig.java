@@ -41,8 +41,7 @@ public class PasswordConfig {
         return new DelegatingPasswordEncoder(
                 "pbkdf2",
                 new HashMap<String, PasswordEncoder>() {{
-                    put("pbkdf2", new Pbkdf2PasswordEncoder());
-                    put("bcrypt", new BCryptPasswordEncoder());
+                    put("pbkdf2", new Pbkdf2PasswordEncoder("", 16, 310000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256));
                 }}
         );
     }

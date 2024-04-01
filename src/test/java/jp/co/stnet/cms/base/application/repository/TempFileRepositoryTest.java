@@ -50,7 +50,7 @@ class TempFileRepositoryTest extends AbstractRepositoryStringIdTest<TempFile, Te
 
     @Override
     void setOverflowValue(TempFile entity) {
-        entity.setId(entity.getId() + "a");
+        entity.setId(entity.getPrimaryKey() + "a");
     }
 
     @Override
@@ -70,12 +70,12 @@ class TempFileRepositoryTest extends AbstractRepositoryStringIdTest<TempFile, Te
 
     @Override
     void setFindByCondition(TempFileExample example) {
-        example.or().andIdEqualTo(createEntity("10").getId());
+        example.or().andIdEqualTo(createEntity("10").getPrimaryKey());
     }
 
     @Override
     void setNotFindByCondition(TempFileExample example) {
-        example.or().andIdEqualTo(createEntity("not exists").getId());
+        example.or().andIdEqualTo(createEntity("not exists").getPrimaryKey());
     }
 
     @Override

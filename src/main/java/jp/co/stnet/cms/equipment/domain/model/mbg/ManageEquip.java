@@ -175,7 +175,7 @@ public class ManageEquip implements Serializable, KeyInterface<Long>, VersionInt
      */
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Long getPrimaryKey() {
         return equipId;
     }
 }

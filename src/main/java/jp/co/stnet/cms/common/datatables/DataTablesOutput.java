@@ -1,5 +1,6 @@
 package jp.co.stnet.cms.common.datatables;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,7 @@ public class DataTablesOutput<T> {
      */
     @JsonView(View.class)
     @Builder.Default
+    @JsonProperty("recordsTotal")
     private long recordsTotal = 0L;
 
     /**
@@ -42,6 +44,7 @@ public class DataTablesOutput<T> {
      */
     @JsonView(View.class)
     @Builder.Default
+    @JsonProperty("recordsFiltered")
     private long recordsFiltered = 0L;
 
     /**

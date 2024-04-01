@@ -1,11 +1,7 @@
 package jp.co.stnet.cms.base.application.repository;
 
-import jp.co.stnet.cms.base.domain.enums.Status;
-import jp.co.stnet.cms.base.domain.model.Account;
 import jp.co.stnet.cms.base.domain.model.mbg.*;
 import jp.co.stnet.cms.base.infrastructure.mapper.mbg.FailedAuthenticationMapper;
-import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TAccountMapper;
-import jp.co.stnet.cms.base.infrastructure.mapper.mbg.TRoleMapper;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,7 +223,7 @@ class FailedAuthenticationRepositoryTest {
             );
 
             // 実行
-            var expected = target.findById(createEntity("10").getId()).orElseThrow();
+            var expected = target.findById(createEntity("10").getPrimaryKey()).orElseThrow();
             expected.setUsername("Change");
             var actual = target.save(expected);
 
@@ -295,7 +291,7 @@ class FailedAuthenticationRepositoryTest {
 
             // 実行
             var expected = List.of(
-                    target.findById(createEntity("10").getId()).orElseThrow(),
+                    target.findById(createEntity("10").getPrimaryKey()).orElseThrow(),
                     createEntity("11"));
 
             var actual = target.saveAll(expected);
@@ -317,7 +313,7 @@ class FailedAuthenticationRepositoryTest {
             var expected = createEntity("10");
 
             // 実行
-            var actual = target.findById(expected.getId());
+            var actual = target.findById(expected.getPrimaryKey());
 
             // 検証
             assertThat(actual.isPresent()).isTrue();
@@ -351,7 +347,7 @@ class FailedAuthenticationRepositoryTest {
             // 検証
             assertThatThrownBy(() -> {
                 // 実行
-                target.getOne(expected.getId());
+                target.getOne(expected.getPrimaryKey());
             }).isInstanceOf(ResourceNotFoundException.class);
         }
 
@@ -367,7 +363,7 @@ class FailedAuthenticationRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.existsById(createEntity("10").getId());
+            var actual = target.existsById(createEntity("10").getPrimaryKey());
 
             // 検証
             assertThat(actual).isTrue();
@@ -380,7 +376,7 @@ class FailedAuthenticationRepositoryTest {
             prepare();
 
             // 実行
-            var actual = target.existsById(createEntity("not exist").getId());
+            var actual = target.existsById(createEntity("not exist").getPrimaryKey());
 
             // 検証
             assertThat(actual).isFalse();
@@ -399,8 +395,8 @@ class FailedAuthenticationRepositoryTest {
             // 実行
             var actual = target.findAllById(
                     List.of(
-                            createEntity("01").getId(),
-                            createEntity("02").getId()
+                            createEntity("01").getPrimaryKey(),
+                            createEntity("02").getPrimaryKey()
                     )
             );
 
@@ -423,8 +419,8 @@ class FailedAuthenticationRepositoryTest {
             // 実行
             var actual = target.findAllById(
                     List.of(
-                            createEntity("a").getId(),
-                            createEntity("b").getId()
+                            createEntity("a").getPrimaryKey(),
+                            createEntity("b").getPrimaryKey()
                     )
             );
 
@@ -583,7 +579,7 @@ class FailedAuthenticationRepositoryTest {
             prepare();
 
             // 実行
-            var deleteId = createEntity("01").getId();
+            var deleteId = createEntity("01").getPrimaryKey();
             target.deleteById(deleteId);
 
             // 検証
@@ -601,7 +597,7 @@ class FailedAuthenticationRepositoryTest {
             prepare();
 
             // 実行
-            var deleteId = createEntity("a").getId();
+            var deleteId = createEntity("a").getPrimaryKey();
             target.deleteById(deleteId);
 
             // 検証
@@ -662,9 +658,9 @@ class FailedAuthenticationRepositoryTest {
             var actual = mapper.countByExample(null);
             assertThat(actual).isEqualTo(8);
 
-            assertThat(target.existsById(createEntity("01").getId())).isFalse();
-            assertThat(target.existsById(createEntity("10").getId())).isFalse();
-            assertThat(target.existsById(createEntity("99").getId())).isFalse();
+            assertThat(target.existsById(createEntity("01").getPrimaryKey())).isFalse();
+            assertThat(target.existsById(createEntity("10").getPrimaryKey())).isFalse();
+            assertThat(target.existsById(createEntity("99").getPrimaryKey())).isFalse();
         }
     }
 
@@ -685,7 +681,7 @@ class FailedAuthenticationRepositoryTest {
             // 検証
             var actual = mapper.countByExample(null);
             assertThat(actual).isEqualTo(9);
-            assertThat(target.existsById(createEntity("10").getId())).isFalse();
+            assertThat(target.existsById(createEntity("10").getPrimaryKey())).isFalse();
         }
     }
 

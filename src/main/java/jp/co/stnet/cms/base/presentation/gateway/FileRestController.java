@@ -13,12 +13,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("file")
+@RequestMapping("api/file")
 public class FileRestController {
 
     private final FileManagedService fileManagedService;

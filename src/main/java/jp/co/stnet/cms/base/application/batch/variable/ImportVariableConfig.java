@@ -5,16 +5,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @RequiredArgsConstructor
-@EnableBatchProcessing
 @Configuration
 public class ImportVariableConfig {
 
@@ -22,8 +23,11 @@ public class ImportVariableConfig {
 
     private static final String TASKLET_NAME = JOB_ID + "Tasklet";
 
-    private final JobBuilderFactory jobBuilderFactory;
-    private final StepBuilderFactory stepBuilderFactory;
+    private final JobRepository jobRepository;
+
+    private final PlatformTransactionManager txManager;
+
+
     @Qualifier(TASKLET_NAME)
     private final Tasklet tasklet;
 
@@ -33,17 +37,15 @@ public class ImportVariableConfig {
      * @return
      */
     @Bean(name = JOB_ID)
-    public Job importAccount() {
-        return jobBuilderFactory.get(JOB_ID)
-                .incrementer(new RunIdIncrementer())
-                .flow(step1())
-                .end()
-                .build();
-    }
+    public Job importVariable() {
 
-    public Step step1() {
-        return stepBuilderFactory.get("step1")
-                .tasklet(tasklet)
+        Step step1 = new StepBuilder("step1", jobRepository)
+                .tasklet(tasklet, txManager)
+                .build();
+
+        return new JobBuilder(JOB_ID, jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .start(step1)
                 .build();
     }
 

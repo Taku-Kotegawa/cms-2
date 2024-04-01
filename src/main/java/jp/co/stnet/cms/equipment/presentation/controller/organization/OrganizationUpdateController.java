@@ -5,8 +5,6 @@ import jp.co.stnet.cms.common.message.MessageKeys;
 import jp.co.stnet.cms.common.util.OperationsUtil;
 import jp.co.stnet.cms.equipment.application.service.OrganizationService;
 import jp.co.stnet.cms.equipment.domain.model.OrganizationBean;
-import jp.co.stnet.cms.equipment.presentation.controller.organization.OrganizationAuthority;
-import jp.co.stnet.cms.equipment.presentation.controller.organization.OrganizationHelper;
 import jp.co.stnet.cms.equipment.presentation.dto.OrganizationForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,7 +20,7 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 import static jp.co.stnet.cms.common.constant.Constants.OPERATION;
 import static jp.co.stnet.cms.equipment.presentation.controller.organization.OrganizationConstant.BASE_PATH;
@@ -108,7 +106,7 @@ public class OrganizationUpdateController {
         ResultMessages messages = ResultMessages.info().add(MessageKeys.I_CM_FW_0004);
         redirect.addFlashAttribute(messages);
 
-        return "redirect:" + op.getEditUrl(entity.getId().toString());
+        return "redirect:" + op.getEditUrl(entity.getPrimaryKey().toString());
     }
 
     // --- 無効化 -------------------------------------------------------------------------------------------------------

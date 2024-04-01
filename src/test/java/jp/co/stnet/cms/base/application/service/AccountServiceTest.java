@@ -143,7 +143,7 @@ class AccountServiceTest {
             var expected = createEntity("01");
 
             // 実行
-            var actual = target.findById(expected.getId());
+            var actual = target.findById(expected.getPrimaryKey());
 
             // 検証
             setNullWhoColumn(actual);
@@ -211,7 +211,7 @@ class AccountServiceTest {
             prepare();
 
             // 実行
-            var expectedId = createEntity("01").getId();
+            var expectedId = createEntity("01").getPrimaryKey();
             var expected = target.findById(expectedId);
             expected.setFirstName("Changed");
             var actual = target.save(expected);
@@ -269,12 +269,12 @@ class AccountServiceTest {
             prepare();
 
             // 実行
-            var expected = target.findById(createEntity("01").getId());
-            expected = target.invalid(expected.getId());
+            var expected = target.findById(createEntity("01").getPrimaryKey());
+            expected = target.invalid(expected.getPrimaryKey());
 
             Account actual = new Account();
             if (expected.getStatus().equals(Status.INVALID.getCodeValue())) {
-                actual = target.valid(expected.getId());
+                actual = target.valid(expected.getPrimaryKey());
             }
 
             // 検証
@@ -287,13 +287,13 @@ class AccountServiceTest {
             // 準備
             prepare();
 
-            var expected = target.findById(createEntity("01").getId());
+            var expected = target.findById(createEntity("01").getPrimaryKey());
 
             if (Status.VALID.getCodeValue().equals(expected.getStatus())) {
                 // 検証
                 assertThatThrownBy(() -> {
                     // 実行
-                    var actual = target.valid(expected.getId());
+                    var actual = target.valid(expected.getPrimaryKey());
                 }).isInstanceOf(IllegalStateBusinessException.class);
             }
         }
@@ -309,11 +309,11 @@ class AccountServiceTest {
             prepare();
 
             // 実行
-            var expected = target.findById(createEntity("01").getId());
+            var expected = target.findById(createEntity("01").getPrimaryKey());
 
             Account actual = new Account();
             if (expected.getStatus().equals(Status.VALID.getCodeValue())) {
-                actual = target.invalid(expected.getId());
+                actual = target.invalid(expected.getPrimaryKey());
             }
 
             // 検証
@@ -326,13 +326,13 @@ class AccountServiceTest {
             // 準備
             prepare();
 
-            var expected = target.findById(createEntity("01").getId());
-            target.invalid(expected.getId());
+            var expected = target.findById(createEntity("01").getPrimaryKey());
+            target.invalid(expected.getPrimaryKey());
 
             // 検証
             assertThatThrownBy(() -> {
                 // 実行
-                var actual = target.invalid(expected.getId());
+                var actual = target.invalid(expected.getPrimaryKey());
             }).isInstanceOf(IllegalStateBusinessException.class);
 
         }
@@ -348,7 +348,7 @@ class AccountServiceTest {
             prepare();
 
             // 実行
-            var deleteId = createEntity("01").getId();
+            var deleteId = createEntity("01").getPrimaryKey();
             target.delete(deleteId);
 
             // 検証
@@ -487,9 +487,9 @@ class AccountServiceTest {
             prepare();
 
             var ids = List.of(
-                    createEntity("01").getId(),
-                    createEntity("02").getId(),
-                    createEntity("99").getId()  // 存在しない番号
+                    createEntity("01").getPrimaryKey(),
+                    createEntity("02").getPrimaryKey(),
+                    createEntity("99").getPrimaryKey()  // 存在しない番号
             );
 
             // 実行
@@ -532,7 +532,7 @@ class AccountServiceTest {
             // 準備
             prepare();
 
-            var targetId = createEntity("01").getId();
+            var targetId = createEntity("01").getPrimaryKey();
             var update = TAccount.builder()
                     .username(targetId)
                     .apiKey("Change")
@@ -558,7 +558,7 @@ class AccountServiceTest {
         void test001() {
             // 準備
             prepare();
-            var targetId = createEntity("01").getId();
+            var targetId = createEntity("01").getPrimaryKey();
 
             // 実行
             var actual = target.saveApiKey(targetId);
@@ -577,16 +577,16 @@ class AccountServiceTest {
         void test001(){
             // 準備
             prepare();
-            target.saveApiKey(createEntity("01").getId());
-            target.saveApiKey(createEntity("02").getId());
-            target.saveApiKey(createEntity("03").getId());
-            target.saveApiKey(createEntity("04").getId());
-            var expected = target.saveApiKey(createEntity("05").getId());
-            target.saveApiKey(createEntity("06").getId());
-            target.saveApiKey(createEntity("07").getId());
-            target.saveApiKey(createEntity("08").getId());
-            target.saveApiKey(createEntity("09").getId());
-            target.saveApiKey(createEntity("10").getId());
+            target.saveApiKey(createEntity("01").getPrimaryKey());
+            target.saveApiKey(createEntity("02").getPrimaryKey());
+            target.saveApiKey(createEntity("03").getPrimaryKey());
+            target.saveApiKey(createEntity("04").getPrimaryKey());
+            var expected = target.saveApiKey(createEntity("05").getPrimaryKey());
+            target.saveApiKey(createEntity("06").getPrimaryKey());
+            target.saveApiKey(createEntity("07").getPrimaryKey());
+            target.saveApiKey(createEntity("08").getPrimaryKey());
+            target.saveApiKey(createEntity("09").getPrimaryKey());
+            target.saveApiKey(createEntity("10").getPrimaryKey());
 
             // 実行
             var actual = target.findByApiKey(expected.getApiKey());

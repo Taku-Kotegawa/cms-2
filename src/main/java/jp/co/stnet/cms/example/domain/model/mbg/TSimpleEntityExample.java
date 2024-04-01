@@ -1,6 +1,5 @@
 package jp.co.stnet.cms.example.domain.model.mbg;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

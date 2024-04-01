@@ -3,7 +3,7 @@ package jp.co.stnet.cms.base.application.batch.account;
 import jp.co.stnet.cms.common.validation.Parseable;
 import lombok.Data;
 
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 import static jp.co.stnet.cms.common.validation.ParseableType.TO_INT;
 

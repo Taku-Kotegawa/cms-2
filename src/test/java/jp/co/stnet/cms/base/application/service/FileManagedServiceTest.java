@@ -10,18 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -65,8 +61,6 @@ class FileManagedServiceTest {
             assertThat(actual.getOriginalFilename()).isEqualTo("file.txt");
 
         }
-
-
     }
 
 
@@ -121,7 +115,7 @@ class FileManagedServiceTest {
         void test001() throws IOException {
             var expected = target.store(createMultipartFile(), null);
             target.permanent(expected.getUuid());
-            var actual = target.findById(expected.getId());
+            var actual = target.findById(expected.getPrimaryKey());
             assertThat(actual.getStatus()).isEqualTo(FileStatus.PERMANENT.getCodeValue());
         }
 
@@ -147,9 +141,6 @@ class FileManagedServiceTest {
             // 準備
 
 
-
-
-
             // 実行
             target.cleanup(LocalDateTime.now());
         }
@@ -173,7 +164,7 @@ class FileManagedServiceTest {
     class deleteFile {
 
         @Test
-        void test001(){
+        void test001() {
             target.delete("02ea9d01-a310-48da-b7ba-4c01740cdfaf");
         }
 

@@ -87,7 +87,7 @@ public class AdminAccountListController {
         DataTablesOutput<AccountListBean> output = new DataTablesOutput<>();
         output.setData(list);
         output.setDraw(input.getDraw());
-        output.setRecordsTotal(0);
+        output.setRecordsTotal(2);
         output.setRecordsFiltered(accountPage.getTotalElements());
 
         return output;

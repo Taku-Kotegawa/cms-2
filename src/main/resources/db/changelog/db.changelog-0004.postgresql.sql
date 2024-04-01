@@ -6,7 +6,7 @@ CREATE TABLE simple_entity (
 	created_date timestamp NOT NULL,
 	last_modified_by varchar(255) NOT NULL,
 	last_modified_date timestamp NOT NULL,
-	"version" int8 NOT NULL,
+	"version" int8 default 1 NOT NULL,
 	attached_file01uuid varchar(255) NULL,
 	checkbox01 varchar(255) NULL,
 	combobox01 varchar(255) NULL,

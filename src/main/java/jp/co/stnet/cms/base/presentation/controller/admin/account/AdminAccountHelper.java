@@ -9,7 +9,7 @@ import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

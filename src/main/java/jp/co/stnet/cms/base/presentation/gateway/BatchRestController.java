@@ -72,18 +72,6 @@ public class BatchRestController {
         return responseResource;
     }
 
-    @GetMapping("test")
-    public String test(@AuthenticationPrincipal LoggedInUser loggedInUser) {
-
-        log.info(loggedInUser.toString());
-
-        if (false) {
-            throw new OptimisticLockingFailureException("testtest");
-        }
-
-        return "test";
-    }
-
     private void mappingExecutionInfo(JobExecution src, BatchExecution dest) {
         dest.setJobName(src.getJobInstance().getJobName());
         for (StepExecution se : src.getStepExecutions()) {

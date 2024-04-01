@@ -1,10 +1,8 @@
 package jp.co.stnet.cms.base.domain.model.mbg;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.EqualsAndHashCode;
 
 public class PasswordHistoryExample {
     /**
@@ -464,6 +462,66 @@ public class PasswordHistoryExample {
 
         public Criteria andCreatedByNotBetween(String value1, String value2) {
             addCriterion("created_by not between", value1, value2, "createdBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateIsNull() {
+            addCriterion("created_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateIsNotNull() {
+            addCriterion("created_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateEqualTo(LocalDateTime value) {
+            addCriterion("created_date =", value, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateNotEqualTo(LocalDateTime value) {
+            addCriterion("created_date <>", value, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateGreaterThan(LocalDateTime value) {
+            addCriterion("created_date >", value, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateGreaterThanOrEqualTo(LocalDateTime value) {
+            addCriterion("created_date >=", value, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateLessThan(LocalDateTime value) {
+            addCriterion("created_date <", value, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateLessThanOrEqualTo(LocalDateTime value) {
+            addCriterion("created_date <=", value, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateIn(List<LocalDateTime> values) {
+            addCriterion("created_date in", values, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateNotIn(List<LocalDateTime> values) {
+            addCriterion("created_date not in", values, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateBetween(LocalDateTime value1, LocalDateTime value2) {
+            addCriterion("created_date between", value1, value2, "createdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedDateNotBetween(LocalDateTime value1, LocalDateTime value2) {
+            addCriterion("created_date not between", value1, value2, "createdDate");
             return (Criteria) this;
         }
 

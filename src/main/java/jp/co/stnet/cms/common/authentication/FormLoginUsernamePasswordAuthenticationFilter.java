@@ -1,27 +1,28 @@
 package jp.co.stnet.cms.common.authentication;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 public class FormLoginUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
 
         if (!request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: "
                     + request.getMethod());
         }
 
-        // (1)
-        // Obtain UserName, Password, CompanyId
-        String username = super.obtainUsername(request);
-        String password = super.obtainPassword(request);
+        String username = obtainUsername(request);
+        username = (username != null) ? username.trim() : "";
+        String password = obtainPassword(request);
+        password = (password != null) ? password : "";
         boolean loginAsAdministrator = obtainLoginAsAdministrator(request);
         if (username == null) {
             username = "";
@@ -34,14 +35,13 @@ public class FormLoginUsernamePasswordAuthenticationFilter extends UsernamePassw
         FormLoginUsernamePasswordAuthenticationToken authRequest =
                 new FormLoginUsernamePasswordAuthenticationToken(username, password, loginAsAdministrator);
 
-        // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
 
-        return this.getAuthenticationManager().authenticate(authRequest); // (2)
+        return this.getAuthenticationManager().authenticate(authRequest);
 
     }
 
-    protected Boolean obtainLoginAsAdministrator(HttpServletRequest request) {
+    protected boolean obtainLoginAsAdministrator(HttpServletRequest request) {
         return "true".equals(request.getParameter("loginAsAdministrator"));
     }
 

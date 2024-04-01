@@ -40,7 +40,7 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenCheck;
 import org.terasoluna.gfw.web.token.transaction.TransactionTokenType;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -186,8 +186,8 @@ public class VariableController {
 
         for (Variable variable : variableList) {
             VariableListRow variableListRow = beanMapper.map(variable, VariableListRow.class);
-            variableListRow.setOperations(getToggleButton(variable.getId().toString(), op));
-            variableListRow.setDT_RowId(variable.getId().toString());
+            variableListRow.setOperations(getToggleButton(variable.getPrimaryKey().toString(), op));
+            variableListRow.setDT_RowId(variable.getPrimaryKey().toString());
 
             // ステータスラベル
             variableListRow.setStatusLabel(Status.getByValue(variable.getStatus()).getCodeLabel());
@@ -350,7 +350,7 @@ public class VariableController {
 
         redirect.addFlashAttribute(ResultMessages.info().add(MessageKeys.I_CM_FW_0001));
 
-        return "redirect:" + op().getEditUrl(variable.getId().toString());
+        return "redirect:" + op().getEditUrl(variable.getPrimaryKey().toString());
     }
 
     /**
@@ -421,7 +421,7 @@ public class VariableController {
 
         redirect.addFlashAttribute(ResultMessages.info().add(MessageKeys.I_CM_FW_0004));
 
-        return "redirect:" + op().getEditUrl(variable.getId().toString());
+        return "redirect:" + op().getEditUrl(variable.getPrimaryKey().toString());
     }
 
     /**

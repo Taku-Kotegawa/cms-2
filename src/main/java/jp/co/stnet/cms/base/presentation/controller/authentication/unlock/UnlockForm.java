@@ -17,7 +17,7 @@ package jp.co.stnet.cms.base.presentation.controller.authentication.unlock;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Data

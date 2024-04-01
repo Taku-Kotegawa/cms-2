@@ -6,8 +6,8 @@ import jp.co.stnet.cms.common.validation.Parseable;
 import lombok.Data;
 import org.terasoluna.gfw.common.codelist.ExistInCodeList;
 
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import static jp.co.stnet.cms.common.validation.ParseableType.TO_INT;
 
