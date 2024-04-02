@@ -2,7 +2,7 @@
 <div th:fragment="pagination (page)" th:object="${page}" th:remove="tag" xmlns:th="http://www.thymeleaf.org">
 
     <ul class="pagination" th:if="*{totalElements} != 0"
-        th:with="pageLinkMaxDispNum = 10, disabledHref = 'javascript:void(0)', currentUrl = ${#request.requestURI}">
+        th:with="pageLinkMaxDispNum = 10, disabledHref = 'javascript:void(0)', currentUrl = ${requestURI}">
         <li th:class="*{isFirst()} ? 'disabled'">
             <a th:href="*{isFirst()} ? ${disabledHref} : @{{currentUrl}(currentUrl=${currentUrl},page=0,size=*{size})}">&lt;&lt;</a>
         </li>

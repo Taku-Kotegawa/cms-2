@@ -5,6 +5,7 @@ import jp.co.stnet.cms.base.domain.model.LastModifiedInterface;
 import jp.co.stnet.cms.base.domain.model.LoggedInUser;
 import jp.co.stnet.cms.base.domain.model.VersionInterface;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Set;
 
 
 /**
@@ -32,9 +34,11 @@ import java.time.temporal.ChronoUnit;
 @Component("mybatisAuditDataInterceptor")
 @Intercepts({@Signature(method = "update", type = Executor.class, args = {MappedStatement.class, Object.class})})
 public class MybatisAuditDataInterceptor implements Interceptor {
+    private static final String ANONYMOUS_USERNAME = "anonymous";
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
+
 
         // ログインユーザの情報取得
         String username;
@@ -42,12 +46,12 @@ public class MybatisAuditDataInterceptor implements Interceptor {
         if (authentication != null) {
             try {
                 LoggedInUser loggedInUser = (LoggedInUser) authentication.getPrincipal();
-                username = (loggedInUser != null) ? loggedInUser.getUsername() : "anonymous";
+                username = (loggedInUser != null) ? loggedInUser.getUsername() : ANONYMOUS_USERNAME;
             } catch (ClassCastException ex) {
-                username = "anonymous";
+                username = ANONYMOUS_USERNAME;
             }
         } else {
-            username = "anonymous";
+            username = ANONYMOUS_USERNAME;
         }
 
         // 登録、更新日時にセットしたい時刻を変数にいれる
@@ -66,24 +70,44 @@ public class MybatisAuditDataInterceptor implements Interceptor {
 
             } else {
 
-                if (object instanceof CreatedInterface && SqlCommandType.INSERT == sqlCommandType) {
-                    ((CreatedInterface) object).setCreatedBy(username);
-                    ((CreatedInterface) object).setCreatedDate(localDateTimeNow);
+                if (object instanceof MapperMethod.ParamMap paramMap) {
+                    // メソッドの引数が複数の場合、ParamMapから更新が必要なモデルを探す。キーはparam1, param2... の名前になっている。
+                    Set<String> keySet = paramMap.keySet();
+                    for (String key : keySet) {
+                        if (key.startsWith("param")) {
+                            setColumns(paramMap.get(key), sqlCommandType, username, localDateTimeNow);
+                        }
+                    }
+                } else {
+                    setColumns(object, sqlCommandType, username, localDateTimeNow);
                 }
-
-                if (object instanceof LastModifiedInterface) {
-                    ((LastModifiedInterface) object).setLastModifiedBy(username);
-                    ((LastModifiedInterface) object).setLastModifiedDate(localDateTimeNow);
-                }
-
-                if (object instanceof VersionInterface && SqlCommandType.INSERT == sqlCommandType) {
-                    ((VersionInterface) object).setVersion(1L);
-                }
-
             }
         }
 
         return invocation.proceed();
+    }
+
+
+    private void setColumns(Object object, SqlCommandType sqlCommandType, String username, LocalDateTime localDateTimeNow) {
+
+        // 挿入時
+        if (SqlCommandType.INSERT == sqlCommandType) {
+            if (object instanceof CreatedInterface createdInterface) {
+                createdInterface.setCreatedBy(username);
+                createdInterface.setCreatedDate(localDateTimeNow);
+            }
+
+            if (object instanceof VersionInterface versionInterface) {
+                versionInterface.setVersion(1L);
+            }
+
+        }
+
+        // 挿入 & 更新時
+        if (object instanceof LastModifiedInterface lastModifiedInterface) {
+            lastModifiedInterface.setLastModifiedBy(username);
+            lastModifiedInterface.setLastModifiedDate(localDateTimeNow);
+        }
     }
 
 }
