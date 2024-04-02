@@ -34,10 +34,10 @@ public class ModelMapperConfig {
                 .registerModule(new Jsr310Module(config))
                 .getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT)
-                .setFullTypeMatchingRequired(true)
+                .setFullTypeMatchingRequired(false)
                 .setCollectionsMergeEnabled(false)
-                ;
-//                .setSkipNullEnabled(true);
+//                .setSkipNullEnabled(true)
+        ;
 
         // カスタムコンバーターの追加
         modelMapper.addConverter(setToString);
